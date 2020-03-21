@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+  <!--<![endif]-->
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>主页</title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="./static/css/index.css" />
+  </head>
+  <body>
+    <div id="main">
+      <div id="top_panel" style="position:relative;">
+        <div id="header_panel" style="position:relative;z-index:5;">
+          <!--后续进行优化-->
+          <div id="header" style="position:relative;">
+            <div id="triangle"></div>
+            <button
+              class="header_button"
+              style="position:absolute; bottom:0;left:36px;border-bottom:5px solid black;"
+            >
+              HOME
+            </button>
+            <div
+              id="button_group"
+              style="position:absolute;right:36px;bottom:0px;padding-left:0px;"
+            >
+              <button class="header_button" style="">
+                BLOG
+              </button>
+              <button class="header_button" style="margin-left:36px;">
+                LIFE
+              </button>
+              <button class="header_button" style="margin-left:36px;">
+                TOOL
+              </button>
+              <button class="header_button" style="margin-left:36px;">
+                ABOUT
+              </button>
+            </div>
+          </div>
+        </div>
+        <div id="top_panel_bottom" style="position:absolute;bottom:0;"></div>
+      </div>
+      <div id="sentence_panel">
+        <div id="beauty_sentence_panel" style="position:relative;">
+          <p id="sentence">
+            <span id="pre_quota">“</span
+            >慢慢发现自己其实是一个冷淡的人，所有情绪藏着掖着，变成了以后殆尽的热情。离开一个地方，就不会想和过去的还有联系，即使是非常喜欢的人，想明白也就放下了。<span
+              id="last_quota"
+              >”</span
+            >
+          </p>
+          <p
+            id="sentence_author"
+            style="float:right;margin-right:6px;font-weight:bold;font-size:18px;"
+          >
+            ——— 德卡先生
+          </p>
+        </div>
+      </div>
+      <div id="album_panel" style="position:relative;">
+        <div id="top_back" style="position:absolute;top:0;z-index:1"></div>
+        <div
+          id="bottom_back"
+          style="position:absolute;bottom:0;z-index:1"
+        ></div>
+        <div class="album" id="left_album">
+          <img class="pic" id="left_pic" src="./static/img/left_pic.png" />
+        </div>
+        <div class="album" id="right_album">
+          <img class="pic" id="right_pic" src="./static/img/right_pic.png" />
+        </div>
+      </div>
+      <div id="work_panel" style="position:relative;">
+        <div class="work_triangle">
+          <div class="left_triangle"></div>
+          <div class="right_triangle"></div>
+        </div>
+        <div id="work_bottom_triangle">
+          <div class="work_triangle">
+            <div class="left_triangle"></div>
+            <div class="right_triangle"></div>
+          </div>
+        </div>
+
+        <div id="work_content">
+          <p id="work_title">WORK</p>
+          <div id="start_point" style="position:relative;margin:0 auto;">
+            <span id="out_start_circle" class="out_circle_point"></span>
+            <span id="inner_start_circle" class="inner_circle_point"></span>
+          </div>
+          <div id="end_point">
+            <span id="out_end_circle" class="out_circle_point"></span>
+            <span id="inner_end_circle" class="inner_circle_point"></span>
+          </div>
+          <div id="work_word">
+            <p id="start_time">2018.7</p>
+            <p id="end_time">至今...</p>
+            <p id="work_name">B家</p>
+          </div>
+        </div>
+      </div>
+      <div id="recent_article_panel">
+        <div id="panel_with_back">
+          <ul>
+            <li v-for="article in articles">
+              <a v-bind:href="article.url"
+                >{{ article.title }} : {{ article.content}}
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div id="bottom">
+        <div id="bottom_panel">
+          <div id="bottom_triangle"></div>
+          <div id="access_content">
+            本站已被访问<span id="access_cnt">8293</span>次<span id="rights"
+              >©2019 qxg XX网安备xx号</span
+            >
+          </div>
+          <div id="relate_link_panel">
+            <div class="relate_group">
+              <ul>
+                <li class="relate_li relate_title">联系方式</li>
+                <li class="relate_li">WEIBO</li>
+                <li class="relate_li">ZHIHU</li>
+                <li class="relate_li">GITHUB</li>
+                <li class="relate_li">EMAIL</li>
+              </ul>
+            </div>
+            <div class="relate_group">
+              <ul>
+                <li class="relate_li relate_title">相关链接</li>
+                <li class="relate_li">优美句子</li>
+                <li class="relate_li">毒毒鸡汤</li>
+                <li class="relate_li">彩虹屁屁</li>
+                <li class="relate_li">土味情话</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--[if lt IE 7]>
+      <p class="browsehappy">
+        You are using an <strong>outdated</strong> browser. Please
+        <a href="#">upgrade your browser</a> to improve your experience.
+      </p>
+    <![endif]-->
+    <!-- vue -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.0"></script>
+    <!--<script src="https://cdn.jsdelivr.net/npm/vue@2.6.0" async defer></script>-->
+    <!-- #vue# 为了不繁琐，使用双#号表示注释的结束-->
+    <!-- bootrstrap -->
+    <script
+      src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js"
+      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js"
+      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdn.bootcss.com/axios/0.19.2/axios.min.js"></script>
+
+    <script>
+      $(function() {
+        var panel_with_back = new Vue({
+          el: "#panel_with_back",
+          data() {
+            return {
+              articles: null
+            };
+          },
+          mounted() {
+            axios.get("http://localhost:80/article/recent").then(response => {
+              response.data.data.forEach(element => {
+                element.url = "./article/detail.html?id=" + element._id;
+              });
+              this.articles = response.data.data;
+            });
+          }
+        });
+      });
+    </script>
+    <!-- #bootrstrap# -->
+  </body>
+</html>

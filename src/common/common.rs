@@ -3,8 +3,7 @@ use actix_web::{error, HttpResponse};
 use bson::ordered::OrderedDocument;
 use failure::Fail;
 use iota::iota;
-use mongodb::coll::Collection;
-use mongodb::db::ThreadedDatabase;
+use mongodb::Collection;
 use serde::{Deserialize, Serialize};
 use std::result;
 
@@ -108,7 +107,9 @@ impl Resp<()> {
 // 以下均是对mongo的统一封装
 // mongo 统一处理
 pub fn table(coll_name: &str) -> Collection {
-    MONGO.db(&GLOBAL_CONF.mongo.db_name).collection(coll_name)
+    MONGO
+        .database(&GLOBAL_CONF.mongo.db_name)
+        .collection(coll_name)
 }
 
 // 为Cursor实现 to_vec
@@ -116,7 +117,7 @@ pub trait CursorToVec {
     fn to_vec<'a, T: Deserialize<'a>>(&mut self) -> Vec<T>;
 }
 
-impl CursorToVec for mongodb::cursor::Cursor {
+impl CursorToVec for mongodb::Cursor {
     fn to_vec<'a, T: Deserialize<'a>>(&mut self) -> Vec<T> {
         self.map(|item| {
             let doc = item.unwrap();

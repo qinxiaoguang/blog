@@ -1,8 +1,9 @@
 use super::Article;
 use crate::common::*;
+use bson::doc;
 use bson::oid::ObjectId;
 use log::*;
-use mongodb::{bson, coll::options::FindOptions, doc};
+use mongodb::options::FindOptions;
 
 // 保存文章，返回文章id
 pub fn save_article(article: Article) -> Result<String> {
@@ -15,13 +16,7 @@ pub fn save_article(article: Article) -> Result<String> {
     d.remove("_id");
     match table(Article::TABLE_NAME).insert_one(d, None) {
         Ok(rs) => {
-            let new_id = rs
-                .inserted_id
-                .and_then(|x| x.as_object_id().map(ObjectId::to_hex))
-                .ok_or_else(|| {
-                    error!("save_article error, can not get inserted id");
-                    BizError::InternalError
-                })?;
+            let new_id = rs.inserted_id.to_string();
             // unwrap如果错误，则panic,而\?则比较聪明，如果unwrap失败则直接return err,不会panic,否则返回unwrap之后的值。
             info!("article is : {:?}", article);
             Ok(new_id)
@@ -45,17 +40,13 @@ pub fn get_article(id: &str) -> Result<Article> {
 
 // 列出所有文章
 pub fn list_all_articles() -> Result<Vec<Article>> {
-    let mut find_options = FindOptions::new();
-    find_options.limit = None;
-    find_options.skip = None;
+    let find_options = FindOptions::builder().build();
     list_articles(find_options)
 }
 
 // 列出最近的n篇文章
 pub fn list_recent_articles(num: i64) -> Result<Vec<Article>> {
-    let mut find_options = FindOptions::new();
-    find_options.limit = Some(num);
-    find_options.skip = None;
+    let find_options = FindOptions::builder().limit(num).build();
     list_articles(find_options)
 }
 
@@ -69,7 +60,7 @@ pub fn list_articles(find_options: FindOptions) -> Result<Vec<Article>> {
 
 // 更新id对应的文章
 // return : 返回更改的个数
-pub fn update_article(id: &str, article: Article) -> Result<i32> {
+pub fn update_article(id: &str, article: Article) -> Result<i64> {
     println!("article is :{:?}", article);
     let filter = doc! {"_id" => ObjectId::with_string(id)?};
     let update = doc! {"$set":article.to_document().unwrap()};
@@ -82,7 +73,7 @@ pub fn update_article(id: &str, article: Article) -> Result<i32> {
 }
 
 // 删除对应的文章
-pub fn remove_article(id: &str) -> Result<i32> {
+pub fn remove_article(id: &str) -> Result<i64> {
     let filter = doc! {"_id" => ObjectId::with_string(id)?};
     Ok(table(Article::TABLE_NAME)
         .delete_one(filter, None)

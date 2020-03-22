@@ -16,7 +16,7 @@ use lazy_static::lazy_static;
 use log::info;
 use middleware::access_cnt;
 use middleware::login_auth;
-use mongodb::{Client as MongoClient, ThreadedClient};
+use mongodb::{options::ClientOptions, Client as MongoClient};
 use redis::Client;
 
 pub const ACCESS_CNT: &str = "blog_access_cnt";
@@ -31,8 +31,13 @@ lazy_static! {
         redis::Client::open(redis_address.as_str()).unwrap()
     };
     pub static ref MONGO: MongoClient = {
-        MongoClient::connect(&GLOBAL_CONF.mongo.ip, GLOBAL_CONF.mongo.port)
-            .expect("Failed to initialize standalone client.")
+        let client_options = ClientOptions::parse(&format!(
+            "mongodb://{}:{}",
+            GLOBAL_CONF.mongo.ip, GLOBAL_CONF.mongo.port
+        )).expect("Failed new mongo options");
+        MongoClient::with_options(client_options).expect("Failed to initialize standalone client.")
+        //MongoClient::connect(&GLOBAL_CONF.mongo.ip, GLOBAL_CONF.mongo.port)
+        //    .expect("Failed to initialize standalone client.")
     };
 }
 

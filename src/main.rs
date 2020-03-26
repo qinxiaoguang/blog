@@ -5,12 +5,8 @@ mod middleware;
 mod model;
 mod router;
 mod util;
-use actix_web::{
-    get,
-    http::header,
-    middleware::{DefaultHeaders, Logger},
-    App, HttpRequest, HttpServer, Responder,
-};
+use actix_cors::Cors;
+use actix_web::{get, http::header, middleware::Logger, App, HttpRequest, HttpServer, Responder};
 use config::AppConf;
 use lazy_static::lazy_static;
 use log::info;
@@ -34,10 +30,9 @@ lazy_static! {
         let client_options = ClientOptions::parse(&format!(
             "mongodb://{}:{}",
             GLOBAL_CONF.mongo.ip, GLOBAL_CONF.mongo.port
-        )).expect("Failed new mongo options");
+        ))
+        .expect("Failed new mongo options");
         MongoClient::with_options(client_options).expect("Failed to initialize standalone client.")
-        //MongoClient::connect(&GLOBAL_CONF.mongo.ip, GLOBAL_CONF.mongo.port)
-        //    .expect("Failed to initialize standalone client.")
     };
 }
 
@@ -87,23 +82,25 @@ async fn main() -> std::io::Result<()> {
         };
         App::new()
             .data(global_data)
+            .wrap(login_auth::LoginAuthMid::new(
+                vec!["/admin/*".to_string()],
+                vec!["/admin/*".to_string()],
+            ))
+            .wrap(access_cnt::AccessCnt::new(redis_client.clone()))
             // 设置response header ，解决跨域问题
+            // 注意这个wrap一定要放在最后边，因为wrap的middleware执行顺序是从下往上的
             .wrap(
-                DefaultHeaders::new()
-                    .header(header::ACCESS_CONTROL_ALLOW_ORIGIN, "http://localhost:8080")
-                    .header(
-                        header::ACCESS_CONTROL_ALLOW_METHODS,
-                        "GET, POST, PATCH, PUT, DELETE, OPTIONS",
-                    )
-                    .header(
-                        header::ACCESS_CONTROL_ALLOW_HEADERS,
-                        "Origin, Content-Type, X-Auth-Token",
-                    )
-                    .header(header::ACCESS_CONTROL_ALLOW_CREDENTIALS, "true"),
+                Cors::new()
+                    .allowed_origin("http://localhost:8080")
+                    //.allowed_origin("chrome-extension://aicmkgpgakddgnaphhhpliifpcfhicfo")
+                    .allowed_methods(vec!["GET", "POST", "PUT", "DELETE", "OPTIONS"])
+                    .allowed_headers(vec![header::AUTHORIZATION, header::ACCEPT, header::ORIGIN])
+                    .allowed_header(header::CONTENT_TYPE)
+                    .supports_credentials()
+                    .max_age(86400)
+                    .finish(),
             )
             .wrap(Logger::default())
-            .wrap(login_auth::LoginAuthMid::new(vec!["/admin/*".to_string()]))
-            .wrap(access_cnt::AccessCnt::new(redis_client.clone()))
             .configure(router::route)
             .service(greet)
     })

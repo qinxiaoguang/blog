@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+  <!--<![endif]-->
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>文章详情</title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+    <link
+      href="https://cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow-night-eighties.min.css"
+      rel="stylesheet"
+    />
+    <link href="../static/css/marked.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../static/css/base.css" />
+     <link
+      href="https://cdn.bootcss.com/font-awesome/5.12.1/css/all.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div id="main">
+      <div id="header_panel" style="position:relative;z-index:5;">
+        <!--后续进行优化-->
+        <div id="header" style="position:relative;">
+          <div id="triangle"></div>
+          <button
+            class="header_button"
+            id="button_home"
+            style="position:absolute; bottom:0;left:16px;border-bottom:2px solid  black;"
+          >
+            HOME
+          </button>
+          <div
+            id="button_group"
+            style="position:absolute;right:16px;bottom:0px;padding-left:0px;"
+          >
+            <button class="header_button header_button_active" id="button_blog">
+              BLOG
+            </button>
+            <button
+              class="header_button"
+              id="button_life"
+              style="margin-left:36px;"
+            >
+              LIFE
+            </button>
+            <button
+              class="header_button"
+              id="button_tool"
+              style="margin-left:36px;"
+            >
+              TOOL
+            </button>
+            <button
+              class="header_button"
+              id="button_about"
+              style="margin-left:36px;"
+            >
+              ABOUT
+            </button>
+          </div>
+        </div>
+      </div>
+      <div id="article_all" style="margin:80px 80px;">
+
+                <!-- Modal -->
+        <div
+          class="modal fade"
+          id="modal_alert"
+          tabindex="-1"
+          role="dialog"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">提示</h5>
+                <button
+                  type="button"
+                  class="close"
+                  data-dismiss="modal"
+                  aria-label="Close"
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                确定要删除?
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-dismiss="modal"
+                >
+                  否
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  id="article_remove_confirm_btn"
+                  @click="article_remove"
+                >
+                  是
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+        <div>
+
+      <a id="add_new" @click="create_new"><i class="fa fa-plus" aria-hidden="true"></i> </a>
+      <hr>
+        <div v-for="(value, key) in articles">
+          <h3 style="margin-left:12px;">{{key}}</h3>
+          <hr>
+          <ul v-for="val in value">
+            <li>
+              [{{val.update_time}}]<a class="article_a" :href="val.url">{{val.title}}</a>
+              <a class="edit_list_item_btn" :href="val.edit_url"><i class="fa fa-paint-brush" aria-hidden="true"></i></a>
+              <a class="edit_list_item_btn" style="color:#d63447;" :value="val._id" @click="show_remove_modal"><i class="fa fa-times" :value="val._id" aria-hidden="true"></i></a>
+            </li>
+          </ul>
+          <hr>
+        </div>
+      </div>
+      </div>
+
+
+      <div id="bottom_">
+           <div id="triangle_bottom"></div>
+      </div>
+ 
+
+    <!--[if lt IE 7]>
+      <p class="browsehappy">
+        You are using an <strong>outdated</strong> browser. Please
+        <a href="#">upgrade your browser</a> to improve your experience.
+      </p>
+    <![endif]-->
+    <!-- vue -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.0"></script>
+    <!--<script src="https://cdn.jsdelivr.net/npm/vue@2.6.0" async defer></script>-->
+    <!-- #vue# 为了不繁琐，使用双#号表示注释的结束-->
+    <!-- bootrstrap -->
+    <script
+      src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js"
+      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+      crossorigin="anonymous"
+    ></script>
+
+    <script src="../static/js/base.js"></script>
+    <script
+      src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js"
+      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdn.bootcss.com/axios/0.19.2/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+    <script>
+      $(function() {
+        marked.setOptions({
+          renderer: new marked.Renderer(),
+          highlight: function(code) {
+            return hljs.highlightAuto(code).value;
+          },
+          pedantic: false,
+          gfm: true,
+          tables: true,
+          breaks: false,
+          sanitize: false,
+          smartLists: true,
+          smartypants: false,
+          xhtml: false
+        });
+
+        axios.defaults.withCredentials = true;
+        getUrlParam = function(name) {
+          var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+          var r = window.location.search.substr(1).match(reg);
+          if (r != null) return unescape(r[2]);
+          return null;
+        };
+        var panel_with_back = new Vue({
+          el: "#article_all",
+          data() {
+            return {
+              articles: null
+            };
+          },
+          mounted() {
+            axios.get(baseUrl+"/admin/article/edit/list").then(response => {
+              this.articles = response.data.data;
+              for (key in this.articles) {
+                var article = this.articles[key];
+                for (a of article) {
+                  a.update_time = format_date(a.update_time);
+                    a.url = "./detail.html?id=" + a._id;
+                    a.edit_url = "./edit.html?id=" + a._id;
+                    if (a.title == "") {
+                      a.title = "#";
+                    }
+                }
+              }
+            });
+          },
+          methods:{
+            article_remove:function(e){
+                var id = e.target.attributes.value.value;
+                remove_article(axios,id,response=>{
+                  if (response.data.code == 0){
+                    var sec = 2;
+                    alert("删除成功,2s后将刷新页面");
+                    setInterval(function(){
+                      sec = sec - 1;
+                      var msg = "删除成功,"+sec+"s刷新页面"
+                      alert_refresh(msg);
+                      if (sec == 0 ){
+                        location.reload();
+                      }
+                    },1000);
+                  }
+                  console.log("response:%o",response);
+                },error=>{
+                  alert(error);
+                });
+            },
+            show_remove_modal:function(e){
+                var id = e.target.attributes.value.value;
+                $("#article_remove_confirm_btn").val(id);
+                $("#modal_alert").modal('show');
+            },
+            create_new: function() {
+              axios
+                .post(baseUrl+"/admin/article", {
+                  title: "",
+                  content: ""
+                })
+                .then(response => {
+                  if (response.data.code == 0) {
+                    location.href = "./edit.html?id=" + response.data.data;
+                  } else {
+                    alert(response.data.data);
+                  }
+                });
+            }
+          },
+        });
+      });
+    </script>
+    <!-- #bootrstrap# -->
+  </body>
+</html>

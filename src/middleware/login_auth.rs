@@ -10,6 +10,8 @@ use std::task::{Context, Poll};
 pub struct LoginAuthMid {
     // 要求强制登录的url正则
     hit: Vec<String>,
+    // 管理页路由
+    admin: Vec<String>,
 }
 
 // Middleware factory is `Transform` trait from actix-service crate
@@ -30,22 +32,25 @@ where
 
     fn new_transform(&self, service: S) -> Self::Future {
         let hit = self.hit.clone();
+        let admin = self.admin.clone();
         ok(LoginAuthMiddleware {
             service: service,
             hit,
+            admin,
         })
     }
 }
 
 impl LoginAuthMid {
-    pub fn new(hit: Vec<String>) -> LoginAuthMid {
-        LoginAuthMid { hit }
+    pub fn new(hit: Vec<String>, admin: Vec<String>) -> LoginAuthMid {
+        LoginAuthMid { hit, admin }
     }
 }
 
 pub struct LoginAuthMiddleware<S> {
     service: S,
     hit: Vec<String>,
+    admin: Vec<String>,
 }
 
 impl<S, B> Service for LoginAuthMiddleware<S>
@@ -71,7 +76,6 @@ where
         };
         println!("cookie is :{:?}", sid);
         println!("login service: your path is:{}", req_path);
-        // TODO 获取cookie
         for pattern in self.hit.iter() {
             println!(
                 "pattern is :{}, can_match:{},sid:{}, is_login:{}",
@@ -80,7 +84,6 @@ where
                 &sid,
                 user_helper::is_login(&sid)
             );
-            // 如果可以对的上
             if can_match(pattern, req_path) && !user_helper::is_login(&sid) {
                 // 执行登录过滤操作，如果登录，则pass,否则跳转登录界面
                 // 需要登录
@@ -90,6 +93,14 @@ where
                         .finish()
                         .into_body(),
                 )));
+            }
+        }
+        for pattern in self.admin.iter() {
+            if can_match(pattern, req_path) && !user_helper::is_owner(&sid) {
+                // 若当前路由为管理页面，并且登录的用户不是本人，则拒绝通过
+                return Either::Right(ok(
+                    req.into_response(HttpResponse::MethodNotAllowed().finish().into_body())
+                ));
             }
         }
         println!("not occured");

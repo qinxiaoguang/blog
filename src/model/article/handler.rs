@@ -1,25 +1,26 @@
-use super::Article;
+use super::{Article, DbArticle, Summary};
 use crate::common::*;
-use bson::doc;
-use bson::oid::ObjectId;
+use bson::{doc, oid::ObjectId, Document};
 use log::*;
 use mongodb::options::FindOptions;
+use std::collections::BTreeMap;
 
 // 保存文章，返回文章id
+// 用户创建文章的时候，先调用这个接口，其中的title和content都先是默认值，然后将页面跳转到alter.html页面
 pub fn save_article(article: Article) -> Result<String> {
-    // 这里的map并不是iter的map，Rust中Result和Option都有map方法，
-    // 是将Result<T> or Option<T> 转换为 Result<U> or Option<U>
-    // 而and_then和map的效果一样，只不过and_then的fn返回的是Result或Option，所以and_then中返回的数据可能是错误的或者空的
-    let mut d = bson::to_bson(&article)
+    let mut article = article;
+    article.time_update();
+    let db_article = DbArticle::new(article);
+    let mut d = bson::to_bson(&db_article)
         .map(|x| x.as_document().unwrap().to_owned())
         .unwrap();
     d.remove("_id");
-    match table(Article::TABLE_NAME).insert_one(d, None) {
+    match table(DbArticle::TABLE_NAME).insert_one(d, None) {
         Ok(rs) => {
-            let new_id = rs.inserted_id.to_string();
+            let new_id = rs.inserted_id.as_object_id().expect("cant find object_id");
             // unwrap如果错误，则panic,而\?则比较聪明，如果unwrap失败则直接return err,不会panic,否则返回unwrap之后的值。
-            info!("article is : {:?}", article);
-            Ok(new_id)
+            info!("article is : {:?}", db_article);
+            Ok(new_id.to_string())
         }
         Err(e) => {
             error!("save article error : {}", e);
@@ -28,33 +29,125 @@ pub fn save_article(article: Article) -> Result<String> {
     }
 }
 
-// 获取某个article
-pub fn get_article(id: &str) -> Result<Article> {
+// base 获取某个db_article
+pub fn get_dbarticle(id: &str) -> Result<DbArticle> {
     let filter = Some(doc! {"_id" => ObjectId::with_string(id)?});
 
-    let document = table(Article::TABLE_NAME)
+    let document = table(DbArticle::TABLE_NAME)
         .find_one(filter, None)
         .expect("cant find this");
     Ok(bson::from_bson(bson::Bson::Document(document.unwrap()))?)
 }
 
-// 列出所有文章
-pub fn list_all_articles() -> Result<Vec<Article>> {
+pub fn get_publish_article(id: &str) -> Result<Article> {
+    get_dbarticle(id).map(|db_article| {
+        db_article
+            .into_publish()
+            .expect("cant find this publish article")
+    })
+}
+
+pub fn get_edit_article(id: &str) -> Result<Article> {
+    get_dbarticle(id).map(|db_article| db_article.into_edit().expect("cant find this edit article"))
+}
+
+// 列出所有发布的文章
+pub fn list_publish_articles() -> Result<Vec<Article>> {
     let find_options = FindOptions::builder().build();
-    list_articles(find_options)
+    let filter = Some(doc! {"status":DbArticle::PUBLISHED});
+    list_articles(filter, find_options).map(|v| {
+        v.into_iter()
+            // filter_map是将option中的none的数据过滤，然后再unwrap()
+            // 所以fn的返回值就是option
+            .filter_map(|db_article| db_article.into_publish())
+            .collect()
+    })
 }
 
-// 列出最近的n篇文章
+// 列出所有可编辑的文章，一般来说就是列出所有文章
+pub fn list_edit_articles() -> Result<Vec<Article>> {
+    let find_options = FindOptions::builder().build();
+    list_articles(Some(doc! {}), find_options).map(|v| {
+        v.into_iter()
+            .filter_map(|db_article| db_article.into_edit())
+            .collect()
+    })
+}
+
+// 列出已经发布的n篇文章
 pub fn list_recent_articles(num: i64) -> Result<Vec<Article>> {
-    let find_options = FindOptions::builder().limit(num).build();
-    list_articles(find_options)
+    let find_options = FindOptions::builder()
+        .sort(Some(doc! {"last_update_time":-1}))
+        .limit(num)
+        .build();
+    let filter = Some(doc! {"status":DbArticle::PUBLISHED, "last_publish_time": {"$ne":null}});
+    list_articles(filter, find_options).map(|v| {
+        v.into_iter()
+            .filter_map(|db_article| db_article.into_publish())
+            .collect()
+    })
 }
 
-// 列出指定文章
-pub fn list_articles(find_options: FindOptions) -> Result<Vec<Article>> {
-    let cursor = table(Article::TABLE_NAME).find(Some(doc! {}), Some(find_options));
+pub fn list_summary_edit_articles() -> Result<Summary> {
+    let find_options = FindOptions::builder()
+        .projection(doc! { "publish": 0 })
+        .allow_partial_results(true)
+        .build();
+    let filter = Some(doc! {});
+    list_articles(filter, find_options)
+        .map(|v| {
+            v.into_iter()
+                .filter_map(|db_article| db_article.into_edit())
+                .map(|mut article| {
+                    article.content = None;
+                    article
+                })
+                .collect()
+        })
+        .map(summary)
+}
+
+pub fn list_summary_publish_articles() -> Result<Summary> {
+    let find_options = FindOptions::builder()
+        .projection(doc! { "edit": 0 })
+        .allow_partial_results(true)
+        .build();
+    let filter = Some(doc! {"status":DbArticle::PUBLISHED});
+    list_articles(filter, find_options)
+        .map(|v| {
+            v.into_iter()
+                .filter_map(|db_article| db_article.into_publish())
+                .map(|mut article| {
+                    article.content = None;
+                    article
+                })
+                .collect()
+        })
+        .map(summary)
+}
+
+// 根据catagory进行分类汇总
+fn summary(articles: Vec<Article>) -> Summary {
+    let mut m = BTreeMap::new();
+    let no_catagory = "未分类".to_string();
+    for article in articles.into_iter() {
+        if let Some(c) = &article.catagory {
+            (*m.entry(c.clone()).or_insert(vec![])).push(article);
+        } else {
+            (*m.entry(no_catagory.clone()).or_insert(vec![])).push(article);
+        }
+    }
+    m
+}
+
+// base 列出指定文章
+pub fn list_articles(
+    filter: Option<Document>,
+    find_options: FindOptions,
+) -> Result<Vec<DbArticle>> {
+    let cursor = table(DbArticle::TABLE_NAME).find(filter, Some(find_options));
     cursor
-        .map(|mut x| x.to_vec::<Article>())
+        .map(|mut x| x.to_vec::<DbArticle>())
         .map_err(|e| e.into())
 }
 
@@ -62,9 +155,14 @@ pub fn list_articles(find_options: FindOptions) -> Result<Vec<Article>> {
 // return : 返回更改的个数
 pub fn update_article(id: &str, article: Article) -> Result<i64> {
     println!("article is :{:?}", article);
+    let mut article = article;
+    article.time_update();
+    let db_article = DbArticle::new(article);
+    let mut d = db_article.to_document().unwrap();
+    d.remove("create_time");
     let filter = doc! {"_id" => ObjectId::with_string(id)?};
-    let update = doc! {"$set":article.to_document().unwrap()};
-    Ok(table(Article::TABLE_NAME)
+    let update = doc! {"$set":d};
+    Ok(table(DbArticle::TABLE_NAME)
         .update_one(filter, update, None)
         .map(|x| x.modified_count)?)
 
@@ -72,17 +170,94 @@ pub fn update_article(id: &str, article: Article) -> Result<i64> {
     // table(xx).update_one(xx).map(xxx).map_err(|e|e.into())
 }
 
+// 将数据发布
+pub fn publish_article(id: &str, article: Article) -> Result<i64> {
+    println!("article is :{:?}", article);
+    let mut article = article;
+    article.time_update();
+    let mut db_article = DbArticle::new(article.clone());
+    db_article.last_publish_time = article.update_time.clone();
+    db_article.publish = Some(article);
+    db_article.status = Some(DbArticle::PUBLISHED);
+    let mut d = db_article.to_document().unwrap();
+    d.remove("create_time");
+    let filter = doc! {"_id" => ObjectId::with_string(id)?};
+    let update = doc! {"$set":d};
+    Ok(table(DbArticle::TABLE_NAME)
+        .update_one(filter, update, None)
+        .map(|x| x.modified_count)?)
+}
+
 // 删除对应的文章
 pub fn remove_article(id: &str) -> Result<i64> {
     let filter = doc! {"_id" => ObjectId::with_string(id)?};
-    Ok(table(Article::TABLE_NAME)
+    Ok(table(DbArticle::TABLE_NAME)
         .delete_one(filter, None)
         .map(|x| x.deleted_count)?)
 }
 
 mod test {
     #[test]
+    fn test_save_article() {
+        let article = super::Article {
+            _id: None,
+            title: Some("haa".to_string()),
+            content: Some("heihei".to_string()),
+            catagory: None,
+            tag: None,
+            update_time: None,
+        };
+        println!("{:?}", super::save_article(article));
+    }
+
+    #[test]
+    fn test_get_publish_article() {
+        println!(
+            "{:?}",
+            super::get_publish_article("5e78871300326e3600196a38")
+        );
+    }
+
+    #[test]
+    fn test_get_edit_article() {
+        println!("{:?}", super::get_edit_article("5e78871300326e3600196a38"));
+    }
+
+    #[test]
+    fn test_update_article() {
+        let id = "5e78871300326e3600196a38";
+        let article = super::Article {
+            _id: None,
+            title: Some("haa2".to_string()),
+            content: Some("heihei2".to_string()),
+            catagory: None,
+            tag: None,
+            update_time: None,
+        };
+        println!("{:?}", super::update_article(id, article));
+    }
+
+    #[test]
+    fn test_publish_article() {
+        let id = "5e78871300326e3600196a38";
+        let article = super::Article {
+            _id: None,
+            title: Some("haa3".to_string()),
+            content: Some("heihei3".to_string()),
+            catagory: None,
+            tag: None,
+            update_time: None,
+        };
+        println!("{:?}", super::publish_article(id, article));
+    }
+
+    #[test]
     fn test_list_article() {
-        println!("{:?}", super::get_article("5dca1c99008bb1bb000709fd"));
+        println!("{:?}", super::list_edit_articles());
+    }
+
+    #[test]
+    fn test_summary_article() {
+        println!("{:?}", super::list_summary_edit_articles());
     }
 }

@@ -26,8 +26,9 @@ pub type CommonResp = Result<HttpResponse>;
 
 // error code
 iota! {
-    const NORMAL_ERROR: i32 = 10000 << iota;
+    pub const NORMAL_ERROR: i32 = 10000 << iota;
     , VALIDATE_ERROR
+    , UPLOAD_ERROR
 }
 
 // 为什么用Fail,而不是实现 std::error::Error呢，因为actix_web::error::Error中实现了From<Fail> ，所以
@@ -43,6 +44,9 @@ pub enum BizError {
     CommonError { field: String },
     #[fail(display = "login auth failed")]
     LoginAuthFailedError,
+
+    #[fail(display = "upload failed")]
+    UploadError,
 }
 
 // 为了便于使用?号运算符，为所有的error类型实现From方法
@@ -87,6 +91,14 @@ impl<T: Serialize> Resp<T> {
 }
 
 impl Resp<()> {
+    pub fn ok_msg(msg: &str) -> Self {
+        Resp {
+            code: OK,
+            msg: Some(msg.to_string()),
+            data: None,
+        }
+    }
+
     pub fn err(code: i32, msg: &str) -> Self {
         Resp {
             code: code,
@@ -95,7 +107,7 @@ impl Resp<()> {
         }
     }
 
-    pub fn errm(msg: &str) -> Self {
+    pub fn err_msg(msg: &str) -> Self {
         Resp {
             code: NORMAL_ERROR,
             msg: Some(msg.to_owned()),

@@ -17,35 +17,53 @@
       integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
       crossorigin="anonymous"
     />
-    <link rel="stylesheet" href="./static/css/index.css" />
+    <link rel="stylesheet" href="./static/css/base.css" />
+    <link
+      href="https://cdn.bootcss.com/font-awesome/5.12.1/css/all.min.css"
+      rel="stylesheet"
+    />
   </head>
   <body>
     <div id="main">
       <div id="top_panel" style="position:relative;">
         <div id="header_panel" style="position:relative;z-index:5;">
           <!--后续进行优化-->
+
           <div id="header" style="position:relative;">
             <div id="triangle"></div>
             <button
-              class="header_button"
-              style="position:absolute; bottom:0;left:36px;border-bottom:5px solid black;"
+              class="header_button  header_button_active"
+              id="button_home"
+              style="position:absolute; bottom:0;left:16px;border-bottom:2px solid  black;"
             >
               HOME
             </button>
             <div
               id="button_group"
-              style="position:absolute;right:36px;bottom:0px;padding-left:0px;"
+              style="position:absolute;right:16px;bottom:0px;padding-left:0px;"
             >
-              <button class="header_button" style="">
+              <button class="header_button" id="button_blog">
                 BLOG
               </button>
-              <button class="header_button" style="margin-left:36px;">
+              <button
+                class="header_button"
+                id="button_life"
+                style="margin-left:36px;"
+              >
                 LIFE
               </button>
-              <button class="header_button" style="margin-left:36px;">
+              <button
+                class="header_button"
+                id="button_tool"
+                style="margin-left:36px;"
+              >
                 TOOL
               </button>
-              <button class="header_button" style="margin-left:36px;">
+              <button
+                class="header_button"
+                id="button_about"
+                style="margin-left:36px;"
+              >
                 ABOUT
               </button>
             </div>
@@ -114,14 +132,33 @@
       </div>
       <div id="recent_article_panel">
         <div id="panel_with_back">
-          <ul>
-            <li v-for="article in articles">
-              <a v-bind:href="article.url"
-                >{{ article.title }} : {{ article.content}}
-              </a>
-            </li>
-          </ul>
+          <h3 style="padding-left:80px;padding-top:36px;">近期文章</h3>
+          <hr />
+          <div
+            id="article_all"
+            style="padding-left:80px;padding-right:80px;padding-top:36px;"
+          >
+            <div class="article_all_left article_little_panel">
+              <ul v-for="val in articles_left">
+                <li>
+                  [{{val.update_time}}]<a class="article_a" :href="val.url"
+                    >{{val.title}}</a
+                  >
+                </li>
+              </ul>
+            </div>
+            <div class="article_all_right article_little_panel">
+              <ul v-for="val in articles_right">
+                <li>
+                  [{{val.update_time}}]<a class="article_a" :href="val.url"
+                    >{{val.title}}</a
+                  >
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
+        <div id="recent_triangle"></div>
       </div>
       <div id="bottom">
         <div id="bottom_panel">
@@ -170,6 +207,7 @@
       integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
       crossorigin="anonymous"
     ></script>
+    <script src="./static/js/base.js"></script>
     <script
       src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js"
       integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
@@ -188,7 +226,9 @@
           el: "#panel_with_back",
           data() {
             return {
-              articles: null
+              articles: null,
+              articles_left: null,
+              articles_right: null
             };
           },
           mounted() {
@@ -197,6 +237,28 @@
                 element.url = "./article/detail.html?id=" + element._id;
               });
               this.articles = response.data.data;
+              var len = this.articles.length;
+              var split_len = (len + 1) / 2;
+              var articles_left = [];
+              var articles_right = [];
+              var cnt = 0;
+              for (a of this.articles) {
+                console.log(a.update_time);
+                a.update_time = format_date(a.update_time);
+                a.url = "./article/detail.html?id=" + a._id;
+                a.edit_url = "./article/edit.html?id=" + a._id;
+                if (a.title == "") {
+                  a.title = "#";
+                }
+                cnt++;
+                if (cnt <= split_len) {
+                  articles_left.push(a);
+                } else {
+                  articles_right.push(a);
+                }
+              }
+              this.articles_left = articles_left;
+              this.articles_right = articles_right;
             });
           }
         });

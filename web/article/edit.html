@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+  <!--<![endif]-->
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>文章详情</title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="../static/css/article_alter.css" />
+    <!-- highlight 的主题-->
+    <link
+      href="https://cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow-night-eighties.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../static/css/base.css" />
+    <link
+      href="https://cdn.bootcss.com/font-awesome/5.12.1/css/all.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div id="ping"></div>
+    <div id="content">
+      <div id="mark_body">
+        <!-- Modal -->
+        <div
+          class="modal fade"
+          id="modal_alert"
+          tabindex="-1"
+          role="dialog"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">提示</h5>
+                <button
+                  type="button"
+                  class="close"
+                  data-dismiss="modal"
+                  aria-label="Close"
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                将要离开，是否保存?
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  @click="no_save_to_home"
+                >
+                  否
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  @click="save_to_home"
+                >
+                  是
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <input hidden id="article_id" :value="article._id" />
+        <div id="mark_left" v-on:keyup="render" v-on:keydown="keydown">
+          <div id="mark_title">
+            <input id="mark_input_title" :value="article.title" />
+          </div>
+          <div id="mark_menu">
+            <div id="publish" v-on:click="publish">发布</div>
+            <input id="catagory" placeholder="分类" :value="article.catagory" />
+            <div class="back_button mark_btn" @click="back">
+              <i
+                class="fa fa-arrow-left"
+                aria-hidden="true"
+                data-toggle="tooltip"
+                data-placement="top"
+                title="Tooltip on top"
+                style="margin:10px;"
+              ></i>
+            </div>
+            <div class="upload_button mark_btn" @click="upload_click">
+              <i
+                class="fa fa-upload"
+                aria-hidden="true"
+                style="margin:10px;"
+              ></i>
+            </div>
+            <div class="home_button mark_btn" @click="home">
+              <i class="fa fa-home" aria-hidden="true" style="margin:10px;"></i>
+            </div>
+            <input
+              type="file"
+              value=""
+              id="upload"
+              accept="image/*"
+              style="display: none;"
+              @change="click_upload"
+            />
+          </div>
+          <textarea
+            style="line-height: 1.5;font-size: 1rem;"
+            class="mark_textarea"
+            id="mark_edit"
+            @scroll="handleScroll()"
+            @drop="onDrop"
+            @dragover="onDrag"
+            @paste="paste"
+            ref="edit_view"
+          >
+{{article.content}}</textarea
+          >
+        </div>
+        <div
+          id="mark_right"
+          v-html="article.md_preview"
+          @scroll="handleRightScroll()"
+        >
+          {{article.md_preview}}
+        </div>
+      </div>
+    </div>
+    <!--[if lt IE 7]>
+      <p class="browsehappy">
+        You are using an <strong>outdated</strong> browser. Please
+        <a href="#">upgrade your browser</a> to improve your experience.
+      </p>
+    <![endif]-->
+    <!-- vue -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.0"></script>
+    <!--<script src="https://cdn.jsdelivr.net/npm/vue@2.6.0" async defer></script>-->
+    <!-- #vue# 为了不繁琐，使用双#号表示注释的结束-->
+    <!-- bootrstrap -->
+    <script
+      src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js"
+      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js"
+      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+      crossorigin="anonymous"
+    ></script>
+    <script src="../static/js/base.js"></script>
+    <script
+      src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdn.bootcss.com/axios/0.19.2/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+    <script>
+      $(function() {
+        marked.setOptions({
+          renderer: new marked.Renderer(),
+          highlight: function(code) {
+            return hljs.highlightAuto(code).value;
+          },
+          pedantic: false,
+          gfm: true,
+          tables: true,
+          breaks: false,
+          sanitize: false,
+          smartLists: true,
+          smartypants: false,
+          xhtml: false
+        });
+
+        var axios_i = axios.create({
+          timeout: 10000,
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json"
+          }
+        });
+
+        axios.defaults.withCredentials = true;
+        getUrlParam = function(name) {
+          var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+          var r = window.location.search.substr(1).match(reg);
+          if (r != null) return unescape(r[2]);
+          return null;
+        };
+
+        function render() {
+          val = $("#mark_edit").val();
+          $("#mark_right").html(marked(val));
+        }
+
+        function publish() {
+          var title = $("#mark_input_title").val();
+          var content = $("#mark_edit").val();
+          var id = $("#article_id").val();
+          var catagory = $("#catagory").val();
+          console.log(title, id, content);
+
+          axios_i
+            .put(baseUrl + "/admin/article/publish/" + id, {
+              title: title,
+              content: content,
+              catagory: catagory
+            })
+            .then(response => {
+              if (response.data.code == 0) {
+                alert("发布成功");
+              }
+            })
+            .catch(error => {
+              alert(error);
+            });
+        }
+
+        var mark_body = new Vue({
+          el: "#mark_body",
+          data() {
+            return {
+              article: null
+            };
+          },
+          mounted() {
+            var id = getUrlParam("id");
+            axios_i
+              .get(baseUrl + "/admin/article/get/" + id)
+              .then(response => {
+                this.article = response.data.data;
+                this.article.md_preview = marked(this.article.content);
+              })
+              .catch(error => {
+                alert(error);
+              });
+          },
+          methods: {
+            handleScroll(event) {
+              console.log("haha");
+              var top = $("#mark_edit").scrollTop();
+              var left_view_height = $("#mark_edit").prop("clientHeight");
+              var left_height =
+                $("#mark_edit").prop("scrollHeight") - left_view_height;
+              var right_view_height = $("#mark_right").prop("clientHeight");
+              var right_height =
+                $("#mark_right").prop("scrollHeight") - right_view_height;
+              var right_top = Math.round((right_height * top) / left_height);
+              var right_scroll_top = $("#mark_right").scrollTop();
+              console.log("right height:", right_scroll_top, right_top);
+              //if (Math.abs(right_scroll_top - right_top) > 10) {
+              $("#mark_right").scrollTop(right_top);
+              //}
+            },
+            handleRightScroll(event) {
+              var top = $("#mark_right").scrollTop();
+              var left_view_height = $("#mark_edit").prop("clientHeight");
+              var left_height =
+                $("#mark_edit").prop("scrollHeight") - left_view_height;
+              var right_view_height = $("#mark_right").prop("clientHeight");
+              var right_height =
+                $("#mark_right").prop("scrollHeight") - right_view_height;
+              var left_top = Math.round((left_height * top) / right_height);
+              var left_scroll_top = $("#mark_edit").scrollTop();
+              console.log("left_height:", left_scroll_top, left_top);
+              if (Math.abs(left_scroll_top - left_top) > 20) {
+                // 解决循环嵌套
+                $("#mark_edit").scrollTop(left_top);
+              }
+            },
+            render: render,
+            upload_click: function(e) {
+              $("#upload").click();
+            },
+            back: function(e) {
+              history.go(-1);
+            },
+            save_to_home: function(e) {
+              if (this.save()) {
+                window.location.href = homeUrl;
+              }
+            },
+            no_save_to_home: function(e) {
+              location.href = homeUrl;
+            },
+            paste: function(e) {
+              let file = null;
+              if (
+                e.clipboardData &&
+                e.clipboardData.items[0] &&
+                e.clipboardData.items[0].type &&
+                e.clipboardData.items[0].type.indexOf("image") > -1
+              ) {
+                //这里就是判断是否有粘贴进来的文件且文件为图片格式
+                file = e.clipboardData.items[0].getAsFile();
+                this.upload_pic(file);
+              }
+            },
+            home: function(e) {
+              $("#modal_alert").modal("show");
+            },
+            upload_pic: function(file) {
+              if (
+                file.name.indexOf("jpg") === -1 &&
+                file.name.indexOf("jpeg") === -1 &&
+                file.name.indexOf("png") === -1
+              ) {
+                alert("只能上传jpg, jpeg,png等格式内容");
+              }
+              var file_size = file.size / 1024; // kb
+              if (file_size >= 10 * 1024) {
+                alert("上传文件过大");
+              }
+              var formData = new FormData();
+              formData.append("file", file);
+              let config = {
+                headers: {
+                  "Content-Type": "multipart/form-data"
+                }
+              };
+              axios
+                .post(baseUrl + "/admin/upload/pic", formData, config)
+                .then(response => {
+                  if (response.data.code == 0) {
+                    console.log("上传成功");
+                    var filepath = response.data.data;
+                    var mthis = $("#mark_edit").get(0);
+                    var start = mthis.selectionStart;
+                    var end = mthis.selectionEnd;
+                    var $this = $(mthis);
+                    var value = $this.val();
+                    // set textarea value to: text before caret + tab + text after caret
+                    var prefix = "\n![";
+                    var suffix = "](";
+                    var name = "图片名称";
+                    var insert_str = prefix + name + suffix;
+                    $this.val(
+                      value.substring(0, start) +
+                        insert_str +
+                        pageUrl +
+                        "/static/img/upload/" +
+                        filepath +
+                        ")\n" +
+                        value.substring(end)
+                    );
+                    // put caret at right position again (add one for the tab)
+                    mthis.selectionStart = start + prefix.length;
+                    mthis.selectionEnd = start + prefix.length + name.length;
+                    render();
+                  }
+                })
+                .catch(error => {
+                  alert(error);
+                });
+              // 上传
+            },
+            click_upload: function(e) {
+              this.upload_pic(e.target.files[0]);
+            },
+            onDrag: function(e) {
+              e.stopPropagation();
+              e.preventDefault();
+            },
+            onDrop: function(e) {
+              e.stopPropagation();
+              e.preventDefault();
+              this.upload_pic(e.dataTransfer.files[0]);
+            },
+            publish: publish,
+            open_upload: function(e) {},
+            save: function() {
+              var title = $("#mark_input_title").val();
+              var content = $("#mark_edit").val();
+              var id = $("#article_id").val();
+              var catagory = $("#catagory").val();
+              console.log(title, id, content);
+
+              axios_i
+                .put(baseUrl + "/admin/article/" + id, {
+                  title: title,
+                  content: content,
+                  catagory: catagory
+                })
+                .then(response => {
+                  if (response.data.code == 0) {
+                    alert("保存成功");
+                  }
+                  return true;
+                })
+                .catch(error => {
+                  alert(error);
+                  return false;
+                });
+              return true;
+            },
+            keydown: function(e) {
+              if (
+                e.keyCode == 83 &&
+                (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)
+              ) {
+                e.preventDefault();
+                // TODO save article
+                this.save();
+                return;
+              }
+
+              if (e.keyCode == 9) {
+                // get caret position/selection
+                // 原来的this 需要使用e.target来获取
+                var mthis = e.target;
+                var start = mthis.selectionStart;
+                var end = mthis.selectionEnd;
+                var $this = $(mthis);
+                var value = $this.val();
+                // set textarea value to: text before caret + tab + text after caret
+                $this.val(
+                  value.substring(0, start) + "\t" + value.substring(end)
+                );
+                // put caret at right position again (add one for the tab)
+                mthis.selectionStart = mthis.selectionEnd = start + 1;
+                // prevent the focus lose
+                e.preventDefault();
+              }
+            }
+          }
+        });
+      });
+    </script>
+    <!-- #bootrstrap# -->
+  </body>
+</html>

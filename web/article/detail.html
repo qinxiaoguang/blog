@@ -17,12 +17,82 @@
       integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
       crossorigin="anonymous"
     />
+    <link
+      href="https://cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow-night-eighties.min.css"
+      rel="stylesheet"
+    />
+    <link href="../static/css/marked.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../static/css/base.css" />
+    <link
+      href="https://cdn.bootcss.com/font-awesome/5.12.1/css/all.min.css"
+      rel="stylesheet"
+    />
   </head>
   <body>
-    <div id="article_detail">
-      {{ article }}
-      <div id="content" v-html="article.content">{{article.content}}</div>
+    <div id="main">
+      <div id="header_panel" style="position:relative;z-index:5;">
+        <!--后续进行优化-->
+        <div id="header" style="position:relative;">
+          <div id="triangle"></div>
+          <button
+            class="header_button"
+            id="button_home"
+            style="position:absolute; bottom:0;left:16px;border-bottom:2px solid  black;"
+          >
+            HOME
+          </button>
+          <div
+            id="button_group"
+            style="position:absolute;right:16px;bottom:0px;padding-left:0px;"
+          >
+            <button class="header_button header_button_active" id="button_blog">
+              BLOG
+            </button>
+            <button
+              class="header_button"
+              id="button_life"
+              style="margin-left:36px;"
+            >
+              LIFE
+            </button>
+            <button
+              class="header_button"
+              id="button_tool"
+              style="margin-left:36px;"
+            >
+              TOOL
+            </button>
+            <button
+              class="header_button"
+              id="button_about"
+              style="margin-left:36px;"
+            >
+              ABOUT
+            </button>
+          </div>
+        </div>
+      </div>
+      <div id="article_detail" style="margin:80px 80px;">
+        <h1 style="text-align: center;font-size: 26px;font-weight: 400;">
+          {{article.title}}
+        </h1>
+        <div id="detail_time">
+          {{article.update_time}}
+        </div>
+        <span id="edit_detail" :style="{'display':article.display}"
+          ><a :href="article.edit_url"><i class="fa fa-paint-brush"></i></a
+        ></span>
+        <hr />
+        <div id="content" style="margin: 32px 32px;" v-html="article.content">
+          {{article.content}}
+        </div>
+        <hr />
+      </div>
+      <div id="bottom_">
+        <div id="triangle_bottom"></div>
+      </div>
     </div>
+
     <!--[if lt IE 7]>
       <p class="browsehappy">
         You are using an <strong>outdated</strong> browser. Please
@@ -39,6 +109,7 @@
       integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
       crossorigin="anonymous"
     ></script>
+    <script src="../static/js/base.js"></script>
     <script
       src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js"
       integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
@@ -51,9 +122,25 @@
     ></script>
     <script src="https://cdn.bootcss.com/axios/0.19.2/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
 
     <script>
       $(function() {
+        marked.setOptions({
+          renderer: new marked.Renderer(),
+          highlight: function(code) {
+            return hljs.highlightAuto(code).value;
+          },
+          pedantic: false,
+          gfm: true,
+          tables: true,
+          breaks: false,
+          sanitize: false,
+          smartLists: true,
+          smartypants: false,
+          xhtml: false
+        });
+
         axios.defaults.withCredentials = true;
         getUrlParam = function(name) {
           var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
@@ -75,6 +162,24 @@
               .then(response => {
                 this.article = response.data.data;
                 this.article.content = marked(this.article.content);
+                this.article.edit_url = "./edit.html?id=" + this.article._id;
+                this.article.update_time = format_date(
+                  this.article.update_time
+                );
+                console.log(this.article);
+                if (is_owner()) {
+                  this.article.display = "show";
+                } else {
+                  this.article.display = "none";
+                }
+                this.$nextTick(() => {
+                  var screenHeight = document.documentElement.clientHeight;
+                  var bodyHeight = document.body.clientHeight;
+                  if (bodyHeight < screenHeight) {
+                    $("#bottom_").css("position", "fixed");
+                    $("#bottom_").css("bottom", "0px");
+                  }
+                });
               });
           }
         });

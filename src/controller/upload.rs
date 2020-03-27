@@ -8,7 +8,7 @@ const PIC_SAVE_PATH: &str = "web/static/img/upload/";
 // 上传图片
 pub async fn upload_pic(mut payload: Multipart) -> CommonResp {
     // iterate over multipart stream
-    let mut gen_filename = uuid::Uuid::new_v4().to_simple().to_string() + ".jpg";
+    let gen_filename = uuid::Uuid::new_v4().to_simple().to_string() + ".jpg";
     while let Ok(Some(mut field)) = payload.try_next().await {
         let content_type = field
             .content_disposition()
@@ -20,7 +20,7 @@ pub async fn upload_pic(mut payload: Multipart) -> CommonResp {
             return Resp::err(crate::common::UPLOAD_ERROR, "upload failed").to_json();
         }
         let filepath = format!("{}{}", PIC_SAVE_PATH, gen_filename);
-        println!("file path is:{}",filepath);
+        println!("file path is:{}", filepath);
         let mut f = async_std::fs::File::create(filepath).await?;
 
         // Field in turn is stream of *Bytes* object

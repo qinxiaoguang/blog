@@ -1,7 +1,6 @@
 use super::{Article, DbArticle, Summary};
 use crate::common::*;
 use bson::{doc, oid::ObjectId, Document};
-use log::*;
 use mongodb::options::FindOptions;
 use std::collections::BTreeMap;
 
@@ -11,32 +10,37 @@ pub fn save_article(article: Article) -> Result<String> {
     let mut article = article;
     article.time_update();
     let db_article = DbArticle::new(article);
-    let mut d = bson::to_bson(&db_article)
-        .map(|x| x.as_document().unwrap().to_owned())
-        .unwrap();
-    d.remove("_id");
-    match table(DbArticle::TABLE_NAME).insert_one(d, None) {
-        Ok(rs) => {
-            let new_id = rs.inserted_id.as_object_id().expect("cant find object_id");
-            // unwrap如果错误，则panic,而\?则比较聪明，如果unwrap失败则直接return err,不会panic,否则返回unwrap之后的值。
-            info!("article is : {:?}", db_article);
-            Ok(new_id.to_string())
-        }
-        Err(e) => {
-            error!("save article error : {}", e);
-            Err(BizError::InternalError)
-        }
-    }
+    super::save(DbArticle::TABLE_NAME, db_article)
 }
 
 // base 获取某个db_article
 pub fn get_dbarticle(id: &str) -> Result<DbArticle> {
-    let filter = Some(doc! {"_id" => ObjectId::with_string(id)?});
+    super::get(DbArticle::TABLE_NAME, id)
+}
 
-    let document = table(DbArticle::TABLE_NAME)
-        .find_one(filter, None)
-        .expect("cant find this");
-    Ok(bson::from_bson(bson::Bson::Document(document.unwrap()))?)
+// base 列出指定文章
+pub fn list_articles(
+    filter: Option<Document>,
+    find_options: FindOptions,
+) -> Result<Vec<DbArticle>> {
+    super::list(DbArticle::TABLE_NAME, filter, find_options)
+}
+
+// 更新id对应的文章
+// return : 返回更改的个数
+pub fn update_article(id: &str, article: Article) -> Result<i64> {
+    println!("article is :{:?}", article);
+    let mut article = article;
+    article.time_update();
+    let db_article = DbArticle::new(article);
+    let mut d = db_article.to_document().unwrap();
+    d.remove("create_time");
+    super::update(DbArticle::TABLE_NAME, id, d)
+}
+
+// 删除对应的文章
+pub fn remove_article(id: &str) -> Result<i64> {
+    super::remove(DbArticle::TABLE_NAME, id)
 }
 
 pub fn get_publish_article(id: &str) -> Result<Article> {
@@ -81,11 +85,18 @@ pub fn list_recent_articles(num: i64) -> Result<Vec<Article>> {
         .limit(num)
         .build();
     let filter = Some(doc! {"status":DbArticle::PUBLISHED, "last_publish_time": {"$ne":null}});
-    list_articles(filter, find_options).map(|v| {
+    let mut articles: Vec<Article> = list_articles(filter, find_options).map(|v| {
         v.into_iter()
             .filter_map(|db_article| db_article.into_publish())
             .collect()
-    })
+    })?;
+    articles.sort_by(|a, b| {
+        a.update_time
+            .as_ref()
+            .unwrap()
+            .cmp(&b.update_time.as_ref().unwrap())
+    });
+    Ok(articles)
 }
 
 pub fn list_summary_edit_articles() -> Result<Summary> {
@@ -132,42 +143,14 @@ fn summary(articles: Vec<Article>) -> Summary {
     let no_catagory = "未分类".to_string();
     for article in articles.into_iter() {
         if let Some(c) = &article.catagory {
-            (*m.entry(c.clone()).or_insert(vec![])).push(article);
-        } else {
-            (*m.entry(no_catagory.clone()).or_insert(vec![])).push(article);
+            if c.trim() != "" {
+                (*m.entry(c.clone()).or_insert(vec![])).push(article);
+                continue;
+            }
         }
+        (*m.entry(no_catagory.clone()).or_insert(vec![])).push(article);
     }
     m
-}
-
-// base 列出指定文章
-pub fn list_articles(
-    filter: Option<Document>,
-    find_options: FindOptions,
-) -> Result<Vec<DbArticle>> {
-    let cursor = table(DbArticle::TABLE_NAME).find(filter, Some(find_options));
-    cursor
-        .map(|mut x| x.to_vec::<DbArticle>())
-        .map_err(|e| e.into())
-}
-
-// 更新id对应的文章
-// return : 返回更改的个数
-pub fn update_article(id: &str, article: Article) -> Result<i64> {
-    println!("article is :{:?}", article);
-    let mut article = article;
-    article.time_update();
-    let db_article = DbArticle::new(article);
-    let mut d = db_article.to_document().unwrap();
-    d.remove("create_time");
-    let filter = doc! {"_id" => ObjectId::with_string(id)?};
-    let update = doc! {"$set":d};
-    Ok(table(DbArticle::TABLE_NAME)
-        .update_one(filter, update, None)
-        .map(|x| x.modified_count)?)
-
-    // 也可以这么写
-    // table(xx).update_one(xx).map(xxx).map_err(|e|e.into())
 }
 
 // 将数据发布
@@ -186,14 +169,6 @@ pub fn publish_article(id: &str, article: Article) -> Result<i64> {
     Ok(table(DbArticle::TABLE_NAME)
         .update_one(filter, update, None)
         .map(|x| x.modified_count)?)
-}
-
-// 删除对应的文章
-pub fn remove_article(id: &str) -> Result<i64> {
-    let filter = doc! {"_id" => ObjectId::with_string(id)?};
-    Ok(table(DbArticle::TABLE_NAME)
-        .delete_one(filter, None)
-        .map(|x| x.deleted_count)?)
 }
 
 mod test {

@@ -238,7 +238,7 @@
               });
               this.articles = response.data.data;
               var len = this.articles.length;
-              var split_len = (len + 1) / 2;
+              var split_len = len / 2;
               var articles_left = [];
               var articles_right = [];
               var cnt = 0;
@@ -252,13 +252,13 @@
                 }
                 cnt++;
                 if (cnt <= split_len) {
-                  articles_left.push(a);
-                } else {
                   articles_right.push(a);
+                } else {
+                  articles_left.push(a);
                 }
               }
-              this.articles_left = articles_left;
-              this.articles_right = articles_right;
+              this.articles_left = articles_left.reverse();
+              this.articles_right = articles_right.reverse();
             });
           }
         });

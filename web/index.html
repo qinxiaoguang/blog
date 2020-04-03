@@ -95,10 +95,32 @@
           style="position:absolute;bottom:0;z-index:1"
         ></div>
         <div class="album" id="left_album">
-          <img class="pic" id="left_pic" src="./static/img/left_pic.png" />
+          <img
+            class="pic left_pic"
+            src="./static/img/left_pic.png"
+            v-show="default_left_pic_show"
+            @click="jumpToLife"
+          />
+          <img
+            class="pic left_pic"
+            :src="left_pic_url"
+            v-show="recent_left_pic_show"
+            @click="jumpToLife"
+          />
         </div>
         <div class="album" id="right_album">
-          <img class="pic" id="right_pic" src="./static/img/right_pic.png" />
+          <img
+            class="pic right_pic"
+            src="./static/img/right_pic.png"
+            v-show="default_right_pic_show"
+            @click="jumpToLife"
+          />
+          <img
+            class="pic right_pic"
+            :src="right_pic_url"
+            v-show="recent_right_pic_show"
+            @click="jumpToLife"
+          />
         </div>
       </div>
       <div id="work_panel" style="position:relative;">
@@ -222,6 +244,57 @@
 
     <script>
       $(function() {
+        var album_panel = new Vue({
+          el: "#album_panel",
+          data() {
+            return {
+              default_left_pic_show: true,
+              default_right_pic_show: true,
+              recent_left_pic_show: false,
+              recent_right_pic_show: false,
+              left_pic_url: null,
+              right_pic_url: null,
+              medias: null
+            };
+          },
+          mounted() {
+            axios.get(baseUrl + "/media/img/recent").then(response => {
+              this.medias = response.data.data;
+              var cnt = 0;
+              for (m of this.medias) {
+                if (cnt >= 2) {
+                  break;
+                }
+                if (m.media_type == 1) {
+                  // 图片
+                  m.url = get_img_url(m.url);
+                  m.imgShow = true;
+                  m.videoShow = false;
+                } else if (m.media_type == 2) {
+                  m.url = get_video_url(m.url);
+                  m.imgShow = false;
+                  m.videoShow = true;
+                }
+                if (cnt == 0) {
+                  this.left_pic_url = m.url;
+                  this.recent_left_pic_show = m.imgShow;
+                  this.default_left_pic_show = false;
+                } else {
+                  this.right_pic_url = m.url;
+                  this.recent_right_pic_show = m.imgShow;
+                  this.default_right_pic_show = false;
+                }
+                cnt += 1;
+              }
+            });
+          },
+          methods: {
+            jumpToLife: function() {
+              location.href = pageUrl + "/life/list.html";
+            }
+          }
+        });
+
         var panel_with_back = new Vue({
           el: "#panel_with_back",
           data() {

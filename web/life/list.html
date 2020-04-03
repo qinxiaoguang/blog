@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>文章列表</title>
+    <title>近期生活</title>
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link
@@ -45,11 +45,11 @@
             id="button_group"
             style="position:absolute;right:16px;bottom:0px;padding-left:0px;"
           >
-            <button class="header_button header_button_active" id="button_blog">
+            <button class="header_button " id="button_blog">
               BLOG
             </button>
             <button
-              class="header_button"
+              class="header_button header_button_active"
               id="button_life"
               style="margin-left:36px;"
             >
@@ -72,10 +72,11 @@
           </div>
         </div>
       </div>
-      <div id="article_all" style="margin:80px 80px;">
 
-                <!-- Modal -->
-        <div
+
+      <div id="media_all" style="margin:80px 80px;">
+
+                <div
           class="modal fade"
           id="modal_alert"
           tabindex="-1"
@@ -109,8 +110,8 @@
                 <button
                   type="button"
                   class="btn btn-primary"
-                  id="article_remove_confirm_btn"
-                  @click="article_remove"
+                  id="media_remove_confirm_btn"
+                  @click="media_remove"
                 >
                   是
                 </button>
@@ -121,23 +122,31 @@
 
 
 
+        <a v-show="upload_btn_show" :href="upload_page" style="color:#ccc;"><i class="fa fa-upload" aria-hidden="true"></i></a>
+        <hr>
         <div>
+          <div v-for="val in medias">
+            <a class="media_remove_btn" v-show="remove_btn_show" style="color:#ccc;cursor: pointer;" :value="val._id" @click="show_remove_modal"><i class="fa fa-times" :value="val._id" aria-hidden="true"></i></a>
+            <div class="life_item card">
+              <div class="media" v-show="val.imgShow">
+                <img class="life_img mr-3" alt="..." :src="val.url" @load="imageLoaded" />
+                 <div class="media-body">
+                  <h5 class="mt-0">{{val.name}}</h5>
+                  {{val.des}}
+                  </div>
+              </div>
+              <div class="media" v-show="val.videoShow">
+                <iframe class="life_video mr-3" :src="val.url"  scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>
+                 <div class="media-body">
+                  <h5 class="mt-0">{{val.name}}</h5>
+                  {{val.des}}
+                  </div>
+              </div>
 
-      <a id="add_new" @click="create_new"><i class="fa fa-plus" aria-hidden="true"></i> </a>
-      <hr>
-        <div v-for="(value, key) in articles">
-          <h3 style="margin-left:12px;">{{key}}</h3>
-          <hr>
-          <ul v-for="val in value">
-            <li>
-              [{{val.update_time}}]<a class="article_a" :href="val.url">{{val.title}}</a>
-              <a class="edit_list_item_btn" :href="val.edit_url"><i class="fa fa-paint-brush" aria-hidden="true"></i></a>
-              <a class="edit_list_item_btn" style="color:#d63447;" :value="val._id" @click="show_remove_modal"><i class="fa fa-times" :value="val._id" aria-hidden="true"></i></a>
-            </li>
-          </ul>
-          <hr>
+              </div>
+            </div>
         </div>
-      </div>
+        <hr />
       </div>
 
 
@@ -180,55 +189,63 @@
 
     <script>
       $(function() {
-        marked.setOptions({
-          renderer: new marked.Renderer(),
-          highlight: function(code) {
-            return hljs.highlightAuto(code).value;
-          },
-          pedantic: false,
-          gfm: true,
-          tables: true,
-          breaks: false,
-          sanitize: false,
-          smartLists: true,
-          smartypants: false,
-          xhtml: false
-        });
-
         axios.defaults.withCredentials = true;
-        getUrlParam = function(name) {
-          var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
-          var r = window.location.search.substr(1).match(reg);
-          if (r != null) return unescape(r[2]);
-          return null;
-        };
-        var panel_with_back = new Vue({
-          el: "#article_all",
+        var media_all = new Vue({
+          el: "#media_all",
           data() {
             return {
-              articles: null
+              medias: null,
+              remove_btn_show:false,
+              upload_btn_show:false,
+              upload_page:null,
             };
           },
           mounted() {
-            axios.get(baseUrl+"/admin/article/edit/list").then(response => {
-              this.articles = response.data.data;
-              for (key in this.articles) {
-                var article = this.articles[key];
-                for (a of article) {
-                  a.update_time = format_date(a.update_time);
-                    a.url = "./detail.html?id=" + a._id;
-                    a.edit_url = "./edit.html?id=" + a._id;
-                    if (a.title == "") {
-                      a.title = "#";
-                    }
+            axios.get(baseUrl + "/media/all").then(response => {
+              this.medias = response.data.data;
+              for (m of this.medias){
+                if(m.media_type == 1){
+                  // 图片
+                  m.url = get_img_url(m.url);
+                  m.imgShow = true;
+                  m.videoShow = false;
+                } else if (m.media_type == 2){
+                  m.url = get_video_url(m.url);
+                  m.imgShow = false;
+                  m.videoShow =true;
                 }
               }
+              if(is_owner()){
+                this.remove_btn_show = true;
+                this.upload_btn_show = true;
+                this.upload_page = pageUrl + "/life/upload.html";
+              }else{
+                this.remove_btn_show = false;
+                this.upload_btn_show = false;
+              }
+
             });
+            
           },
           methods:{
-            article_remove:function(e){
+            imageLoaded:function(){
+              this.$nextTick(() => {
+                  var screenHeight = document.documentElement.clientHeight;
+                  var bodyHeight = document.body.clientHeight;
+                  if (bodyHeight < screenHeight) {
+                    $("#bottom_").css("position", "fixed");
+                    $("#bottom_").css("bottom", "0px");
+                  }
+                });
+            },
+            show_remove_modal:function(e){
                 var id = e.target.attributes.value.value;
-                remove_article(axios,id,response=>{
+                $("#media_remove_confirm_btn").val(id);
+                $("#modal_alert").modal('show');
+            },
+            media_remove:function(e){
+                var id = e.target.attributes.value.value;
+                remove_media(axios,id,response=>{
                   if (response.data.code == 0){
                     var sec = 2;
                     alert("删除成功,2s后将刷新页面");
@@ -246,25 +263,6 @@
                   alert(error);
                 });
             },
-            show_remove_modal:function(e){
-                var id = e.target.attributes.value.value;
-                $("#article_remove_confirm_btn").val(id);
-                $("#modal_alert").modal('show');
-            },
-            create_new: function() {
-              axios
-                .post(baseUrl+"/admin/article", {
-                  title: "",
-                  content: ""
-                })
-                .then(response => {
-                  if (response.data.code == 0) {
-                    location.href = "./edit.html?id=" + response.data.data;
-                  } else {
-                    alert(response.data.data);
-                  }
-                });
-            }
           },
         });
       });

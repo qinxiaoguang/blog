@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+  <!--<![endif]-->
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>工具集</title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+    <link
+      href="https://cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow-night-eighties.min.css"
+      rel="stylesheet"
+    />
+    <link href="../static/css/marked.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../static/css/base.css" />
+    <link href="../static/css/font-awesome.min.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div id="main">
+      <div id="header_panel" style="position:relative;z-index:5;">
+        <!--后续进行优化-->
+        <div id="header" style="position:relative;">
+          <div id="triangle"></div>
+          <button
+            class="header_button"
+            id="button_home"
+            style="position:absolute; bottom:0;left:16px;border-bottom:2px solid  black;"
+          >
+            HOME
+          </button>
+          <div
+            id="button_group"
+            style="position:absolute;right:16px;bottom:0px;padding-left:0px;"
+          >
+            <button class="header_button " id="button_blog">
+              BLOG
+            </button>
+            <button
+              class="header_button "
+              id="button_life"
+              style="margin-left:36px;"
+            >
+              LIFE
+            </button>
+            <button
+              class="header_button  header_button_active"
+              id="button_tool"
+              style="margin-left:36px;"
+            >
+              TOOL
+            </button>
+            <button
+              class="header_button"
+              id="button_about"
+              style="margin-left:36px;"
+            >
+              ABOUT
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div id="tool_panel" style="margin:80px 80px;">
+        <div class="card mb-3 text-white bg-dark tool_card">
+          <div class="card-header">临时编辑</div>
+          <div class="card-body">
+            <p class="card-text">
+              <small class="">用于临时编辑</small><br />
+              <small class="">手机上有个连接想传到电脑上</small><br />
+              <small class="">不用麻烦的登录微信和qq</small><br />
+            </p>
+          </div>
+        </div>
+
+        <div class="card mb-3 text-white bg-dark tool_card">
+          <div class="card-header">json格式化</div>
+          <div class="card-body">
+            <p class="card-text">
+              <small class="">json格式化</small><br />
+              <small class="">自用</small><br />
+              <small class="">不需解释</small><br />
+            </p>
+          </div>
+        </div>
+
+        <div class="card mb-3 text-white bg-dark tool_card">
+          <div class="card-header">unicode编解码</div>
+          <div class="card-body">
+            <p class="card-text">
+              <small class="">unicode编解码</small><br />
+              <small class="">自用</small><br />
+              <small class="">不需解释</small><br />
+            </p>
+          </div>
+        </div>
+
+        <div class="card mb-3 text-white bg-dark tool_card">
+          <div class="card-header">json格式化</div>
+          <div class="card-body">
+            <p class="card-text">
+              <small class="">json格式化</small><br />
+              <small class="">自用</small><br />
+              <small class="">不需解释</small><br />
+            </p>
+          </div>
+        </div>
+
+        <div class="card mb-3 text-white bg-dark tool_card">
+          <div class="card-header">unicode编解码</div>
+          <div class="card-body">
+            <p class="card-text">
+              <small class="">unicode编解码</small><br />
+              <small class="">自用</small><br />
+              <small class="">不需解释</small><br />
+            </p>
+          </div>
+        </div>
+
+        <div class="card mb-3 text-white bg-dark tool_card">
+          <div class="card-header">json格式化</div>
+          <div class="card-body">
+            <p class="card-text">
+              <small class="">json格式化</small><br />
+              <small class="">自用</small><br />
+              <small class="">不需解释</small><br />
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div id="bottom_">
+        <div id="triangle_bottom"></div>
+      </div>
+    </div>
+
+    <!--[if lt IE 7]>
+      <p class="browsehappy">
+        You are using an <strong>outdated</strong> browser. Please
+        <a href="#">upgrade your browser</a> to improve your experience.
+      </p>
+    <![endif]-->
+    <!-- vue -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.0"></script>
+    <!--<script src="https://cdn.jsdelivr.net/npm/vue@2.6.0" async defer></script>-->
+    <!-- #vue# 为了不繁琐，使用双#号表示注释的结束-->
+    <!-- bootrstrap -->
+    <script
+      src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js"
+      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+      crossorigin="anonymous"
+    ></script>
+    <script src="../static/js/base.js"></script>
+    <script
+      src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js"
+      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdn.bootcss.com/axios/0.19.2/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+    <script>
+      $(function() {
+        var tool_panel = new Vue({
+          el: "#tool_panel",
+          data() {
+            return {};
+          },
+          mounted() {
+            this.$nextTick(() => {
+              var screenHeight = document.documentElement.clientHeight;
+              var bodyHeight = document.body.clientHeight;
+              if (bodyHeight < screenHeight) {
+                $("#bottom_").css("position", "fixed");
+                $("#bottom_").css("bottom", "0px");
+              }
+            });
+          }
+        });
+      });
+    </script>
+    <!-- #bootrstrap# -->
+  </body>
+</html>

@@ -12,15 +12,16 @@ pub struct Media {
     _id: Option<ObjectId>,
     name: Option<String>, // 名称
     des: Option<String>,  // 描述
-    url: Option<String>,
+    pub url: Option<String>,
     media_type: Option<i32>,     // 默认是图片
     create_time: Option<String>, // 创建时间
 }
 
 impl Media {
+    const NOT_NULL: i32 = 0; // 占位，查找时不分类查找，使用该code
     const IMAGE_TYPE: i32 = 1;
     const VIDEO_TYPE: i32 = 2;
-    pub const TABLE_NAME: &'static str = "article";
+    pub const TABLE_NAME: &'static str = "media";
 
     pub fn new() -> Self {
         Media {
@@ -31,6 +32,10 @@ impl Media {
             media_type: None,
             create_time: Some(Local::now().timestamp().to_string()),
         }
+    }
+
+    pub fn time_update(&mut self) {
+        self.create_time = Some(Local::now().timestamp().to_string())
     }
 }
 

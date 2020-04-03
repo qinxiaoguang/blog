@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>文章详情</title>
+    <title>文章修改</title>
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link
@@ -312,27 +312,10 @@
               $("#modal_alert").modal("show");
             },
             upload_pic: function(file) {
-              if (
-                file.name.indexOf("jpg") === -1 &&
-                file.name.indexOf("jpeg") === -1 &&
-                file.name.indexOf("png") === -1
-              ) {
-                alert("只能上传jpg, jpeg,png等格式内容");
-              }
-              var file_size = file.size / 1024; // kb
-              if (file_size >= 10 * 1024) {
-                alert("上传文件过大");
-              }
-              var formData = new FormData();
-              formData.append("file", file);
-              let config = {
-                headers: {
-                  "Content-Type": "multipart/form-data"
-                }
-              };
-              axios
-                .post(baseUrl + "/admin/upload/pic", formData, config)
-                .then(response => {
+              base_upload_pic(
+                axios,
+                file,
+                response => {
                   if (response.data.code == 0) {
                     console.log("上传成功");
                     var filepath = response.data.data;
@@ -360,10 +343,11 @@
                     mthis.selectionEnd = start + prefix.length + name.length;
                     render();
                   }
-                })
-                .catch(error => {
+                },
+                error => {
                   alert(error);
-                });
+                }
+              );
               // 上传
             },
             click_upload: function(e) {

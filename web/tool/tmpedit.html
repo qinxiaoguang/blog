@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+  <!--<![endif]-->
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>文章修改</title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="../static/css/article_alter.css" />
+    <!-- highlight 的主题-->
+    <link
+      href="https://cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow-night-eighties.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../static/css/base.css" />
+    <link
+      href="https://cdn.bootcss.com/font-awesome/5.12.1/css/all.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div id="content">
+      <div id="mark_body">
+        <!-- 模态框，提示输入id-->
+        <div
+          class="modal fade"
+          id="modal_alert"
+          tabindex="-1"
+          role="dialog"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">提示</h5>
+              </div>
+              <div class="modal-body">
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1"
+                      >临时文件名</span
+                    >
+                  </div>
+                  <input
+                    id="id"
+                    type="text"
+                    class="form-control"
+                    placeholder="请输入临时文件名"
+                    aria-describedby="basic-addon1"
+                  />
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  @click="jump_to_file"
+                >
+                  是
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="mark_left" v-on:keydown="keydown">
+          <textarea
+            style="line-height: 1.5;font-size: 1rem;"
+            class="mark_textarea"
+            id="edit"
+          >
+{{content}}</textarea
+          >
+        </div>
+      </div>
+    </div>
+    <!--[if lt IE 7]>
+      <p class="browsehappy">
+        You are using an <strong>outdated</strong> browser. Please
+        <a href="#">upgrade your browser</a> to improve your experience.
+      </p>
+    <![endif]-->
+    <!-- vue -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.0"></script>
+    <!--<script src="https://cdn.jsdelivr.net/npm/vue@2.6.0" async defer></script>-->
+    <!-- #vue# 为了不繁琐，使用双#号表示注释的结束-->
+    <!-- bootrstrap -->
+    <script
+      src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js"
+      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js"
+      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+      crossorigin="anonymous"
+    ></script>
+    <script src="../static/js/base.js"></script>
+    <script
+      src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdn.bootcss.com/axios/0.19.2/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+    <script>
+      $(function() {
+        axios.defaults.withCredentials = true;
+        getUrlParam = function(name) {
+          var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+          var r = window.location.search.substr(1).match(reg);
+          if (r != null) return unescape(r[2]);
+          return null;
+        };
+
+        var mark_body = new Vue({
+          el: "#mark_body",
+          data() {
+            return {
+              content: null
+            };
+          },
+          mounted() {
+            var id = getUrlParam("id");
+            if (id == null || id == "" || id == undefined) {
+              // 提示输入id
+              $("#modal_alert").modal({ backdrop: "static", keyboard: false });
+              $("#modal_alert").modal("show");
+              return;
+            }
+            axios
+              .get(baseUrl + "/tool/tmpedit/" + id)
+              .then(response => {
+                if (response.data.code == 0) {
+                  this.content = response.data.data;
+                } else {
+                  alert(response.data.msg);
+                }
+              })
+              .catch(error => {
+                alert(error);
+              });
+          },
+          methods: {
+            jump_to_file: function() {
+              var id = $("#id").val();
+              if (id == null || id == "" || id == undefined) {
+                alert("请输入文件名");
+              } else {
+                location.href = pageUrl + "/tool/tmpedit.html?id=" + id;
+              }
+            },
+            save: function() {
+              var id = getUrlParam("id");
+              axios
+                .post(baseUrl + "/tool/tmpedit", {
+                  id: id,
+                  content: content
+                })
+                .then(response => {
+                  if (response.data.code == 0) {
+                    alert("保存成功");
+                  }
+                  return true;
+                })
+                .catch(error => {
+                  alert(error);
+                  return false;
+                });
+            },
+            keydown: function(e) {
+              if (
+                e.keyCode == 83 &&
+                (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)
+              ) {
+                e.preventDefault();
+                // TODO save article
+                this.save();
+                return;
+              }
+
+              if (e.keyCode == 9) {
+                // get caret position/selection
+                // 原来的this 需要使用e.target来获取
+                var mthis = e.target;
+                var start = mthis.selectionStart;
+                var end = mthis.selectionEnd;
+                var $this = $(mthis);
+                var value = $this.val();
+                // set textarea value to: text before caret + tab + text after caret
+                $this.val(
+                  value.substring(0, start) + "\t" + value.substring(end)
+                );
+                // put caret at right position again (add one for the tab)
+                mthis.selectionStart = mthis.selectionEnd = start + 1;
+                // prevent the focus lose
+                e.preventDefault();
+              }
+            }
+          }
+        });
+      });
+    </script>
+    <!-- #bootrstrap# -->
+  </body>
+</html>

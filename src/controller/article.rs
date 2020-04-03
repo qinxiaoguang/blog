@@ -42,7 +42,6 @@ pub async fn update_article(req: HttpRequest, article: web::Json<Article>) -> Co
 
 // publish
 pub async fn publish_article(req: HttpRequest, article: web::Json<Article>) -> CommonResp {
-    println!("haha");
     let id = req.match_info().get("id").unwrap_or("");
     if id.is_empty() {
         return Resp::err_msg("id is empty").to_json();

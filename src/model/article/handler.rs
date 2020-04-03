@@ -55,7 +55,7 @@ pub fn get_edit_article(id: &str) -> Result<Article> {
     get_dbarticle(id).map(|db_article| db_article.into_edit().expect("cant find this edit article"))
 }
 
-// 列出所有发布的文章
+// 列出所有发布的文e
 pub fn list_publish_articles() -> Result<Vec<Article>> {
     let find_options = FindOptions::builder().build();
     let filter = Some(doc! {"status":DbArticle::PUBLISHED});

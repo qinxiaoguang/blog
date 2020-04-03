@@ -2,6 +2,7 @@ baseUrl = "http://localhost:80";
 pageUrl = "http://localhost:8080";
 homeUrl = pageUrl + "/index.html";
 owner = "qinxiaoguang";
+bPlayerUrl = "http://player.bilibili.com/player.html?"
 
 $(function () {
     $("#button_blog").click(function () {
@@ -10,7 +11,20 @@ $(function () {
 
     $("#button_home").click(function () {
         location.href = pageUrl + "/index.html"
-    })
+    });
+
+    $("#button_life").click(function () {
+        location.href = pageUrl + "/life/list.html"
+    });
+
+    $("#button_about").click(function () {
+        location.href = pageUrl + "/about.html"
+    });
+
+    $("#button_tool").click(function () {
+        location.href = pageUrl + "/tool/index.html"
+    });
+
     if (is_owner()) {
         // 在左下角添加 直连edit_list的页面
         var edit_list_url = pageUrl + "/article/edit_list.html";
@@ -82,4 +96,49 @@ function resize2two(num) {
 
 function remove_article(axios, artilce_id, success, error) {
     axios.delete(baseUrl + "/admin/article/" + artilce_id).then(success).catch(error);
+}
+
+function remove_media(axios, media_id, success, error) {
+    axios.delete(baseUrl + "/admin/media/" + media_id).then(success).catch(error);
+}
+
+function upload_media(axios, data, success, error) {
+    axios.post(
+        baseUrl + "/admin/media", data
+    ).then(success).catch(error)
+}
+
+function get_img_url(path) {
+    return pageUrl + path;
+}
+
+function get_video_url(path) {
+    return bPlayerUrl + path;
+}
+
+
+function base_upload_pic(axios, file, success, error) {
+    if (
+        file.name.indexOf("jpg") === -1 &&
+        file.name.indexOf("jpeg") === -1 &&
+        file.name.indexOf("png") === -1
+    ) {
+        alert("只能上传jpg, jpeg,png等格式内容");
+    }
+    var file_size = file.size / 1024; // kb
+    if (file_size >= 10 * 1024) {
+        alert("上传文件过大");
+    }
+    var formData = new FormData();
+    formData.append("file", file);
+    let config = {
+        headers: {
+            "Content-Type": "multipart/form-data"
+        }
+    };
+    axios
+        .post(baseUrl + "/admin/upload/pic", formData, config)
+        .then(success)
+        .catch(error);
+    // 上传
 }

@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>文章列表</title>
+    <title>上传</title>
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link
@@ -23,7 +23,7 @@
     />
     <link href="../static/css/marked.css" rel="stylesheet" />
     <link rel="stylesheet" href="../static/css/base.css" />
-     <link
+    <link
       href="https://cdn.bootcss.com/font-awesome/5.12.1/css/all.min.css"
       rel="stylesheet"
     />
@@ -72,9 +72,8 @@
           </div>
         </div>
       </div>
-      <div id="article_all" style="margin:80px 80px;">
-
-                <!-- Modal -->
+      <div id="upload_panel" style="margin:80px 80px;">
+        <!-- Modal -->
         <div
           class="modal fade"
           id="modal_alert"
@@ -109,8 +108,6 @@
                 <button
                   type="button"
                   class="btn btn-primary"
-                  id="article_remove_confirm_btn"
-                  @click="article_remove"
                 >
                   是
                 </button>
@@ -118,33 +115,46 @@
             </div>
           </div>
         </div>
-
-
-
-        <div>
-
-      <a id="add_new" @click="create_new"><i class="fa fa-plus" aria-hidden="true"></i> </a>
-      <hr>
-        <div v-for="(value, key) in articles">
-          <h3 style="margin-left:12px;">{{key}}</h3>
-          <hr>
-          <ul v-for="val in value">
-            <li>
-              [{{val.update_time}}]<a class="article_a" :href="val.url">{{val.title}}</a>
-              <a class="edit_list_item_btn" :href="val.edit_url"><i class="fa fa-paint-brush" aria-hidden="true"></i></a>
-              <a class="edit_list_item_btn" style="color:#d63447;" :value="val._id" @click="show_remove_modal"><i class="fa fa-times" :value="val._id" aria-hidden="true"></i></a>
-            </li>
-          </ul>
-          <hr>
+        <div class="form-group">
+        <label for="name">媒资类型</label>
+        <select id="type"  class="custom-select" @change="typeChange($event)">
+         <option selected value ="1">图片</option>
+         <option value ="2">视频</option>
+        </select>
         </div>
-      </div>
-      </div>
+        <div class="form-group">
+          <label for="name">名称</label>
+          <input type="text" class="form-control" id="name" placeholder="媒资名">
+        </div>
+        <div class="form-group">
+          <label for="des">描述</label>
+          <input type="text" class="form-control" id="des" placeholder="描述">
+        </div>
+        <div class="form-group" v-show="url_show">
+          <label for="des">url</label>
+          <input type="text" class="form-control" id="url" placeholder="url">
+        </div>
+        
+        <input
+          type="file"
+          value=""
+          id="upload"
+          accept="image/*"
+          style="display: none;"
+          @change="click_upload"
+        />
+        <div>
+        <div class="upload_button mark_btn" style="display:inline-block;width:10px;cursor: pointer;"@click="upload_click" v-show="upload_btn_show">
+          <i class="fa fa-upload" aria-hidden="true" style="margin:10px;"></i>
+        </div>
+          <button id="submit" @click="submit" class="btn btn-primary" style="float:right">上传</button>
+          </div>
 
+          <img id="uploaded_img" v-show="img_show" />
 
-      <div id="bottom_">
-           <div id="triangle_bottom"></div>
-      </div>
- 
+    <div id="bottom_">
+      <div id="triangle_bottom"></div>
+    </div>
 
     <!--[if lt IE 7]>
       <p class="browsehappy">
@@ -180,92 +190,97 @@
 
     <script>
       $(function() {
-        marked.setOptions({
-          renderer: new marked.Renderer(),
-          highlight: function(code) {
-            return hljs.highlightAuto(code).value;
-          },
-          pedantic: false,
-          gfm: true,
-          tables: true,
-          breaks: false,
-          sanitize: false,
-          smartLists: true,
-          smartypants: false,
-          xhtml: false
-        });
-
         axios.defaults.withCredentials = true;
-        getUrlParam = function(name) {
-          var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
-          var r = window.location.search.substr(1).match(reg);
-          if (r != null) return unescape(r[2]);
-          return null;
-        };
         var panel_with_back = new Vue({
-          el: "#article_all",
+          el: "#upload_panel",
           data() {
             return {
-              articles: null
+              upload_btn_show:true,
+              url_show:false,
+              img_show:false,
             };
           },
           mounted() {
-            axios.get(baseUrl+"/admin/article/edit/list").then(response => {
-              this.articles = response.data.data;
-              for (key in this.articles) {
-                var article = this.articles[key];
-                for (a of article) {
-                  a.update_time = format_date(a.update_time);
-                    a.url = "./detail.html?id=" + a._id;
-                    a.edit_url = "./edit.html?id=" + a._id;
-                    if (a.title == "") {
-                      a.title = "#";
-                    }
-                }
-              }
+            this.$nextTick(() => {
+                  var screenHeight = document.documentElement.clientHeight;
+                  var bodyHeight = document.body.clientHeight;
+                  if (bodyHeight < screenHeight) {
+                    $("#bottom_").css("position", "fixed");
+                    $("#bottom_").css("bottom", "0px");
+                  }
             });
           },
-          methods:{
-            article_remove:function(e){
-                var id = e.target.attributes.value.value;
-                remove_article(axios,id,response=>{
-                  if (response.data.code == 0){
-                    var sec = 2;
-                    alert("删除成功,2s后将刷新页面");
-                    setInterval(function(){
-                      sec = sec - 1;
-                      var msg = "删除成功,"+sec+"s刷新页面"
-                      alert_refresh(msg);
-                      if (sec == 0 ){
-                        location.reload();
-                      }
-                    },1000);
-                  }
-                  console.log("response:%o",response);
-                },error=>{
-                  alert(error);
-                });
+          methods: {
+            click_upload: function(e) {
+              this.upload_pic(e.target.files[0]);
             },
-            show_remove_modal:function(e){
-                var id = e.target.attributes.value.value;
-                $("#article_remove_confirm_btn").val(id);
-                $("#modal_alert").modal('show');
+            upload_click: function(e) {
+              $("#upload").click();
             },
-            create_new: function() {
-              axios
-                .post(baseUrl+"/admin/article", {
-                  title: "",
-                  content: ""
-                })
-                .then(response => {
+            upload_pic: function(file) {
+              base_upload_pic(
+                axios,
+                file,
+                response => {
                   if (response.data.code == 0) {
-                    location.href = "./edit.html?id=" + response.data.data;
-                  } else {
-                    alert(response.data.data);
+                    // 将图片的id显示
+                    var path= "/static/img/upload/" + response.data.data;
+                    $("#url").val(path);
+                    $("#uploaded_img").attr("src", pageUrl+path);
+                    this.img_show = true;
                   }
-                });
+                },
+                error => alert(error)
+              );
+            },
+            typeChange: function(e){
+              var type = e.target.value;
+              if (type == 1){
+                // 图片 显示upload图标，隐藏url
+                this.upload_btn_show = true;
+                this.url_show = false;
+                this.img_show = true;
+              } else  if (type == 2){
+                // 视频 隐藏upload图标，显示url
+                this.upload_btn_show = false;
+                this.url_show = true;
+                this.img_show = false;
+              }
+            },
+            submit:function(){
+              var name = $("#name").val();
+              var des = $("#des").val();
+              var type = $("#type").val();
+              var url = $("#url").val();
+
+              if(url == null || url == ""){
+                if(type=="1"){
+                  alert("请上传图片");
+                }else{
+                  alert("请输入视频地址");
+                }
+                return;
+              } 
+              // 开始上传
+              upload_media(axios,{
+                "name":name,
+                "des":des,
+                "media_type":parseInt(type),
+                "url":url,
+              },response=>{
+                if(response.data.code == 0 ){
+                  alert("上传成功");
+                }else{
+                  alert(response.data);
+                }
+              },error=>{
+                alert(error);
+              })
+            },
+            show_remove_modal: function(e) {
+              $("#modal_alert").modal("show");
             }
-          },
+          }
         });
       });
     </script>

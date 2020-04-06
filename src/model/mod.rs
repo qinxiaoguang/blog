@@ -1,9 +1,11 @@
 pub mod article;
 pub mod media;
+pub mod quote;
 use crate::common::IntoDocument;
 use crate::common::*;
 use bson::{doc, oid::ObjectId, Document};
-use mongodb::options::FindOptions;
+use mongodb::options::{CountOptions, FindOneOptions, FindOptions};
+use rand::prelude::*;
 
 // 保存文章，返回文章id
 
@@ -69,4 +71,40 @@ pub fn remove(table_name: &str, id: &str) -> Result<i64> {
     Ok(table(table_name)
         .delete_one(filter, None)
         .map(|x| x.deleted_count)?)
+}
+
+// 获取总记录条数
+pub fn count(table_name: &str) -> Result<i64> {
+    let filter = doc! {};
+    let options = CountOptions::default();
+    table(table_name)
+        .count_documents(filter, options)
+        .map_err(|e| e.into())
+}
+
+pub fn random<'a, T>(table_name: &str) -> Result<T>
+where
+    T: IntoDocument<'a> + ?Sized,
+{
+    let count = count(table_name)?;
+    let mut rng = rand::thread_rng();
+    let rand_num = rng.gen_range(0, count);
+    let find_options = FindOneOptions::builder().skip(rand_num).build();
+    let filter = Some(doc! {});
+    let cursor = table(table_name).find_one(filter, Some(find_options));
+    cursor
+        .map(|item| {
+            let doc = item.unwrap();
+            let bson = bson::Bson::Document(doc);
+            bson::from_bson(bson).unwrap()
+        })
+        .map_err(|e| e.into())
+}
+
+mod test {
+    use super::*;
+    #[test]
+    fn test_count() {
+        println!("{:?}", count("article"));
+    }
 }

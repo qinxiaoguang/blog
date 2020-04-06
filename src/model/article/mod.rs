@@ -1,5 +1,5 @@
 mod handler;
-use super::{get, list, remove, save, update};
+use super::{get, list, random, remove, save, update};
 use crate::common::IntoDocument;
 use bson::oid::ObjectId;
 use chrono::prelude::*;
@@ -89,6 +89,8 @@ impl OldArticle {
     #![allow(dead_code)]
     const CACHE_OLD_ARTICLE_MAX_LEN: usize = 5;
 }
+
+impl IntoDocument<'_> for Article {}
 
 impl IntoDocument<'_> for OldArticle {}
 

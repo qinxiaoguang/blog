@@ -1,4 +1,4 @@
-use crate::controller::{article, media, oauth, ping, stat, tool, upload};
+use crate::controller::{article, media, oauth, ping, quote, stat, tool, upload};
 
 use actix_web::web;
 // 配置
@@ -14,6 +14,7 @@ pub fn route(sc: &mut web::ServiceConfig) {
         .service(tool::save_content)
         .service(tool::get_content)
         .service(ping::ping)
+        .service(quote::random_quote)
         .service(web::scope("/admin/upload").route("/pic", web::post().to(upload::upload_pic)))
         .service(
             web::scope("/admin/article") // 使用scope来将某一类route聚合,说白了就是前缀

@@ -172,6 +172,7 @@ pub fn publish_article(id: &str, article: Article) -> Result<i64> {
 }
 
 mod test {
+
     #[test]
     fn test_save_article() {
         let article = super::Article {

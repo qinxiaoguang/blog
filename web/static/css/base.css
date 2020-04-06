@@ -108,7 +108,8 @@
 }
 
 #main #sentence_panel #sentence {
-  font-family: "FangSong", "STSong", "STXihei", "华文细黑", serif;
+  font-family: "SimHei", "Microsoft YaHei", "微软雅黑", "华文细黑",
+    "Hiragino Sans GB"serif;
   font-size: 20px;
   color: #00000099;
 }
@@ -254,10 +255,10 @@
 }
 
 #work_panel .work_triangle .left_triangle {
-  height: 120px;
+  height: 160px;
   width: 1280px;
   border-left: 0px solid transparent;
-  border-top: 120px solid #f9ed69;
+  border-top: 160px solid #f9ed69;
   border-right: 1280px solid transparent;
   position: absolute;
   top: 0;

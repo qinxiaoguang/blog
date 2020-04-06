@@ -1,4 +1,5 @@
 use crate::common::{CommonResp, Resp};
+use crate::util::file;
 use actix_web::{get, post, web, HttpRequest};
 use serde::{Deserialize, Serialize, Serializer};
 use std::fs::File;
@@ -13,20 +14,9 @@ pub async fn get_content(path: web::Path<(String,)>) -> CommonResp {
     if id.is_empty() {
         return Resp::err_msg("id cant be empty;").to_json();
     }
-    let file_path = format!("{}/{}", TMP_PATH, id);
+    let file_path = format!("{}{}", TMP_PATH, id);
 
-    let mut file = match File::open(&file_path) {
-        Err(_) =>
-        // 打开失败，则创建
-        {
-            File::create(&file_path)?
-        }
-        Ok(f) => f,
-    };
-
-    let mut content = String::new();
-    file.read_to_string(&mut content)?;
-    Resp::ok(content).to_json()
+    Resp::ok(file::get_content_or_create(file_path)).to_json()
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
@@ -42,16 +32,11 @@ pub async fn save_content(content: web::Json<TmpContent>) -> CommonResp {
         return Resp::err_msg("id cant be empty;").to_json();
     }
     let inner_content = content.content.clone();
-    let file_path = format!("{}/{}", TMP_PATH, id);
-    let mut file = match File::open(&file_path) {
-        Err(_) =>
-        // 打开失败，则创建
-        {
-            File::create(&file_path)?
-        }
-        Ok(f) => f,
-    };
-    file.write_all(inner_content.as_bytes())?;
-
-    Resp::ok_msg("write success").to_json()
+    let file_path = format!("{}{}", TMP_PATH, id);
+    println!(
+        "id is :{:?},content is:{:?},path is :{:?}",
+        id, inner_content, file_path
+    );
+    Resp::ok_msg(&file::save_to_file(file_path, inner_content)?).to_json()
+    //Resp::ok_msg("write success").to_json()
 }

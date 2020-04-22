@@ -1,6 +1,7 @@
 use super::{Article, DbArticle, Summary};
 use crate::common::*;
 use bson::{doc, oid::ObjectId, Document};
+use log::info;
 use mongodb::options::FindOptions;
 use std::collections::BTreeMap;
 
@@ -29,7 +30,7 @@ pub fn list_articles(
 // 更新id对应的文章
 // return : 返回更改的个数
 pub fn update_article(id: &str, article: Article) -> Result<i64> {
-    println!("article is :{:?}", article);
+    info!("update article is :{:?}", article);
     let mut article = article;
     article.time_update();
     let db_article = DbArticle::new(article);
@@ -55,7 +56,8 @@ pub fn get_edit_article(id: &str) -> Result<Article> {
     get_dbarticle(id).map(|db_article| db_article.into_edit().expect("cant find this edit article"))
 }
 
-// 列出所有发布的文e
+// 列出所有发布的文
+#[allow(dead_code)]
 pub fn list_publish_articles() -> Result<Vec<Article>> {
     let find_options = FindOptions::builder().build();
     let filter = Some(doc! {"status":DbArticle::PUBLISHED});
@@ -69,6 +71,7 @@ pub fn list_publish_articles() -> Result<Vec<Article>> {
 }
 
 // 列出所有可编辑的文章，一般来说就是列出所有文章
+#[allow(dead_code)]
 pub fn list_edit_articles() -> Result<Vec<Article>> {
     let find_options = FindOptions::builder().build();
     list_articles(Some(doc! {}), find_options).map(|v| {
@@ -155,7 +158,7 @@ fn summary(articles: Vec<Article>) -> Summary {
 
 // 将数据发布
 pub fn publish_article(id: &str, article: Article) -> Result<i64> {
-    println!("article is :{:?}", article);
+    info!("publish article is :{:?}", article);
     let mut article = article;
     article.time_update();
     let mut db_article = DbArticle::new(article.clone());

@@ -9,8 +9,8 @@ port=6379
 
 [server]
 port=8080
-page_url="http://localhost"
-server_url="http://localhost:8080"
+page_url="http://qxgzone.com"
+server_url="http://qxgzone.com:8080"
 
 [mongo]
 ip="127.0.0.1"
@@ -19,4 +19,4 @@ db_name="blog"
 
 [github]
 client_id="eccd2bd134009643887a"
-client_secret="160713e18d4d2c19d752513c5db48c0df609611b"
+client_secret="f6e54592ac4561f73477544786a9846e9108ae44"

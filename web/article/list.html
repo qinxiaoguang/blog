@@ -154,7 +154,7 @@
             };
           },
           mounted() {
-            axios.get("http://localhost:80/article/all").then(response => {
+            axios.get(baseUrl+"/article/all").then(response => {
               this.articles = response.data.data;
               for (key in this.articles) {
                 var article = this.articles[key];

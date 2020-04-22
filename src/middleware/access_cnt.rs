@@ -33,6 +33,7 @@ where
 }
 
 impl AccessCnt {
+    #[allow(dead_code)]
     pub fn new(redis: Client) -> AccessCnt {
         AccessCnt { redis }
     }

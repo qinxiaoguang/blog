@@ -30,20 +30,30 @@
   </head>
   <body>
     <div id="main">
-      <div id="header_panel" style="position:relative;z-index:5;">
+      <div id="header_panel" style="position: relative; z-index: 5;">
         <!--后续进行优化-->
-        <div id="header" style="position:relative;">
+        <div id="header" style="position: relative;">
           <div id="triangle"></div>
           <button
             class="header_button"
             id="button_home"
-            style="position:absolute; bottom:0;left:16px;border-bottom:2px solid  black;"
+            style="
+              position: absolute;
+              bottom: 0;
+              left: 16px;
+              border-bottom: 2px solid black;
+            "
           >
             HOME
           </button>
           <div
             id="button_group"
-            style="position:absolute;right:16px;bottom:0px;padding-left:0px;"
+            style="
+              position: absolute;
+              right: 16px;
+              bottom: 0px;
+              padding-left: 0px;
+            "
           >
             <button class="header_button header_button_active" id="button_blog">
               BLOG
@@ -51,29 +61,29 @@
             <button
               class="header_button"
               id="button_life"
-              style="margin-left:36px;"
+              style="margin-left: 36px;"
             >
               LIFE
             </button>
             <button
               class="header_button"
               id="button_tool"
-              style="margin-left:36px;"
+              style="margin-left: 36px;"
             >
               TOOL
             </button>
             <button
               class="header_button"
               id="button_about"
-              style="margin-left:36px;"
+              style="margin-left: 36px;"
             >
               ABOUT
             </button>
           </div>
         </div>
       </div>
-      <div id="article_detail" style="margin:80px 80px;">
-        <h1 style="text-align: center;font-size: 26px;font-weight: 400;">
+      <div id="article_detail" style="margin: 80px 80px;">
+        <h1 style="text-align: center; font-size: 26px; font-weight: 400;">
           {{article.title}}
         </h1>
         <div id="detail_time">
@@ -125,10 +135,10 @@
     <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
 
     <script>
-      $(function() {
+      $(function () {
         marked.setOptions({
           renderer: new marked.Renderer(),
-          highlight: function(code) {
+          highlight: function (code) {
             return hljs.highlightAuto(code).value;
           },
           pedantic: false,
@@ -138,11 +148,11 @@
           sanitize: false,
           smartLists: true,
           smartypants: false,
-          xhtml: false
+          xhtml: false,
         });
 
         axios.defaults.withCredentials = true;
-        getUrlParam = function(name) {
+        getUrlParam = function (name) {
           var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
           var r = window.location.search.substr(1).match(reg);
           if (r != null) return unescape(r[2]);
@@ -152,36 +162,32 @@
           el: "#article_detail",
           data() {
             return {
-              article: null
+              article: null,
             };
           },
           mounted() {
             var id = getUrlParam("id");
-            axios
-              .get("http://localhost:80/article/get/" + id)
-              .then(response => {
-                this.article = response.data.data;
-                this.article.content = marked(this.article.content);
-                this.article.edit_url = "./edit.html?id=" + this.article._id;
-                this.article.update_time = format_date(
-                  this.article.update_time
-                );
-                console.log(this.article);
-                if (is_owner()) {
-                  this.article.display = "show";
-                } else {
-                  this.article.display = "none";
+            axios.get(baseUrl + "/article/get/" + id).then((response) => {
+              this.article = response.data.data;
+              this.article.content = marked(this.article.content);
+              this.article.edit_url = "./edit.html?id=" + this.article._id;
+              this.article.update_time = format_date(this.article.update_time);
+              console.log(this.article);
+              if (is_owner()) {
+                this.article.display = "show";
+              } else {
+                this.article.display = "none";
+              }
+              this.$nextTick(() => {
+                var screenHeight = document.documentElement.clientHeight;
+                var bodyHeight = document.body.clientHeight;
+                if (bodyHeight < screenHeight) {
+                  $("#bottom_").css("position", "fixed");
+                  $("#bottom_").css("bottom", "0px");
                 }
-                this.$nextTick(() => {
-                  var screenHeight = document.documentElement.clientHeight;
-                  var bodyHeight = document.body.clientHeight;
-                  if (bodyHeight < screenHeight) {
-                    $("#bottom_").css("position", "fixed");
-                    $("#bottom_").css("bottom", "0px");
-                  }
-                });
               });
-          }
+            });
+          },
         });
       });
     </script>

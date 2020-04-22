@@ -1,3 +1,4 @@
+use log::info;
 use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -33,6 +34,8 @@ pub struct MongoConf {
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct ServerConf {
     pub port: Option<u16>,
+    pub page_url: Option<String>,   // 页面的url
+    pub server_url: Option<String>, // 服务的url
 }
 
 impl AppConf {
@@ -49,7 +52,7 @@ impl AppConf {
             Err(e) => panic!("Error Reading file: {}", e),
         };
         let app: AppConf = toml::from_str(&str_val).unwrap();
-        println!("{:?}", app);
+        info!("appconf is :{:?}", app);
         app
     }
 }

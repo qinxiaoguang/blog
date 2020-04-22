@@ -32,7 +32,6 @@ pub async fn get_edit_article(path: web::Path<(String,)>) -> CommonResp {
 
 // 更新相应的文章
 pub async fn update_article(req: HttpRequest, article: web::Json<Article>) -> CommonResp {
-    println!("haha");
     let id = req.match_info().get("id").unwrap_or("");
     if id.is_empty() {
         return Resp::err_msg("id is empty").to_json();

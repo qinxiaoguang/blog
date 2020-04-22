@@ -1,9 +1,8 @@
 use crate::common::{CommonResp, Resp};
 use crate::util::file;
-use actix_web::{get, post, web, HttpRequest};
-use serde::{Deserialize, Serialize, Serializer};
-use std::fs::File;
-use std::io::prelude::*;
+use actix_web::{get, post, web};
+use log::info;
+use serde::{Deserialize, Serialize};
 
 const TMP_PATH: &str = "tmpfile/";
 
@@ -33,7 +32,7 @@ pub async fn save_content(content: web::Json<TmpContent>) -> CommonResp {
     }
     let inner_content = content.content.clone();
     let file_path = format!("{}{}", TMP_PATH, id);
-    println!(
+    info!(
         "id is :{:?},content is:{:?},path is :{:?}",
         id, inner_content, file_path
     );

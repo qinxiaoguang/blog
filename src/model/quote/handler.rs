@@ -2,9 +2,8 @@ use super::Quote;
 use crate::common::*;
 use bson::{doc, Document};
 use mongodb::options::FindOptions;
-use rand::prelude::*;
 
-pub fn save_quote(mut quote: Quote) -> Result<String> {
+pub fn save_quote(quote: Quote) -> Result<String> {
     super::save(Quote::TABLE_NAME, quote)
 }
 

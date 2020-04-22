@@ -9,6 +9,7 @@ pub fn save_media(mut media: Media) -> Result<String> {
 }
 
 // base 获取某个db_article
+#[allow(dead_code)]
 pub fn get_media(id: &str) -> Result<Media> {
     super::get(Media::TABLE_NAME, id)
 }
@@ -28,6 +29,7 @@ pub fn list_all_media() -> Result<Vec<Media>> {
     list_medias(filter, find_options)
 }
 
+#[allow(dead_code)]
 pub fn list_recent_video(num: i64) -> Result<Vec<Media>> {
     list_recent(num, Media::VIDEO_TYPE)
 }

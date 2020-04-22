@@ -2,6 +2,7 @@
   margin: 0 auto;
   width: 1280px;
   height: 100%;
+  z-index: 10;
 }
 
 #main #header {
@@ -31,6 +32,8 @@
   background-repeat: no-repeat;
   background-size: cover;
   /*等比例拉伸，不会影响图片效果*/
+  position: relative;
+  z-index: 10;
 }
 
 
@@ -105,6 +108,8 @@
   width: 1280px;
   height: 240px;
   background-color: #f9ed69;
+  z-index: 10;
+  position: relative;
 }
 
 #main #sentence_panel #sentence {
@@ -130,6 +135,8 @@
 
 #album_panel {
   height: 480px;
+  position: relative;
+  z-index: 10;
 }
 
 #album_panel #top_back {
@@ -232,6 +239,7 @@
   background-size: cover;
   /*等比例拉伸，不会影响图片效果*/
   background-attachment: fixed;
+  z-index: 10;
 }
 
 #work_panel .work_triangle {
@@ -371,6 +379,8 @@
   width: 100%;
   height: 360px;
   background: white;
+  position: relative;
+  z-index: 10;
 }
 
 #recent_article_panel #panel_with_back {
@@ -400,15 +410,16 @@
 #bottom_panel {
   position: fixed;
   bottom: 0;
-  z-index: -1;
+  z-index: 0;
   width: 1280px;
   height: 360px;
   background: #21333d;
 }
 
 #bottom_panel #access_content {
-  color: #cccccc;
-  font-size: 18px;
+  color: #ddd;
+  font-size: 12px;
+  font-family: arial;
   position: absolute;
   bottom: 12px;
   left: 36px;
@@ -423,10 +434,12 @@
 }
 
 #rights {
+  font-size: 14px;
   margin-left: 24px;
 }
 
 #bottom_panel #relate_link_panel {
+  font-family: arial;
   position: absolute;
   right: 60px;
   bottom: 0px;
@@ -435,12 +448,25 @@
 .relate_li {
   list-style-type: none;
   color: #cccccc;
-  font-size: 18px;
+  font-size: 14px;
   text-align: right;
 }
 
+.relate_li .relate_li_a {
+  text-decoration: none;
+  border: none;
+  color: #ccc;
+  cursor: pointer;
+}
+
+.relate_li :hover {
+  border-bottom: 1px solid #ccc;
+}
+
+
 .relate_title {
-  font-size: 20px;
+  font-family: arial;
+  font-size: 18px;
   color: white;
   padding-bottom: 4px;
   margin-bottom: 4px;

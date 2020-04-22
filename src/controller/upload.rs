@@ -2,6 +2,7 @@ use crate::common::{BizError, CommonResp, Resp};
 use actix_multipart::Multipart;
 use async_std::prelude::*;
 use futures::{StreamExt, TryStreamExt};
+use log::info;
 
 const PIC_SAVE_PATH: &str = "web/static/img/upload/";
 
@@ -20,7 +21,7 @@ pub async fn upload_pic(mut payload: Multipart) -> CommonResp {
             return Resp::err(crate::common::UPLOAD_ERROR, "upload failed").to_json();
         }
         let filepath = format!("{}{}", PIC_SAVE_PATH, gen_filename);
-        println!("file path is:{}", filepath);
+        info!("upload file path is:{}", filepath);
         let mut f = async_std::fs::File::create(filepath).await?;
 
         // Field in turn is stream of *Bytes* object

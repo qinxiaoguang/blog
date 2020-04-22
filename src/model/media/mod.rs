@@ -1,5 +1,5 @@
 mod handler;
-use super::{get, list, remove, save, update};
+use super::{get, list, remove, save};
 use crate::common::IntoDocument;
 use bson::oid::ObjectId;
 use chrono::prelude::*;
@@ -20,9 +20,11 @@ pub struct Media {
 impl Media {
     const NOT_NULL: i32 = 0; // 占位，查找时不分类查找，使用该code
     const IMAGE_TYPE: i32 = 1;
+    #[allow(dead_code)]
     const VIDEO_TYPE: i32 = 2;
     pub const TABLE_NAME: &'static str = "media";
 
+    #[allow(dead_code)]
     pub fn new() -> Self {
         Media {
             _id: None,

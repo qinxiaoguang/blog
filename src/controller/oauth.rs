@@ -1,5 +1,4 @@
-use crate::common::*;
-use crate::GlobalData;
+use crate::{common::*, GlobalData, GLOBAL_CONF};
 use actix_http::http::{header, StatusCode};
 use actix_web::{get, web, HttpRequest, HttpResponse, Responder};
 use log::*;
@@ -22,7 +21,7 @@ pub async fn oauth_callback(
         // 注意这个地方的重定向的返回值不能是impl Responder
         // expected type `impl actix_web::responder::Responder`
         //  found type `actix_http::response::Response`
-        return redirect("127.0.0.1:80");
+        return redirect(&GLOBAL_CONF.server.page_url.clone().unwrap());
     }
     match github_helper::get_name_with_code(&code) {
         Some(username) => {
@@ -36,13 +35,16 @@ pub async fn oauth_callback(
                     header::SET_COOKIE,
                     format!("sessionid={};expires={};path=/", sid, 7),
                 )
-                .header(header::LOCATION, format!("http://localhost:8080"))
+                .header(
+                    header::LOCATION,
+                    format!("{}", GLOBAL_CONF.server.page_url.clone().unwrap()),
+                )
                 .finish()
         }
         None => {
             // 未登录，返回失败
             // 重定向404
-            redirect("127.0.0.1:80/404")
+            redirect(&(GLOBAL_CONF.server.page_url.clone().unwrap() + "/404"))
         }
     }
     // 将当前名字放入redis中，并生成对应的session-id，及cookie,设置过期时间，

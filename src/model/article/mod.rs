@@ -1,5 +1,5 @@
 mod handler;
-use super::{get, list, random, remove, save, update};
+use super::{get, list, remove, save, update};
 use crate::common::IntoDocument;
 use bson::oid::ObjectId;
 use chrono::prelude::*;

@@ -14,6 +14,7 @@ pub fn route(sc: &mut web::ServiceConfig) {
         .service(tool::save_content)
         .service(tool::get_content)
         .service(ping::ping)
+        .service(ping::knock)
         .service(quote::random_quote)
         .service(web::scope("/admin/upload").route("/pic", web::post().to(upload::upload_pic)))
         .service(

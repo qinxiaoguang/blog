@@ -1,9 +1,10 @@
-use crate::common::user_helper;
 use crate::util::can_match;
+use crate::{common::user_helper, GLOBAL_CONF};
 use actix_http::httpmessage::HttpMessage;
 use actix_service::{Service, Transform};
 use actix_web::{dev::ServiceRequest, dev::ServiceResponse, http::header, Error, HttpResponse};
 use futures::future::{ok, Either, Ready};
+use log::info;
 use std::task::{Context, Poll};
 
 // 验证登录组件
@@ -74,10 +75,9 @@ where
             Some(cookie) => cookie.value().to_owned(), // 注意此处cookie内部的值是一个引用，返回的值还属于cookie,如果不使用to_owned，则会报live no long错误
             None => "".to_owned(),
         };
-        println!("cookie is :{:?}", sid);
-        println!("login service: your path is:{}", req_path);
+        info!("cookie is :{:?}", sid);
         for pattern in self.hit.iter() {
-            println!(
+            info!(
                 "pattern is :{}, can_match:{},sid:{}, is_login:{}",
                 pattern,
                 can_match(pattern, req_path),
@@ -89,7 +89,10 @@ where
                 // 需要登录
                 return Either::Right(ok(req.into_response(
                     HttpResponse::Found()
-                        .header(header::LOCATION, "http://localhost:8080/login.html")
+                        .header(
+                            header::LOCATION,
+                            GLOBAL_CONF.server.page_url.clone().unwrap() + "/login.html",
+                        )
                         .finish()
                         .into_body(),
                 )));
@@ -103,7 +106,7 @@ where
                 ));
             }
         }
-        println!("not occured");
+        info!("no need to login");
         // 不需要登录
         Either::Left(self.service.call(req))
     }

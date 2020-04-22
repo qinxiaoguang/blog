@@ -2,8 +2,9 @@
 cwd=$(cd `dirname $0`;pwd);
 while true;do
     tomorrow=`date -d "+1day" +%Y-%m-%d`
+    zerotime=`date -d "$tomorrow 00:00:00" +%s`
     now=`date +%s`
-    interval=$(( tomorrow-now ))
+    interval=$(( zerotime-now ))
     sleep $interval
-    cd $cwd && nohup sh -x ./backup.sh &
+    #cd $cwd && nohup sh -x ./backup.sh &
 done

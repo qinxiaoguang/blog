@@ -2,14 +2,15 @@
 # env can be: dev/test
 
 cwd=$(cd `dirname $0`;pwd)
-jsdir=$cwd/web/static/js
+webdir=$cwd/web
+jsdir=$webdir/static/js
 projname="blog"
 debugfile=$cwd/target/debug/$projname
 releasefile=$cwd/target/release/$projname
 output=$cwd/output
 
 rm -rf $output
-mkdir -p $output
+mkdir -p $output/tmpfile # tmpfile用于生成临时文件
 
 function dev(){
     echo "dev"
@@ -25,6 +26,8 @@ function dev(){
 
     # 修改js文件
     cp $jsdir/base_dev.js $jsdir/base.js
+    # 修改登录文件
+    cp $webdir/login_dev.html $webdir/login.html
 
     # run 
     cd $output && ./$projname
@@ -40,12 +43,13 @@ function online(){
     fi
 
     cp $releasefile $output
-    cp -r $cwd/conf_online $output/
+    cp -r $cwd/conf_online $output/conf
 
     cp $jsdir/base_online.js $jsdir/base.js
+    cp $webdir/login_online.html $webdir/login.html
 
     # 执行 备份
-    cd $cwd && nohup sh ./crontab.sh >> /dev/null &
+    cd $cwd/script && nohup sh ./crontab.sh >> /dev/null &
 
     # run 
     cd $output && ./$projname

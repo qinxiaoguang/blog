@@ -6,5 +6,5 @@ while true;do
     now=`date +%s`
     interval=$(( zerotime-now ))
     sleep $interval
-    #cd $cwd && nohup sh -x ./backup.sh &
+    cd $cwd && sh -x ./backup.sh 
 done

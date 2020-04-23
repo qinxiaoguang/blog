@@ -49,7 +49,7 @@ function online(){
     cp $webdir/login_online.html $webdir/login.html
 
     # 执行 备份
-    cd $cwd/script && nohup sh ./crontab.sh >> /dev/null &
+    cd $cwd/script && nohup sh -x ./crontab.sh >> $output/crontab.log &
 
     # run 
     cd $output && ./$projname

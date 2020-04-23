@@ -166,8 +166,8 @@
                 var article = this.articles[key];
                 for (a of article) {
                   a.update_time = format_date(a.update_time);
-                  a.url = "./detail.html?id=" + a._id;
-                  a.edit_url = "./edit.html?id=" + a._id;
+                  a.url = "/article/detail.html?id=" + a._id;
+                  a.edit_url = "/article/edit.html?id=" + a._id;
                   if (a.title == "") {
                     a.title = "#";
                   }
@@ -175,26 +175,17 @@
               }
             });
           },
-          methods: {
-            article_remove: function (e) {
-              var id = e.target.attributes.value.value;
-              remove_article(axios, id, response => {
-                if (response.data.code == 0) {
-                  var sec = 2;
-                  alert("删除成功,2s后将刷新页面");
-                  setInterval(function () {
-                    sec = sec - 1;
-                    var msg = "删除成功," + sec + "s刷新页面"
-                    alert_refresh(msg);
-                    if (sec == 0) {
-                      location.reload();
-                    }
-                  }, 1000);
-                }
-                console.log("response:%o", response);
-              }, error => {
-                alert(error);
-              });
+          methods:{
+            article_remove:function(e){
+                var id = e.target.attributes.value.value;
+                remove_article(axios,id,response=>{
+                  if (response.data.code == 0){
+                    location.reload();
+                  }
+                  console.log("response:%o",response);
+                },error=>{
+                  alert(error);
+                });
             },
             show_remove_modal: function (e) {
               var id = e.target.attributes.value.value;

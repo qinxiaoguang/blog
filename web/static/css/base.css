@@ -3,6 +3,7 @@
   width: 1280px;
   height: 100%;
   z-index: 10;
+  display: none;
 }
 
 #main #header {
@@ -113,9 +114,13 @@
 }
 
 #main #sentence_panel #sentence {
-  font-family: "SimHei", "Microsoft YaHei", "微软雅黑", "华文细黑",
-    "Hiragino Sans GB"serif;
-  font-size: 20px;
+  margin: 0.8em 0;
+  font-family: var(--font-sans-serif);
+  -webkit-font-smoothing: antialiased;
+  line-height: 2rem;
+  letter-spacing: 0;
+  margin: 0;
+  font-size: 1.1rem;
   color: #00000099;
 }
 
@@ -649,4 +654,87 @@
 
   display: inline-block;
   cursor: pointer;
+}
+
+#loading {
+  position: fixed;
+  background-color: white;
+  border-radius: 100%;
+  left: 50%;
+  top: 40%;
+  margin-left: -50px;
+  width: 100px;
+  height: 100px;
+  border: 10px #ffffff solid;
+  border-top-color: #ffd31d;
+  border-bottom-color: #ffd31d;
+  animation: loading 1s linear infinite;
+  display: block;
+}
+
+.fadeIn {
+  display: block;
+  animation: fadeIn 0.5s linear;
+  -webkit-animation: fadeIn 0.5s linear;
+}
+
+@keyframes loading {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    /*初始状态 透明度为0*/
+  }
+
+  20% {
+    opacity: .2;
+  }
+
+  50% {
+    opacity: .5;
+    /*中间状态 透明度为0.5*/
+  }
+
+  70% {
+    opacity: .7;
+  }
+
+  100% {
+    opacity: 1;
+    /*结尾状态 透明度为1*/
+  }
+}
+
+/*动画效果*/
+@-webkit-keyframes fadeIn {
+  0% {
+    opacity: 0;
+    /*初始状态 透明度为0*/
+  }
+
+  20% {
+    opacity: .2;
+  }
+
+  50% {
+    opacity: .5;
+    /*中间状态 透明度为0.5*/
+  }
+
+  70% {
+    opacity: .7;
+  }
+
+  100% {
+    opacity: 1;
+    /*结尾状态 透明度为1*/
+  }
 }

@@ -239,4 +239,42 @@ mod test {
     fn test_summary_article() {
         println!("{:?}", super::list_summary_edit_articles());
     }
+
+    // 从文件中导入markdown到系统中
+    #[test]
+    fn test_parse_from_file() {
+        if let Ok(paths) = std::fs::read_dir("/Users/qinxiaoguang01/gitpage/blog/org") {
+            for path in paths {
+                let path_name = path.unwrap().path();
+                if let Ok(sec_paths) = std::fs::read_dir(path_name) {
+                    for sec_path in sec_paths {
+                        let file_path = sec_path.unwrap().path();
+                        let file_name =
+                            String::from(file_path.file_name().unwrap().to_str().unwrap());
+                        let new_path = file_path
+                            .strip_prefix("/Users/qinxiaoguang01/gitpage/blog/org/")
+                            .unwrap();
+                        let new_path_str = new_path.to_str().unwrap();
+                        let all: Vec<&str> = new_path_str.split("/").collect();
+                        let cat = all[0];
+                        if file_name.ends_with("md") {
+                            if let Ok(content) = std::fs::read_to_string(file_path.clone()) {
+                                let title = file_name.trim_end_matches(".md");
+                                //println!("title:{:?},content is:{:?}", title, content);
+                                let article = super::Article {
+                                    _id: None,
+                                    title: Some(title.to_string()),
+                                    content: Some(content),
+                                    catagory: Some(cat.to_string()),
+                                    tag: None,
+                                    update_time: None,
+                                };
+                                println!("{:?}", super::save_article(article));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 }

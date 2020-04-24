@@ -24,6 +24,7 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="../static/css/base.css" />
+    <link href="/static/css/marked.css" rel="stylesheet" />
     <link
       href="https://cdn.bootcss.com/font-awesome/5.12.1/css/all.min.css"
       rel="stylesheet"
@@ -92,18 +93,22 @@
                 data-toggle="tooltip"
                 data-placement="top"
                 title="Tooltip on top"
-                style="margin:10px;"
+                style="margin: 10px;"
               ></i>
             </div>
             <div class="upload_button mark_btn" @click="upload_click">
               <i
                 class="fa fa-upload"
                 aria-hidden="true"
-                style="margin:10px;"
+                style="margin: 10px;"
               ></i>
             </div>
             <div class="home_button mark_btn" @click="home">
-              <i class="fa fa-home" aria-hidden="true" style="margin:10px;"></i>
+              <i
+                class="fa fa-home"
+                aria-hidden="true"
+                style="margin: 10px;"
+              ></i>
             </div>
             <input
               type="file"
@@ -115,7 +120,7 @@
             />
           </div>
           <textarea
-            style="line-height: 1.5;font-size: 1rem;"
+            style="line-height: 1.5; font-size: 1rem;"
             class="mark_textarea"
             id="mark_edit"
             @scroll="handleScroll()"
@@ -168,10 +173,10 @@
     <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
 
     <script>
-      $(function() {
+      $(function () {
         marked.setOptions({
           renderer: new marked.Renderer(),
-          highlight: function(code) {
+          highlight: function (code) {
             return hljs.highlightAuto(code).value;
           },
           pedantic: false,
@@ -181,19 +186,19 @@
           sanitize: false,
           smartLists: true,
           smartypants: false,
-          xhtml: false
+          xhtml: false,
         });
 
         var axios_i = axios.create({
           timeout: 10000,
           withCredentials: true,
           headers: {
-            "Content-Type": "application/json"
-          }
+            "Content-Type": "application/json",
+          },
         });
 
         axios.defaults.withCredentials = true;
-        getUrlParam = function(name) {
+        getUrlParam = function (name) {
           var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
           var r = window.location.search.substr(1).match(reg);
           if (r != null) return unescape(r[2]);
@@ -216,14 +221,14 @@
             .put(baseUrl + "/admin/article/publish/" + id, {
               title: title,
               content: content,
-              catagory: catagory
+              catagory: catagory,
             })
-            .then(response => {
+            .then((response) => {
               if (response.data.code == 0) {
                 alert("发布成功");
               }
             })
-            .catch(error => {
+            .catch((error) => {
               alert(error);
             });
         }
@@ -232,19 +237,21 @@
           el: "#mark_body",
           data() {
             return {
-              article: null
+              article: null,
             };
           },
           mounted() {
             var id = getUrlParam("id");
             axios_i
               .get(baseUrl + "/admin/article/get/" + id)
-              .then(response => {
+              .then((response) => {
                 this.article = response.data.data;
                 this.article.md_preview = marked(this.article.content);
+                loading_finish();
               })
-              .catch(error => {
+              .catch((error) => {
                 alert(error);
+                loading_finish();
               });
           },
           methods: {
@@ -281,21 +288,21 @@
               }
             },
             render: render,
-            upload_click: function(e) {
+            upload_click: function (e) {
               $("#upload").click();
             },
-            back: function(e) {
+            back: function (e) {
               history.go(-1);
             },
-            save_to_home: function(e) {
+            save_to_home: function (e) {
               if (this.save()) {
                 window.location.href = homeUrl;
               }
             },
-            no_save_to_home: function(e) {
+            no_save_to_home: function (e) {
               location.href = homeUrl;
             },
-            paste: function(e) {
+            paste: function (e) {
               let file = null;
               if (
                 e.clipboardData &&
@@ -308,14 +315,14 @@
                 this.upload_pic(file);
               }
             },
-            home: function(e) {
+            home: function (e) {
               $("#modal_alert").modal("show");
             },
-            upload_pic: function(file) {
+            upload_pic: function (file) {
               base_upload_pic(
                 axios,
                 file,
-                response => {
+                (response) => {
                   if (response.data.code == 0) {
                     console.log("上传成功");
                     var filepath = response.data.data;
@@ -344,27 +351,27 @@
                     render();
                   }
                 },
-                error => {
+                (error) => {
                   alert(error);
                 }
               );
               // 上传
             },
-            click_upload: function(e) {
+            click_upload: function (e) {
               this.upload_pic(e.target.files[0]);
             },
-            onDrag: function(e) {
+            onDrag: function (e) {
               e.stopPropagation();
               e.preventDefault();
             },
-            onDrop: function(e) {
+            onDrop: function (e) {
               e.stopPropagation();
               e.preventDefault();
               this.upload_pic(e.dataTransfer.files[0]);
             },
             publish: publish,
-            open_upload: function(e) {},
-            save: function() {
+            open_upload: function (e) {},
+            save: function () {
               var title = $("#mark_input_title").val();
               var content = $("#mark_edit").val();
               var id = $("#article_id").val();
@@ -375,21 +382,21 @@
                 .put(baseUrl + "/admin/article/" + id, {
                   title: title,
                   content: content,
-                  catagory: catagory
+                  catagory: catagory,
                 })
-                .then(response => {
+                .then((response) => {
                   if (response.data.code == 0) {
                     alert("保存成功");
                   }
                   return true;
                 })
-                .catch(error => {
+                .catch((error) => {
                   alert(error);
                   return false;
                 });
               return true;
             },
-            keydown: function(e) {
+            keydown: function (e) {
               if (
                 e.keyCode == 83 &&
                 (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)
@@ -417,8 +424,8 @@
                 // prevent the focus lose
                 e.preventDefault();
               }
-            }
-          }
+            },
+          },
         });
       });
     </script>

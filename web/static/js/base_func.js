@@ -33,10 +33,26 @@ $(function () {
 
     // 获取点击次数
     knock();
+
+    // 给body添加统一loading组件
+    let loading = '<div id="loading"></div>';
+    $("body").append(loading);
 });
 
 var knockCnt = 0;
 var knockRefreshDone = false;
+
+function loading_show() {
+    $("#loading").css("display", "block");
+    $("#main").css("display", "none");
+}
+
+function loading_finish() {
+    $("#loading").css("display", "none");
+    $("#main").css("display", "block");
+    $("#main").addClass("fadeIn");
+}
+
 
 function knock() {
     axios

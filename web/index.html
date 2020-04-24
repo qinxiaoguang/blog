@@ -209,6 +209,7 @@
         },
       });
 
+      var album_finish = false;
       var album_panel = new Vue({
         el: "#album_panel",
         data() {
@@ -251,7 +252,12 @@
               }
               cnt += 1;
             }
+            album_finish = true;
+            if (album_finish && panel_finish) {
+              loading_finish();
+            }
           });
+
         },
         methods: {
           jumpToLife: function () {
@@ -259,7 +265,7 @@
           },
         },
       });
-
+      var panel_finish = false;
       var panel_with_back = new Vue({
         el: "#panel_with_back",
         data() {
@@ -297,7 +303,14 @@
             }
             this.articles_left = articles_left.reverse();
             this.articles_right = articles_right.reverse();
+
+            panel_finish = true;
+            if (album_finish && panel_finish) {
+              loading_finish();
+            }
           });
+
+
         },
       });
 

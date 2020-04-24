@@ -47,10 +47,10 @@
       </div>
     </div>
     <div id="article_all" style="margin:80px 80px;">
-      <div v-for="(value, key) in articles">
-        <h3 style="margin-left:12px;">{{key}}</h3>
+      <div v-for="item in new_articles">
+        <h3 style="margin-left:12px;">{{item.title}}</h3>
         <hr>
-        <ul v-for="val in value">
+        <ul v-for="val in item.articles">
           <li>
             [{{val.update_time}}]<a class="article_a" :href="val.url">{{val.title}}</a>
           </li>
@@ -118,14 +118,36 @@
           el: "#article_all",
           data() {
             return {
-              articles: null
+              articles: null,
+              new_articles:null
             };
           },
           mounted() {
             axios.get(baseUrl + "/article/all").then(response => {
               this.articles = response.data.data;
+              var new_articles = [];
+              var top_tag = ["戒烟实录"];
+              for (idx in top_tag){
+                var tag = top_tag[idx];
+                for (key in this.articles){
+                  if (key == tag) {
+                    new_articles.push({
+                      "title":tag,
+                      "articles":this.articles[key]
+                    });
+                    break
+                  }
+                }
+              }
               for (key in this.articles) {
+                console.log(key)
                 var article = this.articles[key];
+                if (!top_tag.includes(key)){
+                  new_articles.push({
+                    "title":key,
+                    "articles":this.articles[key],
+                  });
+                }
                 for (a of article) {
                   a.update_time = format_date(a.update_time);
                   a.url = "/article/detail.html?id=" + a._id;
@@ -136,6 +158,9 @@
                 }
               }
               console.log(this.articles);
+              console.log(new_articles);
+              this.new_articles = new_articles;
+              loading_finish();
               this.$nextTick(() => {
                 var screenHeight = document.documentElement.clientHeight;
                 var bodyHeight = document.body.clientHeight;
@@ -145,6 +170,7 @@
                 }
               });
             });
+
           },
         });
       });

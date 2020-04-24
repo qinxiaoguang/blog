@@ -27,42 +27,52 @@
   </head>
   <body>
     <div id="main">
-      <div id="header_panel" style="position:relative;z-index:5;">
+      <div id="header_panel" style="position: relative; z-index: 5;">
         <!--后续进行优化-->
-        <div id="header" style="position:relative;">
+        <div id="header" style="position: relative;">
           <div id="triangle"></div>
           <button
             class="header_button"
             id="button_home"
-            style="position:absolute; bottom:0;left:16px;border-bottom:2px solid  black;"
+            style="
+              position: absolute;
+              bottom: 0;
+              left: 16px;
+              border-bottom: 2px solid black;
+            "
           >
             HOME
           </button>
           <div
             id="button_group"
-            style="position:absolute;right:16px;bottom:0px;padding-left:0px;"
+            style="
+              position: absolute;
+              right: 16px;
+              bottom: 0px;
+              padding-left: 0px;
+            "
           >
-            <button class="header_button " id="button_blog">
+            <button class="header_button" id="button_blog">
               BLOG
             </button>
             <button
-              class="header_button "
+              class="header_button"
               id="button_life"
-              style="margin-left:36px;"
+              style="margin-left: 36px;"
             >
               LIFE
             </button>
             <button
               class="header_button"
               id="button_tool"
-              style="margin-left:36px;"
+              style="margin-left: 36px;"
             >
               TOOL
             </button>
             <button
               class="header_button header_button_active"
               id="button_about"
-              style="margin-left:36px;"
+              style="margin-left: 36px;"
             >
               ABOUT
             </button>
@@ -70,7 +80,7 @@
         </div>
       </div>
 
-      <div id="about_panel" style="margin:80px 80px;">
+      <div id="about_panel" style="margin: 80px 80px;">
         <div class="card mb-3 bg-light">
           <div class="card-body">
             <h5 class="card-title">About Me</h5>
@@ -91,7 +101,7 @@
             <h5 class="card-title">About Blog</h5>
             <p class="card-text">
               你可以在这<a
-                style="margin:4px;color:#e83e8c;cursor: pointer;"
+                style="margin: 4px; color: #e83e8c; cursor: pointer;"
                 href="https://github.com/qinxiaoguang/blog"
                 target="_blank"
                 ><i class="fa fa-github" aria-hidden="true"></i></a
@@ -144,7 +154,9 @@
     <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
 
     <script>
-      $(function() {});
+      $(function () {
+        loading_finish();
+      });
     </script>
     <!-- #bootrstrap# -->
   </body>

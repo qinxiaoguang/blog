@@ -7,7 +7,9 @@ mod router;
 mod util;
 
 use actix_cors::Cors;
-use actix_web::{get, http::header, middleware::Logger, App, HttpRequest, HttpServer, Responder};
+use actix_web::{
+    get, http::header, middleware::Logger, web, App, HttpRequest, HttpServer, Responder,
+};
 use config::AppConf;
 use lazy_static::lazy_static;
 use log::info;
@@ -85,6 +87,8 @@ async fn main() -> std::io::Result<()> {
                     .finish(),
             )
             .wrap(Logger::default())
+            // 设置json上限50M
+            .app_data(web::JsonConfig::default().limit(1024 * 1024 * 50)) // json数据允许50MB
             .configure(router::route)
             .service(greet)
     })

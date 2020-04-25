@@ -1,1 +1,1 @@
-{"options":{},"indexes":[{"v":2,"key":{"_id":1},"name":"_id_","ns":"blog.quote"}],"uuid":"6263d00b519f470cbeca4cb16bca2a7a"}
+{"options":{},"indexes":[{"v":{"$numberInt":"2"},"key":{"_id":{"$numberInt":"1"}},"name":"_id_","ns":"blog.quote"}],"uuid":"7849936ee37e4686895b0612acff5637"}

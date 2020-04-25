@@ -4,8 +4,8 @@ document.write('<script src="https://cdn.bootcss.com/axios/0.19.2/axios.min.js">
 // baseUrl = "http://localhost:8080";
 // pageUrl = "http://localhost";
 // 线上环境
-baseUrl = "http://154.8.198.128:8080";
-pageUrl = "http://154.8.198.128";
+baseUrl = "http://www.qxgzone.com:8080";
+pageUrl = "http://www.qxgzone.com";
 homeUrl = pageUrl + "/index.html";
 owner = "qinxiaoguang";
 bPlayerUrl = "http://player.bilibili.com/player.html?";

@@ -55,12 +55,39 @@ function online(){
     cd $output && ./$projname
 }
 
+
+function ip(){
+    echo "ip"
+    # first cargo build
+    cargo build --release
+    if [ $? -ne 0 ];then
+	echo "build failed"
+	exit 0
+    fi
+
+    cp $releasefile $output
+    cp -r $cwd/conf_ip $output/conf
+
+    cp $jsdir/base_ip.js $jsdir/base.js
+    cp $webdir/login_ip.html $webdir/login.html
+
+    # 执行 备份
+    cd $cwd/script && nohup sh -x ./crontab.sh >> $output/crontab.log &
+
+    # run 
+    cd $output && ./$projname
+}
+
+
 case $1 in
     dev)
 	dev
-    	;;
+    ;;
     online)
 	online
+	;;
+    ip)
+    ip
 	;;
     *)
 	dev

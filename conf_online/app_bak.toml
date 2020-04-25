@@ -9,8 +9,8 @@ port=6379
 
 [server]
 port=8080
-page_url="http://154.8.198.128"
-server_url="http://154.8.198.128:8080"
+page_url="http://www.qxgzone.com"
+server_url="http://www.qxgzone.com:8080"
 
 [mongo]
 ip="127.0.0.1"

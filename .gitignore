@@ -5,3 +5,4 @@
 ./web/static/js/base.js
 output
 log
+./web/login.html

@@ -78,7 +78,15 @@ function ip(){
     cd $output && ./$projname
 }
 
+function stop(){
+    # 下掉crontab
+    echo "stop"
+    ps aux | grep "crontab.sh" | grep -v grep | awk '{print $2}' | xargs kill -9
+    exit 0
+}
 
+
+trap 'stop' INT
 case $1 in
     dev)
 	dev

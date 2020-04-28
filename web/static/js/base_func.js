@@ -80,13 +80,16 @@ var knockRefreshDone = false;
 
 function loading_show() {
     $("#loading").css("display", "block");
-    $("body").css("display", "none");
+    $("#main").css("display", "none");
+    $(".main").css("display", "none");
 }
 
 function loading_finish() {
     $("#loading").css("display", "none");
-    $("body").css("display", "block");
-    $("body").addClass("fadeIn");
+    $("#main").css("display", "block");
+    $(".main").css("display", "block");
+    $("#main").addClass("fadeIn");
+    $(".main").addClass("fadeIn");
 }
 
 

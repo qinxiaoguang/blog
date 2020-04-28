@@ -1,5 +1,8 @@
 body {
-  display: none;
+}
+
+.main{
+  display:none;
 }
 
 #main {
@@ -7,6 +10,7 @@ body {
   width: 1280px;
   height: 100%;
   z-index: 10;
+  display: none;
 }
 
 #main #header {

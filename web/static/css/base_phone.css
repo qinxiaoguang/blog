@@ -3,6 +3,10 @@ body {
   min-width: fit-content;
 }
 
+.main{
+  display:none;
+}
+
 #main {
   margin: 0 auto;
   width: 100%;

@@ -1,3 +1,6 @@
+CODE_NEED_LOGIN = 10003;
+loginUrl = pageUrl + "/login.html";
+
 $(function () {
     $("#button_blog").click(function () {
         location.href = pageUrl + "/article/list.html";
@@ -20,7 +23,7 @@ $(function () {
     });
 
     if (is_owner()) {
-        // 在左下角添加 直连edit_list的页面
+        // 在右下角添加 直连edit_list的页面
         var edit_list_url = pageUrl + "/article/edit_list.html";
         var edit_list_btn =
             '<span id = "edit_list_btn">' +
@@ -37,20 +40,53 @@ $(function () {
     // 给body添加统一loading组件
     let loading = '<div id="loading"></div>';
     $("body").append(loading);
+
 });
+
+
+
+$(document).scroll(scrollHandler); //事件监听
+var screen = $(window).width(); // 屏幕宽度
+var header = $('#header');
+var headerHeight = 160;
+var headerHeightPx = headerHeight + "px";
+var phoneMenuHeight = 56;
+var phoneMenuHeightPx = phoneMenuHeight + "px";
+var scrollHeight = headerHeight - phoneMenuHeight;
+
+function is_phone() {
+    return screen < 720;
+}
+
+function scrollHandler(e) {
+    // 视差滚动，当屏幕小于720px时，滑动设置header为fixed
+    if (is_phone()) {
+        var nowTop = document.documentElement.scrollTop || document.body.scrollTop;
+        if (nowTop >= scrollHeight) {
+            //如果当前滑动的值大于100则，则将nav的position变为fixed
+            header.css("position", "fixed")
+            header.css("top", "0px")
+            header.css("height", phoneMenuHeightPx)
+        } else {
+            header.css("position", "relative")
+            header.css("top", "0px")
+            header.css("height", headerHeightPx)
+        }
+    }
+}
 
 var knockCnt = 0;
 var knockRefreshDone = false;
 
 function loading_show() {
     $("#loading").css("display", "block");
-    $("#main").css("display", "none");
+    $("body").css("display", "none");
 }
 
 function loading_finish() {
     $("#loading").css("display", "none");
-    $("#main").css("display", "block");
-    $("#main").addClass("fadeIn");
+    $("body").css("display", "block");
+    $("body").addClass("fadeIn");
 }
 
 
@@ -182,4 +218,11 @@ function base_upload_pic(axios, file, success, error) {
         .then(success)
         .catch(error);
     // 上传
+}
+
+function check_login(data) {
+    console.log(data)
+    if (data.code == CODE_NEED_LOGIN) {
+        location.href = loginUrl;
+    }
 }

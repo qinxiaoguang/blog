@@ -17,13 +17,35 @@
       integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
       crossorigin="anonymous"
     />
-    <link rel="stylesheet" href="../static/css/article_alter.css" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      media="screen and (min-device-width: 720px)"
+      href="../static/css/article_alter.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      media="screen and (max-device-width: 720px)"
+      href="../static/css/article_alter_phone.css"
+    />
     <!-- highlight 的主题-->
     <link
       href="https://cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow-night-eighties.min.css"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="../static/css/base.css" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      media="screen and (min-device-width: 720px)"
+      href="../static/css/base.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      media="screen and (max-device-width: 720px)"
+      href="../static/css/base_phone.css"
+    />
     <link href="/static/css/marked.css" rel="stylesheet" />
     <link
       href="https://cdn.bootcss.com/font-awesome/5.12.1/css/all.min.css"
@@ -84,31 +106,24 @@
             <input id="mark_input_title" :value="article.title" />
           </div>
           <div id="mark_menu">
+            <div id="view" v-on:click="view">预览</div>
             <div id="publish" v-on:click="publish">发布</div>
             <input id="catagory" placeholder="分类" :value="article.catagory" />
             <div class="back_button mark_btn" @click="back">
               <i
+                id="edit_back_i"
                 class="fa fa-arrow-left"
                 aria-hidden="true"
                 data-toggle="tooltip"
                 data-placement="top"
                 title="Tooltip on top"
-                style="margin: 10px;"
               ></i>
             </div>
             <div class="upload_button mark_btn" @click="upload_click">
-              <i
-                class="fa fa-upload"
-                aria-hidden="true"
-                style="margin: 10px;"
-              ></i>
+              <i id="edit_upload_i" class="fa fa-upload" aria-hidden="true"></i>
             </div>
             <div class="home_button mark_btn" @click="home">
-              <i
-                class="fa fa-home"
-                aria-hidden="true"
-                style="margin: 10px;"
-              ></i>
+              <i id="edit_home_i" class="fa fa-home" aria-hidden="true"></i>
             </div>
             <input
               type="file"
@@ -131,6 +146,9 @@
           >
 {{article.content}}</textarea
           >
+        </div>
+        <div id="close_view" v-on:click="close_view">
+          <i id="edit_back_i" class="fa fa-arrow-left" aria-hidden="true"></i>
         </div>
         <div
           id="mark_right"
@@ -224,6 +242,7 @@
               catagory: catagory,
             })
             .then((response) => {
+              check_login(response.data);
               if (response.data.code == 0) {
                 alert("发布成功");
               }
@@ -245,8 +264,10 @@
             axios_i
               .get(baseUrl + "/admin/article/get/" + id)
               .then((response) => {
+                check_login(response.data);
                 this.article = response.data.data;
                 this.article.md_preview = marked(this.article.content);
+                $("title").html(this.article.title + " - 文章修改");
                 loading_finish();
               })
               .catch((error) => {
@@ -296,11 +317,11 @@
             },
             save_to_home: function (e) {
               if (this.save()) {
-                window.location.href = homeUrl;
+                window.location.href = pageUrl + "/article/list.html";
               }
             },
             no_save_to_home: function (e) {
-              location.href = homeUrl;
+              location.href = pageUrl + "/article/list.html";
             },
             paste: function (e) {
               let file = null;
@@ -371,6 +392,18 @@
             },
             publish: publish,
             open_upload: function (e) {},
+            view: function (e) {
+              $("#mark_left").css("display", "none");
+              $("#mark_right").css("width", "100%");
+              $("#mark_right").css("display", "block");
+              $("#close_view").css("display", "block");
+            },
+            close_view: function (e) {
+              $("#mark_left").css("width", "100%");
+              $("#mark_left").css("display", "block");
+              $("#mark_right").css("display", "none");
+              $("#close_view").css("display", "none");
+            },
             save: function () {
               var title = $("#mark_input_title").val();
               var content = $("#mark_edit").val();
@@ -385,6 +418,7 @@
                   catagory: catagory,
                 })
                 .then((response) => {
+                  check_login(response.data);
                   if (response.data.code == 0) {
                     alert("保存成功");
                   }

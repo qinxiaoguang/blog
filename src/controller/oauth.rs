@@ -33,7 +33,7 @@ pub async fn oauth_callback(
             HttpResponse::build(StatusCode::FOUND)
                 .header(
                     header::SET_COOKIE,
-                    format!("sessionid={};expires={};path=/", sid, 7),
+                    format!("sessionid={};expires={};path=/;", sid, 7),
                 )
                 .header(
                     header::LOCATION,

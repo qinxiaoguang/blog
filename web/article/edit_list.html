@@ -15,38 +15,47 @@
   <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css"
     integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
   <link href="https://cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow-night-eighties.min.css" rel="stylesheet" />
-  <link href="../static/css/marked.css" rel="stylesheet" />
-  <link rel="stylesheet" href="../static/css/base.css" />
+  <link
+      rel="stylesheet"
+      type="text/css"
+      media="screen and (min-device-width: 720px)"
+      href="../static/css/base.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      media="screen and (max-device-width: 720px)"
+      href="../static/css/base_phone.css"
+    />
   <link href="https://cdn.bootcss.com/font-awesome/5.12.1/css/all.min.css" rel="stylesheet" />
 </head>
 
 <body>
   <div id="main">
-    <div id="header_panel" style="position:relative;z-index:5;">
+    <div id="header_panel" >
       <!--后续进行优化-->
-      <div id="header" style="position:relative;">
+      <div id="header">
         <div id="triangle"></div>
-        <button class="header_button" id="button_home"
-          style="position:absolute; bottom:0;left:16px;border-bottom:2px solid  black;">
+        <button class="header_button" id="button_home">
           HOME
         </button>
-        <div id="button_group" style="position:absolute;right:16px;bottom:0px;padding-left:0px;">
+        <div id="button_group">
           <button class="header_button header_button_active" id="button_blog">
             BLOG
           </button>
-          <button class="header_button" id="button_life" style="margin-left:36px;">
+          <button class="header_button" id="button_life">
             LIFE
           </button>
-          <button class="header_button" id="button_tool" style="margin-left:36px;">
+          <button class="header_button" id="button_tool" >
             TOOL
           </button>
-          <button class="header_button" id="button_about" style="margin-left:36px;">
+          <button class="header_button" id="button_about" >
             ABOUT
           </button>
         </div>
       </div>
     </div>
-    <div id="article_all" style="margin:80px 80px;">
+    <div id="article_all">
 
       <!-- Modal -->
       <div class="modal fade" id="modal_alert" tabindex="-1" role="dialog" aria-hidden="true">
@@ -79,8 +88,8 @@
 
         <a id="add_new" @click="create_new"><i class="fa fa-plus" aria-hidden="true"></i> </a>
         <hr>
-        <div v-for="(value, key) in articles">
-          <h3 style="margin-left:12px;">{{key}}</h3>
+        <div id="article_edit_all" v-for="(value, key) in articles">
+          <h3 class="article_title">{{key}}</h3>
           <hr>
           <ul v-for="val in value">
             <li>
@@ -161,6 +170,7 @@
           },
           mounted() {
             axios.get(baseUrl + "/admin/article/edit/list").then(response => {
+              check_login(response.data);
               this.articles = response.data.data;
               for (key in this.articles) {
                 var article = this.articles[key];
@@ -200,6 +210,7 @@
                   content: ""
                 })
                 .then(response => {
+                  check_login(response.data);
                   if (response.data.code == 0) {
                     location.href = "/article/edit.html?id=" + response.data.data;
                   } else {

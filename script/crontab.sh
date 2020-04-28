@@ -1,4 +1,5 @@
 # 定时,每天凌晨备份一次
+output=$1
 cwd=$(cd `dirname $0`;pwd);
 while true;do
     tomorrow=`date -d "+1day" +%Y-%m-%d`
@@ -6,5 +7,5 @@ while true;do
     now=`date +%s`
     interval=$(( zerotime-now ))
     sleep $interval
-    cd $cwd && sh -x ./backup.sh 
+    cd $cwd && sh -x ./backup.sh $output
 done

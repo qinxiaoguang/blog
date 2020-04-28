@@ -26,9 +26,10 @@ pub type CommonResp = Result<HttpResponse>;
 
 // error code
 iota! {
-    pub const NORMAL_ERROR: i32 = 10000 << iota;
+    pub const NORMAL_ERROR: i32 = 10000 + iota;
     , VALIDATE_ERROR
     , UPLOAD_ERROR
+    , NEEDLOGIN_ERROR
 }
 
 // 为什么用Fail,而不是实现 std::error::Error呢，因为actix_web::error::Error中实现了From<Fail> ，所以
@@ -87,6 +88,15 @@ impl<T: Serialize> Resp<T> {
 
     pub fn to_json(&self) -> CommonResp {
         Ok(HttpResponse::Ok().json(self))
+    }
+
+    // 转换为map
+    pub fn into_json(self) -> serde_json::Value {
+        serde_json::json! ({
+            "code":self.code,
+            "msg":self.msg,
+            "data":self.data
+        })
     }
 }
 

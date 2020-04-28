@@ -7,6 +7,7 @@ pub fn route(sc: &mut web::ServiceConfig) {
         .service(article::list_all_articles)
         .service(article::list_recent_articles)
         .service(article::get_article)
+        .service(article::dump)
         .service(oauth::oauth_callback)
         .service(media::list_all_media)
         .service(media::list_recent_media)

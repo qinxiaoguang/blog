@@ -49,7 +49,7 @@ function online(){
     cp $webdir/login_online.html $webdir/login.html
 
     # 执行 备份
-    cd $cwd/script && nohup sh -x ./crontab.sh >> $output/crontab.log &
+    cd $cwd/script && nohup sh -x ./crontab.sh $output >> $output/crontab.log &
 
     # run 
     cd $output && ./$projname
@@ -72,7 +72,7 @@ function ip(){
     cp $webdir/login_ip.html $webdir/login.html
 
     # 执行 备份
-    cd $cwd/script && nohup sh -x ./crontab.sh >> $output/crontab.log &
+    cd $cwd/script && nohup sh -x ./crontab.sh $output >> $output/crontab.log &
 
     # run 
     cd $output && ./$projname

@@ -22,7 +22,18 @@
       rel="stylesheet"
     />
     <link href="../static/css/marked.css" rel="stylesheet" />
-    <link rel="stylesheet" href="../static/css/base.css" />
+      <link
+      rel="stylesheet"
+      type="text/css"
+      media="screen and (min-device-width: 720px)"
+      href="../static/css/base.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      media="screen and (max-device-width: 720px)"
+      href="../static/css/base_phone.css"
+    />
     <link
       href="https://cdn.bootcss.com/font-awesome/5.12.1/css/all.min.css"
       rel="stylesheet"
@@ -30,20 +41,18 @@
   </head>
   <body>
     <div id="main">
-      <div id="header_panel" style="position:relative;z-index:5;">
+      <div id="header_panel">
         <!--后续进行优化-->
-        <div id="header" style="position:relative;">
+        <div id="header">
           <div id="triangle"></div>
           <button
             class="header_button"
             id="button_home"
-            style="position:absolute; bottom:0;left:16px;border-bottom:2px solid  black;"
           >
             HOME
           </button>
           <div
             id="button_group"
-            style="position:absolute;right:16px;bottom:0px;padding-left:0px;"
           >
             <button class="header_button header_button_active" id="button_blog">
               BLOG
@@ -51,28 +60,25 @@
             <button
               class="header_button"
               id="button_life"
-              style="margin-left:36px;"
             >
               LIFE
             </button>
             <button
               class="header_button"
               id="button_tool"
-              style="margin-left:36px;"
             >
               TOOL
             </button>
             <button
               class="header_button"
               id="button_about"
-              style="margin-left:36px;"
             >
               ABOUT
             </button>
           </div>
         </div>
       </div>
-      <div id="upload_panel" style="margin:80px 80px;">
+      <div id="upload_panel">
         <!-- Modal -->
         <div
           class="modal fade"
@@ -144,7 +150,7 @@
           @change="click_upload"
         />
         <div>
-        <div class="upload_button mark_btn" style="display:inline-block;width:10px;cursor: pointer;"@click="upload_click" v-show="upload_btn_show">
+        <div class="upload_button mark_btn" @click="upload_click" v-show="upload_btn_show">
           <i class="fa fa-upload" aria-hidden="true" style="margin:10px;"></i>
         </div>
           <button id="submit" @click="submit" class="btn btn-primary" style="float:right">上传</button>
@@ -269,6 +275,7 @@
                 "media_type":parseInt(type),
                 "url":url,
               },response=>{
+                check_login(response.data);
                 if(response.data.code == 0 ){
                   alert("上传成功");
                 }else{

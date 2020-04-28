@@ -15,6 +15,7 @@ pub struct Article {
     catagory: Option<String>,    // 文章分类, 只能为一种种类
     tag: Option<Vec<String>>,    // 文章tag or关键词
     update_time: Option<String>, // 更新时间
+    status: Option<i32>,         // 状态
 }
 
 impl Article {
@@ -57,6 +58,7 @@ impl DbArticle {
     pub fn into_publish(mut self) -> Option<Article> {
         if let Some(ref mut article) = self.publish {
             article._id = self._id.clone();
+            article.status = self.status.clone();
         }
         self.publish
     }
@@ -65,6 +67,7 @@ impl DbArticle {
     pub fn into_edit(mut self) -> Option<Article> {
         if let Some(ref mut article) = self.edit {
             article._id = self._id.clone();
+            article.status = self.status.clone();
         }
         self.edit
     }

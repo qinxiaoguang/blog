@@ -1,23 +1,27 @@
 body {
-  display: none;
+  width: 100%;
+  min-width: fit-content;
 }
 
 #main {
   margin: 0 auto;
-  width: 1280px;
+  width: 100%;
   height: 100%;
   z-index: 10;
+  display: none;
 }
 
 #main #header {
-  width: 1280px;
-  height: 120px;
+  width: 100%;
+  height: 160px;
   position: relative;
+  background-color: #f9ed69;
+  z-index: 11;
 }
 
 #main #header #button_group {
   position: absolute;
-  right: 16px;
+  right: 19.2px;
   bottom: 0px;
   padding-left: 0px;
   border-bottom: 2px solid black;
@@ -26,42 +30,29 @@ body {
 #button_life,
 #button_tool,
 #button_about {
-  margin-left: 36px;
+  margin-left: 8px;
 }
 
 #header_panel {
   position: relative;
-  z-index: 5;
+  z-index: 12;
+  height: 160px;
 }
 
-#header #button_home {
-  position: absolute;
-  bottom: 0;
-  left: 16px;
-  border-bottom: 2px solid black;
-}
 
-#triangle {
-  border-top: 120px solid #f9ed69;
-  border-left: 300px solid transparent;
-  border-right: 980px solid transparent;
-  width: 0px;
-}
 
-#triangle_bottom {
-  border-bottom: 120px solid #f9ed69;
-  border-right: 300px solid transparent;
-  border-left: 980px solid transparent;
-  width: 0px;
-}
+#triangle {}
+
+#triangle_bottom {}
 
 
 #main #top_panel {
-  height: 720px;
+  width: 100%;
+  height: 480px;
   background: url("../img/top_panel_back.jpg");
   /*background-attachment: fixed; 这个可以造成视差滚动的效果*/
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: auto 100%;
   /*等比例拉伸，不会影响图片效果*/
   position: relative;
   z-index: 10;
@@ -70,15 +61,21 @@ body {
 
 
 #main #top_panel #top_panel_bottom {
-  background: url("../img/header_triangle_bottom.svg");
+  /*  background: url("../img/header_triangle_bottom.svg");
   background-size: cover;
-  /*等比例拉伸，不会影响图片效果*/
-  width: 1280px;
+  width: 100%;
   height: 240px;
   position: absolute;
-  bottom: 0;
+  bottom: 0;*/
 }
 
+#main #header #button_home {
+  position: absolute;
+  bottom: 0;
+  left: 19.2px;
+  border-bottom: 2px solid black;
+  font-size: 19.2px;
+}
 
 /* 这里用到了id,因为id的优先级要大于class,所以下方的class:hover不会生效 */
 #main #header .header_button {
@@ -86,10 +83,10 @@ body {
   background-color: transparent;
   border: none;
   /*border-bottom:5px solid black;*/
-  padding-left: 16px;
-  padding-right: 16px;
+  padding-left: 0px;
+  padding-right: 0px;
   padding-bottom: 8px;
-  font-size: 18px;
+  font-size: 1.2rem;
 }
 
 
@@ -106,7 +103,7 @@ body {
 
 .header_button:hover {
   background-color: transparent;
-  color: #ffd31d !important;
+  color: #f30067 !important;
   border: none;
   border-bottom: 5px solid #ffd31d;
   border-radius: 0px;
@@ -120,25 +117,22 @@ body {
 
 #main #header .header_button_active {
   background-color: transparent;
-  color: #ffd31d;
+  color: #f30067;
   border: none;
-  border-bottom: 3px solid #ffd31d;
+  border-bottom: 3px solid #f30067;
   border-radius: 0px;
-  padding-left: 16px;
-  padding-right: 16px;
-  padding-bottom: 8px;
-  font-size: 18px;
   font-weight: bold;
 }
 
 #main #sentence_panel {
-  padding-left: 72px;
-  padding-right: 72px;
-  padding-top: 72px;
-  width: 1280px;
-  height: 240px;
+  padding-left: 64px;
+  padding-right: 64px;
+  padding-top: 32px;
+  padding-bottom: 56px;
+  width: 100%;
+  height: 100%;
   background-color: #f9ed69;
-  z-index: 10;
+  z-index: 1;
   position: relative;
 }
 
@@ -148,7 +142,6 @@ body {
 
 #sentence_panel #sentence_author {
   float: right;
-  margin-right: 6px;
   font-weight: bold;
   font-size: 18px;
 }
@@ -179,37 +172,26 @@ body {
 
 
 #album_panel {
-  height: 480px;
+  height: 240px;
   position: relative;
-  z-index: 10;
+  z-index: 1;
 }
 
 #album_panel #top_back {
-  background: url("../img/middle_triangle.svg");
-  background-size: cover;
-  /*等比例拉伸，不会影响图片效果*/
-  width: 1280px;
-  height: 160px;
+  /*background: url("../img/middle_triangle.svg") no-repeat;*/
+  background-color: #f9ed69;
+  width: 100%;
+  /*height: 10%;*/
   position: absolute;
   top: 0;
   z-index: 1;
 }
 
 #album_panel #bottom_back {
-  background: url("../img/middle_triangle.svg");
-  background-size: cover;
-  /*等比例拉伸，不会影响图片效果*/
-  width: 1280px;
-  height: 160px;
-  transform: rotate(180deg);
-  -ms-transform: rotate(180deg);
-  /* Internet Explorer */
-  -moz-transform: rotate(180deg);
-  /* Firefox */
-  -webkit-transform: rotate(180deg);
-  /* Safari 和 Chrome */
-  -o-transform: rotate(180deg);
-  /* Opera */
+  /*background: url("../img/middle_triangle.svg") no-repeat;*/
+  background-color: #f9ed69;
+  width: 100%;
+  height: 8px;
   position: absolute;
   bottom: 0;
   z-index: 1;
@@ -217,7 +199,7 @@ body {
 
 #album_panel .album {
   float: left;
-  height: 480px;
+  height: 240px;
   width: 50%;
   background: black;
   position: relative;
@@ -231,15 +213,23 @@ body {
 
 #album_panel .left_pic {
   position: absolute;
-  bottom: 0;
+  /*bottom: 0;*/
+  margin: auto;
+  top: 50%;
+  left: 50%;
+  /*transform 中的50%是根据自身的大小计算的, 所以可以用此达到居中的效果*/
+  transform: translate(-50%, -50%);
   z-index: 0;
 }
 
 #album_panel .right_pic {
   position: absolute;
   right: 0;
-  top: 0;
   z-index: 0;
+  margin: auto;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 @-webkit-keyframes opacity_half
@@ -283,6 +273,7 @@ body {
 }
 
 #work_panel {
+  width: 100%;
   position: relative;
   height: 600px;
   background: url("../img/work_panel_back.jpg");
@@ -290,40 +281,21 @@ body {
   background-size: cover;
   /*等比例拉伸，不会影响图片效果*/
   background-attachment: fixed;
-  z-index: 10;
+  z-index: 1;
 }
 
-#work_panel .work_triangle {
-  width: 1280px;
-  position: relative;
-  height: 120px;
-}
+#work_panel .work_triangle {}
 
 #start_point {
   position: relative;
   margin: 0 auto;
 }
 
-#work_panel #work_bottom_triangle {
-  position: absolute;
-  bottom: 0;
-  transform: rotate(180deg);
-  -ms-transform: rotate(180deg);
-  /* Internet Explorer */
-  -moz-transform: rotate(180deg);
-  /* Firefox */
-  -webkit-transform: rotate(180deg);
-  /* Safari 和 Chrome */
-  -o-transform: rotate(180deg);
-  /* Opera */
-}
+#work_panel #work_bottom_triangle {}
 
 #work_panel .work_triangle .left_triangle {
   height: 160px;
-  width: 1280px;
-  border-left: 0px solid transparent;
-  border-top: 160px solid #f9ed69;
-  border-right: 1280px solid transparent;
+  width: 100%;
   position: absolute;
   top: 0;
   z-index: 1;
@@ -333,21 +305,17 @@ body {
   position: absolute;
   top: 8px;
   height: 40px;
-  width: 1280px;
+  width: 100%;
   background: transparent;
-  border-left: 0px solid transparent;
-  border-top: 16px solid transparent;
-  border-right: 156px solid #f9ed69;
-  border-bottom: 30px solid transparent;
   z-index: 0;
 }
 
 #work_panel #work_content {
   position: absolute;
-  top: 50px;
-  left: 120px;
-  height: 480px;
-  width: 30px;
+  top: 32px;
+  padding-left: 32px;
+  height: 500px;
+  width: 100%;
   z-index: 2;
 }
 
@@ -388,13 +356,13 @@ body {
 #work_panel #out_end_circle {
   position: absolute;
   bottom: 0;
-  left: 64px;
+  left: 96px;
 }
 
 #work_panel #inner_end_circle {
   position: absolute;
   bottom: 1px;
-  left: 65px;
+  left: 97px;
 }
 
 #work_panel #work_word {
@@ -402,7 +370,7 @@ body {
   border-left: 3px solid black;
   position: relative;
   width: 128px;
-  height: 369px;
+  height: 389px;
   margin-left: 81px;
   z-index: -1;
 }
@@ -433,20 +401,20 @@ body {
 
 #recent_article_panel {
   width: 100%;
-  height: 360px;
+  height: 100%;
   background: white;
   position: relative;
-  z-index: 10;
+  z-index: 1;
 }
 
 #recent_article_panel #recent_article_title {
-  padding-left: 80px;
-  padding-top: 36px;
+  padding-left: 36px;
+  padding-top: 18px;
 }
 
 #recent_article_panel #panel_with_back {
   width: 100%;
-  height: 380px;
+  height: 100%;
   /*background: url("../img/bottom_panel_back.png");
   opacity: 0.8;*/
   /*background-attachment: fixed; 这个可以造成视差滚动的效果*/
@@ -456,12 +424,7 @@ body {
   background-attachment: fixed;
 }
 
-#recent_triangle {
-  border-top: 120px solid #f9ed69;
-  border-left: 300px solid transparent;
-  border-right: 980px solid transparent;
-  width: 0px;
-}
+#recent_triangle {}
 
 
 #bottom {
@@ -472,7 +435,7 @@ body {
   position: fixed;
   bottom: 0;
   z-index: 0;
-  width: 1280px;
+  width: 100%;
   height: 360px;
   background: #21333d;
 }
@@ -482,8 +445,9 @@ body {
   font-size: 12px;
   font-family: arial;
   position: absolute;
-  bottom: 12px;
-  left: 36px;
+  bottom: 6px;
+  width: 100%;
+  text-align: center;
 }
 
 #bottom_panel #access_content #access_cnt {
@@ -502,8 +466,8 @@ body {
 #bottom_panel #relate_link_panel {
   font-family: arial;
   position: absolute;
-  right: 60px;
-  bottom: 0px;
+  right: 32px;
+  bottom: 24px;
 }
 
 .relate_li {
@@ -582,19 +546,26 @@ body {
 }
 
 .article_little_panel {
-  width: 48%;
-  margin: 1%;
+  width: 100%;
   border-radius: 4px;
-  padding-top: 16px;
   /*box-shadow: 2px 2px 4px #ffd31d;
   border-right: 1px solid #f9ed69;*/
   display: inline-block;
 }
 
 #article_all {
-  padding-left: 80px;
-  padding-right: 80px;
-  padding-top: 36px;
+  width: 100%;
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-top: 32px;
+}
+
+#recent_article_panel #article_all {
+  width: 100%;
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-bottom: 16px;
+  padding-top: 0px;
 }
 
 #article_edit_all .article_title {
@@ -653,8 +624,13 @@ body {
   bottom: 10px;
 }
 
+#tool_panel,
+#about_panel {
+  margin: 32px 16px;
+}
+
 #article_detail {
-  margin: 80px 80px;
+  margin: 64px 16px;
 }
 
 #article_detail #article_title {
@@ -751,21 +727,10 @@ body {
   margin-bottom: 4px;
 }
 
-#tool_panel {
-  margin-top: 80px;
-}
-
 .tool_card {
-  width: 31%;
-  margin-left: 1%;
-  margin-right: 1%;
-
+  width: 100%;
   display: inline-block;
   cursor: pointer;
-}
-
-#about_panel {
-  margin: 80px 80px;
 }
 
 #loading {

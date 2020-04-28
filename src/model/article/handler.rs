@@ -1,5 +1,5 @@
 use super::{Article, DbArticle, Summary};
-use crate::common::*;
+use crate::{common::*, util::file};
 use bson::{doc, oid::ObjectId, Document};
 use log::info;
 use mongodb::options::FindOptions;
@@ -174,6 +174,24 @@ pub fn publish_article(id: &str, article: Article) -> Result<i64> {
         .map(|x| x.modified_count)?)
 }
 
+pub fn dump() {
+    let dump_path = "md/";
+    list_edit_articles()
+        .expect("unwrap edit articles error")
+        .iter()
+        .for_each(|article| {
+            if let Some(cat) = article.catagory.clone() {
+                let dir = format!("{}{}", dump_path, cat);
+                if let Err(_) = std::fs::create_dir_all(dir.clone()) {
+                    return;
+                }
+                let file_path = format!("{}/{}.md", dir, article.title.clone().unwrap());
+                file::save_to_file(file_path, article.content.clone().unwrap())
+                    .expect("save failed");
+            }
+        });
+}
+
 mod test {
 
     #[test]
@@ -185,6 +203,7 @@ mod test {
             catagory: None,
             tag: None,
             update_time: None,
+            status: None,
         };
         println!("{:?}", super::save_article(article));
     }
@@ -212,6 +231,7 @@ mod test {
             catagory: None,
             tag: None,
             update_time: None,
+            status: None,
         };
         println!("{:?}", super::update_article(id, article));
     }
@@ -226,6 +246,7 @@ mod test {
             catagory: None,
             tag: None,
             update_time: None,
+            status: None,
         };
         println!("{:?}", super::publish_article(id, article));
     }
@@ -238,6 +259,11 @@ mod test {
     #[test]
     fn test_summary_article() {
         println!("{:?}", super::list_summary_edit_articles());
+    }
+
+    #[test]
+    fn test_dump() {
+        super::dump();
     }
 
     // 从文件中导入markdown到系统中
@@ -268,6 +294,7 @@ mod test {
                                     catagory: Some(cat.to_string()),
                                     tag: None,
                                     update_time: None,
+                                    status: None,
                                 };
                                 println!("{:?}", super::save_article(article));
                             }

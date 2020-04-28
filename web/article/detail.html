@@ -22,7 +22,18 @@
       rel="stylesheet"
     />
     <link href="../static/css/marked.css" rel="stylesheet" />
-    <link rel="stylesheet" href="../static/css/base.css" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      media="screen and (min-device-width: 720px)"
+      href="../static/css/base.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      media="screen and (max-device-width: 720px)"
+      href="../static/css/base_phone.css"
+    />
     <link
       href="https://cdn.bootcss.com/font-awesome/5.12.1/css/all.min.css"
       rel="stylesheet"
@@ -30,60 +41,31 @@
   </head>
   <body>
     <div id="main">
-      <div id="header_panel" style="position: relative; z-index: 5;">
+      <div id="header_panel">
         <!--后续进行优化-->
-        <div id="header" style="position: relative;">
+        <div id="header">
           <div id="triangle"></div>
-          <button
-            class="header_button"
-            id="button_home"
-            style="
-              position: absolute;
-              bottom: 0;
-              left: 16px;
-              border-bottom: 2px solid black;
-            "
-          >
+          <button class="header_button" id="button_home">
             HOME
           </button>
-          <div
-            id="button_group"
-            style="
-              position: absolute;
-              right: 16px;
-              bottom: 0px;
-              padding-left: 0px;
-            "
-          >
+          <div id="button_group">
             <button class="header_button header_button_active" id="button_blog">
               BLOG
             </button>
-            <button
-              class="header_button"
-              id="button_life"
-              style="margin-left: 36px;"
-            >
+            <button class="header_button" id="button_life">
               LIFE
             </button>
-            <button
-              class="header_button"
-              id="button_tool"
-              style="margin-left: 36px;"
-            >
+            <button class="header_button" id="button_tool">
               TOOL
             </button>
-            <button
-              class="header_button"
-              id="button_about"
-              style="margin-left: 36px;"
-            >
+            <button class="header_button" id="button_about">
               ABOUT
             </button>
           </div>
         </div>
       </div>
-      <div id="article_detail" style="margin: 80px 80px;">
-        <h1 style="text-align: center; font-size: 26px; font-weight: 400;">
+      <div id="article_detail">
+        <h1 id="article_title">
           {{article.title}}
         </h1>
         <div id="detail_time">
@@ -93,7 +75,7 @@
           ><a :href="article.edit_url"><i class="fa fa-paint-brush"></i></a
         ></span>
         <hr />
-        <div id="content" style="margin: 32px 32px;" v-html="article.content">
+        <div id="content" v-html="article.content">
           {{article.content}}
         </div>
         <hr />
@@ -178,6 +160,7 @@
               } else {
                 this.article.display = "none";
               }
+              $("title").html(this.article.title);
               loading_finish();
               this.$nextTick(() => {
                 var screenHeight = document.documentElement.clientHeight;

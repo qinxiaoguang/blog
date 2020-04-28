@@ -14,67 +14,63 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css"
     integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
-  <link rel="stylesheet" href="./static/css/base.css" />
+  <link
+      rel="stylesheet"
+      type="text/css"
+      media="screen and (min-device-width: 720px)"
+      href="../static/css/base.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      media="screen and (max-device-width: 720px)"
+      href="../static/css/base_phone.css"
+    />
   <link href="https://cdn.bootcss.com/font-awesome/5.12.1/css/all.min.css" rel="stylesheet" />
 </head>
 
 <body>
   <div id="main">
     <div id="top_panel">
-      <div id="header_panel" style="position: relative; z-index: 5;">
+      <div id="header_panel">
         <!--后续进行优化-->
 
-        <div id="header" style="position: relative;">
+        <div id="header">
           <div id="triangle"></div>
-          <button class="header_button header_button_active" id="button_home" style="
-                position: absolute;
-                bottom: 0;
-                left: 16px;
-                border-bottom: 2px solid black;
-              ">
+          <button class="header_button header_button_active" id="button_home">
             HOME
           </button>
-          <div id="button_group" style="
-                position: absolute;
-                right: 16px;
-                bottom: 0px;
-                padding-left: 0px;
-              ">
+          <div id="button_group">
             <button class="header_button" id="button_blog">
               BLOG
             </button>
-            <button class="header_button" id="button_life" style="margin-left: 36px;">
+            <button class="header_button" id="button_life" >
               LIFE
             </button>
-            <button class="header_button" id="button_tool" style="margin-left: 36px;">
+            <button class="header_button" id="button_tool" >
               TOOL
             </button>
-            <button class="header_button" id="button_about" style="margin-left: 36px;">
+            <button class="header_button" id="button_about">
               ABOUT
             </button>
           </div>
         </div>
       </div>
-      <div id="top_panel_bottom" style="position: absolute; bottom: 0;"></div>
+      <div id="top_panel_bottom"></div>
     </div>
     <div id="sentence_panel">
-      <div id="beauty_sentence_panel" style="position: relative;">
+      <div id="beauty_sentence_panel">
         <p id="sentence">
           <span id="pre_quota">“</span>{{quote.des}}<span id="last_quota">”</span>
         </p>
-        <p id="sentence_author" style="
-              float: right;
-              margin-right: 6px;
-              font-weight: bold;
-              font-size: 18px;
-            ">
+        <p id="sentence_author">
           ——— {{quote.author}}
         </p>
       </div>
     </div>
     <div id="album_panel">
-      <div id="top_back" style="position: absolute; top: 0; z-index: 1;"></div>
-      <div id="bottom_back" style="position: absolute; bottom: 0; z-index: 1;"></div>
+      <div id="top_back"></div>
+      <div id="bottom_back"></div>
       <div class="album" id="left_album">
         <img class="pic left_pic" src="./static/img/left_pic.png" v-show="default_left_pic_show" @click="jumpToLife" />
         <img class="pic left_pic" :src="left_pic_url" v-show="recent_left_pic_show" @click="jumpToLife" />
@@ -99,7 +95,7 @@
 
       <div id="work_content">
         <p id="work_title">WORK</p>
-        <div id="start_point" style="position: relative; margin: 0 auto;">
+        <div id="start_point">
           <span id="out_start_circle" class="out_circle_point"></span>
           <span id="inner_start_circle" class="inner_circle_point"></span>
         </div>
@@ -116,9 +112,9 @@
     </div>
     <div id="recent_article_panel">
       <div id="panel_with_back">
-        <h3 style="padding-left: 80px; padding-top: 36px;">近期文章</h3>
+        <h3 id="recent_article_title">近期文章</h3>
         <hr />
-        <div id="article_all" style="padding-left: 80px; padding-right: 80px; padding-top: 36px;">
+        <div id="article_all">
           <div class="article_all_left article_little_panel">
             <ul v-for="val in articles_left">
               <li>
@@ -181,6 +177,7 @@
     integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
     crossorigin="anonymous"></script>
   <script src="./static/js/base.js"></script>
+  
   <script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js"
     integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
     crossorigin="anonymous"></script>

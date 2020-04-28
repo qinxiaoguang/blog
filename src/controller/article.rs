@@ -60,3 +60,9 @@ pub async fn remove_article(path: web::Path<(String,)>) -> CommonResp {
 pub async fn list_edit_articles() -> CommonResp {
     Resp::ok(article::list_summary_edit_articles()?).to_json()
 }
+
+#[get("/article/dump")]
+pub async fn dump() -> CommonResp {
+    article::dump();
+    Resp::ok("task done").to_json()
+}

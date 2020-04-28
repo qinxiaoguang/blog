@@ -22,57 +22,42 @@
       rel="stylesheet"
     />
     <link href="./static/css/marked.css" rel="stylesheet" />
-    <link rel="stylesheet" href="../static/css/base.css" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      media="screen and (min-device-width: 720px)"
+      href="../static/css/base.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      media="screen and (max-device-width: 720px)"
+      href="../static/css/base_phone.css"
+    />
     <link href="./static/css/font-awesome.min.css" rel="stylesheet" />
   </head>
   <body>
     <div id="main">
-      <div id="header_panel" style="position: relative; z-index: 5;">
+      <div id="header_panel">
         <!--后续进行优化-->
-        <div id="header" style="position: relative;">
+        <div id="header">
           <div id="triangle"></div>
-          <button
-            class="header_button"
-            id="button_home"
-            style="
-              position: absolute;
-              bottom: 0;
-              left: 16px;
-              border-bottom: 2px solid black;
-            "
-          >
+          <button class="header_button" id="button_home">
             HOME
           </button>
-          <div
-            id="button_group"
-            style="
-              position: absolute;
-              right: 16px;
-              bottom: 0px;
-              padding-left: 0px;
-            "
-          >
+          <div id="button_group">
             <button class="header_button" id="button_blog">
               BLOG
             </button>
-            <button
-              class="header_button"
-              id="button_life"
-              style="margin-left: 36px;"
-            >
+            <button class="header_button" id="button_life">
               LIFE
             </button>
-            <button
-              class="header_button"
-              id="button_tool"
-              style="margin-left: 36px;"
-            >
+            <button class="header_button" id="button_tool">
               TOOL
             </button>
             <button
               class="header_button header_button_active"
               id="button_about"
-              style="margin-left: 36px;"
             >
               ABOUT
             </button>
@@ -80,7 +65,7 @@
         </div>
       </div>
 
-      <div id="about_panel" style="margin: 80px 80px;">
+      <div id="about_panel">
         <div class="card mb-3 bg-light">
           <div class="card-body">
             <h5 class="card-title">About Me</h5>

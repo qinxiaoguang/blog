@@ -1,10 +1,14 @@
 use crate::util::can_match;
-use crate::{common::user_helper, GLOBAL_CONF};
+use crate::{
+    common::{user_helper, Resp, NEEDLOGIN_ERROR},
+    GLOBAL_CONF,
+};
 use actix_http::httpmessage::HttpMessage;
 use actix_service::{Service, Transform};
 use actix_web::{dev::ServiceRequest, dev::ServiceResponse, http::header, Error, HttpResponse};
 use futures::future::{ok, Either, Ready};
 use log::info;
+use std::collections::HashMap;
 use std::task::{Context, Poll};
 
 // 验证登录组件
@@ -88,12 +92,8 @@ where
                 // 执行登录过滤操作，如果登录，则pass,否则跳转登录界面
                 // 需要登录
                 return Either::Right(ok(req.into_response(
-                    HttpResponse::Found()
-                        .header(
-                            header::LOCATION,
-                            GLOBAL_CONF.server.page_url.clone().unwrap() + "/login.html",
-                        )
-                        .finish()
+                    HttpResponse::Ok()
+                        .json(Resp::err(NEEDLOGIN_ERROR, "need login").into_json())
                         .into_body(),
                 )));
             }

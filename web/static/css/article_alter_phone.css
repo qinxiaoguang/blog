@@ -7,7 +7,7 @@
 }
 
 #mark_body #view {
-    display: none;
+    display: block;
 }
 
 #mark_body #close_view {
@@ -15,7 +15,7 @@
 }
 
 #mark_left {
-    width: 50%;
+    width: 100%;
     height: 100%;
     display: inline-block;
     background-color: #fff;
@@ -26,10 +26,11 @@
 #mark_right {
     padding: 40px 40px 80px;
     display: inline-block;
-    width: 50%;
+    width: 100%;
     height: 100%;
     background-color: #fcfaf2;
     overflow: auto;
+    display: none;
 }
 
 #mark_right pre {
@@ -109,7 +110,25 @@
     background-color: #fff;
 }
 
+#mark_body #close_view {
+
+    width: 40px;
+    height: 40px;
+    background-color: #ccc;
+    text-align: center;
+    padding: 2px;
+    cursor: pointer;
+    display: inline-block;
+
+    position: fixed;
+    display: none;
+    top: 0px;
+    left: 0px;
+}
+
+#mark_body #view,
 #publish {
+    margin-left: 1px;
     width: 72px;
     height: 100%;
     border: none;

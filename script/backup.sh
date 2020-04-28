@@ -10,7 +10,8 @@ sh ./redis_backup.sh
 
 cd $cwd
 curl "localhost:8080/article/dump"
-mv $output/md ./dump/
+rm -rf ./dump/md~
+mv -b $output/md ./dump/
 # 在执行，一定要配置ssh-gen,否则执行失败
 git pull && git add .  && git commit -m "backup db"  && git push origin master
 

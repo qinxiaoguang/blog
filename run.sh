@@ -8,9 +8,13 @@ projname="blog"
 debugfile=$cwd/target/debug/$projname
 releasefile=$cwd/target/release/$projname
 output=$cwd/output
+pidfile=$output/PID
 
 rm -rf $output
 mkdir -p $output/tmpfile # tmpfile用于生成临时文件
+
+# 将pid放入临时文件中
+echo $$ > $pidfile
 
 function dev(){
     echo "dev"

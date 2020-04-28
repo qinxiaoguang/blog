@@ -229,3 +229,14 @@ function check_login(data) {
         location.href = loginUrl;
     }
 }
+
+// 自适应高度
+function fit_height() {
+    var screenHeight = document.documentElement.clientHeight;
+    var bodyHeight = document.body.clientHeight;
+    if (bodyHeight < screenHeight) {
+        $("#bottom_").css("position", "fixed");
+        $("#bottom_").css("bottom", "0px");
+        $("#main").css("height", screenHeight)
+    }
+}

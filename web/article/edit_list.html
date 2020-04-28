@@ -93,7 +93,7 @@
           <hr>
           <ul v-for="val in value">
             <li>
-              [{{val.update_time}}]<a class="article_a" :href="val.url">{{val.title}}</a>
+              [{{val.update_time}}]<a class="article_a" :href="val.url" :style="{'color':val.showColor}">{{val.title}}</a>
               <a class="edit_list_item_btn" :href="val.edit_url"><i class="fa fa-paint-brush"
                   aria-hidden="true"></i></a>
               <a class="edit_list_item_btn" style="color:#d63447;" :value="val._id" @click="show_remove_modal"><i
@@ -178,6 +178,11 @@
                   a.update_time = format_date(a.update_time);
                   a.url = "/article/detail.html?id=" + a._id;
                   a.edit_url = "/article/edit.html?id=" + a._id;
+                  if (a.status==1){
+                    a.showColor = "#f30067";
+                  } else{
+                    a.showColor = "#ffd31d";
+                  }
                   if (a.title == "") {
                     a.title = "#";
                   }

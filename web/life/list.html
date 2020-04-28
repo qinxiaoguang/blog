@@ -229,18 +229,16 @@
                 this.upload_btn_show = false;
               }
               loading_finish();
+              this.$nextTick(() => {
+                fit_height();
+              });
             });
             
           },
           methods:{
             imageLoaded:function(){
               this.$nextTick(() => {
-                  var screenHeight = document.documentElement.clientHeight;
-                  var bodyHeight = document.body.clientHeight;
-                  if (bodyHeight < screenHeight) {
-                    $("#bottom_").css("position", "fixed");
-                    $("#bottom_").css("bottom", "0px");
-                  }
+                  fit_height();
                 });
             },
             show_remove_modal:function(e){

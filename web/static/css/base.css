@@ -1,8 +1,9 @@
 body {
+  background-color: #f5f7f9;
 }
 
-.main{
-  display:none;
+.main {
+  display: none;
 }
 
 #main {
@@ -11,6 +12,11 @@ body {
   height: 100%;
   z-index: 10;
   display: none;
+  background-color: #ffff;
+  /*border-left: 1px solid #ccc;*/
+  /* border-right: 1px solid red; */
+  box-shadow: 0px 0px 1px #ccc;
+
 }
 
 #main #header {
@@ -24,7 +30,22 @@ body {
   right: 16px;
   bottom: 0px;
   padding-left: 0px;
-  border-bottom: 2px solid black;
+  /*border-bottom: 1px solid #000;*/
+}
+
+/* 添加自定义长度的border-bottom*/
+#button_home::after,
+#button_group::after {
+  content: " ";
+  width: 93%;
+  height: 1px;
+  background: #21333d;
+  position: absolute;
+  bottom: -0.1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: wdithBig 0.5s linear;
+  /*居中处理*/
 }
 
 #button_life,
@@ -126,7 +147,7 @@ body {
   background-color: transparent;
   color: #ffd31d;
   border: none;
-  border-bottom: 3px solid #ffd31d;
+  /*border-bottom: 3px solid #ffd31d;*/
   border-radius: 0px;
   padding-left: 16px;
   padding-right: 16px;
@@ -476,7 +497,7 @@ body {
   position: fixed;
   bottom: 0;
   z-index: 0;
-  width: 1280px;
+  width: 1279px;
   height: 360px;
   background: #21333d;
 }
@@ -645,7 +666,7 @@ body {
 
 .upload_button {
   display: inline-block;
-  width: 10px;
+  width: 40px;
   cursor: pointer;
 }
 
@@ -756,7 +777,7 @@ body {
 }
 
 #tool_panel {
-  margin-top: 80px;
+  margin: 80px 64px;
 }
 
 .tool_card {
@@ -853,6 +874,32 @@ body {
 
   100% {
     opacity: 1;
+    /*结尾状态 透明度为1*/
+  }
+}
+
+@keyframes wdithBig {
+  0% {
+    width: 10%;
+    /*初始状态 透明度为0*/
+  }
+
+  20% {
+    width: 20%;
+    /*初始状态 透明度为0*/
+  }
+
+  50% {
+    width: 50%;
+    /*中间状态 透明度为0.5*/
+  }
+
+  70% {
+    width: 70%;
+  }
+
+  100% {
+    width: 93%;
     /*结尾状态 透明度为1*/
   }
 }

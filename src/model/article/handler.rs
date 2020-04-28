@@ -84,7 +84,7 @@ pub fn list_edit_articles() -> Result<Vec<Article>> {
 // 列出已经发布的n篇文章
 pub fn list_recent_articles(num: i64) -> Result<Vec<Article>> {
     let find_options = FindOptions::builder()
-        .sort(Some(doc! {"last_update_time":-1}))
+        .sort(Some(doc! {"last_publish_time":-1}))
         .limit(num)
         .build();
     let filter = Some(doc! {"status":DbArticle::PUBLISHED, "last_publish_time": {"$ne":null}});
@@ -110,19 +110,28 @@ pub fn list_summary_edit_articles() -> Result<Summary> {
     let filter = Some(doc! {});
     list_articles(filter, find_options)
         .map(|v| {
-            v.into_iter()
+            let mut articles: Vec<Article> = v
+                .into_iter()
                 .filter_map(|db_article| db_article.into_edit())
                 .map(|mut article| {
                     article.content = None;
                     article
                 })
-                .collect()
+                .collect();
+            articles.sort_by(|a, b| {
+                b.update_time
+                    .as_ref()
+                    .unwrap()
+                    .cmp(&a.update_time.as_ref().unwrap())
+            });
+            articles
         })
         .map(summary)
 }
 
 pub fn list_summary_publish_articles() -> Result<Summary> {
     let find_options = FindOptions::builder()
+        .sort(Some(doc! {"last_publish_time":-1}))
         .projection(doc! { "edit": 0 })
         .allow_partial_results(true)
         .build();

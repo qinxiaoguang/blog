@@ -11,7 +11,6 @@ port=6379
 port=8080
 page_url="http://154.8.198.128"
 server_url="http://154.8.198.128:8080"
-git_sync="${git_sync}"
 
 [mongo]
 ip="127.0.0.1"

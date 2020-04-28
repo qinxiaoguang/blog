@@ -162,12 +162,7 @@
               this.new_articles = new_articles;
               loading_finish();
               this.$nextTick(() => {
-                var screenHeight = document.documentElement.clientHeight;
-                var bodyHeight = document.body.clientHeight;
-                if (bodyHeight < screenHeight) {
-                  $("#bottom_").css("position", "fixed");
-                  $("#bottom_").css("bottom", "0px");
-                }
+                fit_height();
               });
             });
 

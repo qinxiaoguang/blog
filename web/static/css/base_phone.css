@@ -21,6 +21,8 @@ body {
   position: relative;
   background-color: #f9ed69;
   z-index: 11;
+  border-bottom: 1px solid rgba(30,35,42,.06);
+  box-shadow: 0 1px 3px 0 rgba(0,34,77,.05);
 }
 
 #main #header #button_group {
@@ -28,7 +30,7 @@ body {
   right: 19.2px;
   bottom: 0px;
   padding-left: 0px;
-  border-bottom: 2px solid black;
+  /*border-bottom: 2px solid black;*/
 }
 
 #button_life,
@@ -77,8 +79,8 @@ body {
   position: absolute;
   bottom: 0;
   left: 19.2px;
-  border-bottom: 2px solid black;
-  font-size: 14px;
+  /*border-bottom: 2px solid black;*/
+  font-size: 16px;
 }
 
 /* 这里用到了id,因为id的优先级要大于class,所以下方的class:hover不会生效 */
@@ -90,9 +92,9 @@ body {
   padding-left: 0px;
   padding-right: 0px;
   padding-bottom: 8px;
-  font-size: 14px;
+  font-size: 16px;
   /*font-family: monospace;*/
-  font-weight:100;
+  font-weight:200;
   line-height:1;
 }
 

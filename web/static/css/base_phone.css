@@ -78,7 +78,7 @@ body {
   bottom: 0;
   left: 19.2px;
   border-bottom: 2px solid black;
-  font-size: 19.2px;
+  font-size: 14px;
 }
 
 /* 这里用到了id,因为id的优先级要大于class,所以下方的class:hover不会生效 */
@@ -90,9 +90,11 @@ body {
   padding-left: 0px;
   padding-right: 0px;
   padding-bottom: 8px;
-  font-size: 1.2rem;
+  font-size: 14px;
+  /*font-family: monospace;*/
+  font-weight:100;
+  line-height:1;
 }
-
 
 .header_button:focus,
 .header_button:active:focus,
@@ -123,7 +125,7 @@ body {
   background-color: transparent;
   color: #f30067;
   border: none;
-  border-bottom: 3px solid #f30067;
+  /*border-bottom: 3px solid #f30067;*/
   border-radius: 0px;
   font-weight: bold;
 }
@@ -644,7 +646,7 @@ body {
 }
 
 #article_detail #content {
-  margin: 32px 32px;
+  margin: 16px 16px;
 }
 
 #detail_time {

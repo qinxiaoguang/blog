@@ -69,11 +69,10 @@ Hello Rust
 
 -   创建项目 `cargo new hellorust --bin`
 -   项目目录
-
-| .
-| ├── Cargo.toml
-| └── src
-|     └── main.rs
+>.<br>
+├── Cargo.toml<br>
+└── src<br>
+    └── main.rs<br>
 
 -   编译 `cargo build` ,优化编译 `cargo build --release`
 -   运行 `./target/debug/hellorust`
@@ -128,50 +127,54 @@ const GLOBAL : i32 = 0;
     f64)。其中iszie,usize则是自适应类型，其大小取决于操作系统。
 -   字符串类型：最底层的是不定长类型str，更常用的是字符串切片&str和堆分配字符串String，
     其中字符串切片是静态分配的，有固定的大小，并且不可变，而堆分配字符串(String)是可变的。
-
-    \#+BEGIN~SRC~ rust let hello = \"hello world\"; //
-    双引号中的字符串类型为&\'static str, 即其不可变 let hello :
-    &\'static str = \"hello world\"; // 两种方式等价
-
-    // String 类型，类比\[T\]和Vec\<T\>的关系，str和String就是这种关系
-    let mut s = String::new(); let mut hello = String::from(\"hello\");
-    hello.push(\'w\'); // 压入字符 hello.push~str~(\"orld\"); //
-    压入字符串 hello.pop(); // 弹出
-
-// str转String let x:&\'static str=\"hello\"; let mut y:String =
-x.to~string~(); // String 转str let s = \"Hello\".to~string~(); let ss =
-&\*s;
-
-// 可使用r来避免字符串转义 let d &\'static str = r\"abc/nabc\";
-
-// 下标访问 let c=\"hello\".to~string~(); c.chars().nth(2); // 访问第2个
-
-// 字符串切片，很危险，不建议使用 let s = String::from(\"haha\"); let s1
-= &s\[1..2\]; // s1是&str类型，&str就是切片类型,
-使用&s\[..\]可以把String类型转为&str类型 let s2 = \"haha\"; //
-s2也是&str类型, 所以s2和&s2\[..\]是一样的 let s3 = String::from(\"哈\");
-println!(\"{}\", s3.len()); // 打印3，
-因为其字符串使用的utf-8存储，所以一个哈字使用3个字节存储，所以打印3，注意String底层实际上是Vec\<u8\>，所以其长度也即为Vec\<u8\>的长度/字节长度，因此为了防止误会，杜绝了对字符串使用索引的操作，如s3\[0\]是不会编译通过的。而对字符串使用slice操作，如&s3\[0..4\]通常是很危险的，因为不知道会截取出来什么乱七八糟的玩意,也有可能导致panic的出现
-
-// 操作 let s1 = String::from(\"haha\"); let s2 =
-String::from(\"heihei\"); let s3 = s1+&s2; //
-使用+号对String操作时，第一个要是String类型，第二个是&str类型,或者&String也可以,因为&String类型会被强转成为&str类型(deref),但是这样操作后s1将会被move,
-生成的s3是String类型 let s3 = s1 + &s2 + &s2; // 合法 let s3 = s3 +
-\"haha\"; // 可以 let mut s4 = String::from(\"haha\"); s4.push~str~(\"
-oo\"); // 可以使用push~str来给字符串后边添加新的字符串~ s4.push(\'l\');
-// 可以使用push 来添加字符
-
-// 遍历 // s.chars()也是iterator类型，所以可以有iterator的一系列操作 let
-s = String::from(\"哈黑\"); for i in s.chars(){ //
-使用chars才能获取正确的字符, 而使用s.bytes()为所有字节 } let count =
-s.chars().count(); // 获取字符串的长度，注意是不是字节长度 let two =
-s.chars().nth(2); // 获取第2个字符 let back~two~ =
-s.chars().back~nth~(2); // 获取倒数第二个字符
-
-// 字符串替换 let res = str::replace(\"haha!\",\"!\",\"?\"); let res =
-res.replace(\"?\",\"!\");
-
-\#+END~SRC~
+```{.rust}
+let hello = "hello world"; // 双引号中的字符串类型为&'static str, 即其不可变
+let hello : &'static str = "hello world"; // 两种方式等价
+// String 类型，类比[T]和Vec<T>的关系，str和String就是这种关系
+let mut s = String::new();
+let mut hello = String::from("hello");
+hello.push('w'); // 压入字符
+hello.push_str("orld"); // 压入字符串
+hello.pop(); // 弹出
+// str转String
+let x:&'static str="hello";
+let mut y:String = x.to_string();
+// String 转str
+let s = "Hello".to_string();
+let ss = &*s;
+// 可使用r来避免字符串转义
+let d &'static str = r"abc/nabc";
+// 下标访问
+let c="hello".to_string();
+c.chars().nth(2); // 访问第2个 
+// 字符串切片，很危险，不建议使用
+let s = String::from("haha");
+let s1 = &s[1..2]; // s1是&str类型，&str就是切片类型, 使用&s[..]可以把String类型转为&str类型
+let s2 = "haha";   // s2也是&str类型, 所以s2和&s2[..]是一样的
+let s3 = String::from("哈");
+println!("{}", s3.len()); // 打印3， 因为其字符串使用的utf-8存储，所以一个哈字使用3个字节存储，所以打印3，注意String底层实际上是Vec<u8>，所以其长度也即为Vec<u8>的长度/字节长度，因此为了防止误会，杜绝了对字符串使用索引的操作，如s3[0]是不会编译通过的。而对字符串使用slice操作，如&s3[0..4]通常是很危险的，因为不知道会截取出来什么乱七八糟的玩意,也有可能导致panic的出现
+// 操作
+let s1 = String::from("haha");
+let s2 = String::from("heihei");
+let s3 = s1+&s2;  // 使用+号对String操作时，第一个要是String类型，第二个是&str类型,或者&String也可以,因为&String类型会被强转成为&str类型(deref),但是这样操作后s1将会被move, 生成的s3是String类型
+let s3 = s1 + &s2 + &s2; // 合法
+let s3 = s3 + "haha"; // 可以
+let mut s4 = String::from("haha"); 
+s4.push_str(" oo"); // 可以使用push_str来给字符串后边添加新的字符串
+s4.push('l'); // 可以使用push 来添加字符
+// 遍历
+// s.chars()也是iterator类型，所以可以有iterator的一系列操作
+let s = String::from("哈黑");
+for i in s.chars(){
+     // 使用chars才能获取正确的字符, 而使用s.bytes()为所有字节
+}
+let count = s.chars().count(); // 获取字符串的长度，注意是不是字节长度
+let two = s.chars().nth(2); // 获取第2个字符
+let back_two = s.chars().back_nth(2); // 获取倒数第二个字符
+// 字符串替换
+let res = str::replace("haha!","!","?");
+let res = res.replace("?","!");
+```
 
 -   数组：具有固定大小，并且元素都是同种类型，可表示为\[T; N\]。
 
@@ -192,61 +195,75 @@ res.replace(\"?\",\"!\");
     ```
 
 -   切片：引用一个数组的部分数据并且不需要拷贝，可表示为&\[T\]。&符号不要考虑成引用，会给自己增加负担，相反，应考虑为切片的必要的一部分。
-
-    \#+BEGIN~SRC~ rust
-
-let arr = \[1,2,3,4,5\]; let slice~1~ = &arr\[..\]; // 获取全部元素,
-注意是引用,原来的元素如果修改，则引用的元素也会修改 let slice~2~ =
-&arr\[1..4\]; // 获取下标\[1,4)的元素 let slice~3~ = &arr\[1..\]; //
-获取下标1之后的所有元素 let slice~4~ = &arr\[..3\]; //
-获取下标3之前的所有元素 let slice~5~ = &arr\[1..=4\]; //
-获取\[1,4\]的元素
-
-// 有关slice的函数 fn show(arr: &\[u8\]){ for i in arr { print!(\"{}
-\",i); } } // 调用 show(&arr\[..\]); show(&arr); // 可以 show(slice~1~);
-
-\#+END~SRC~
+```{.rust}
+let arr = [1,2,3,4,5];
+let slice_1 = &arr[..]; // 获取全部元素, 注意是引用,原来的元素如果修改，则引用的元素也会修改
+let slice_2 = &arr[1..4]; // 获取下标[1,4)的元素
+let slice_3 = &arr[1..]; // 获取下标1之后的所有元素
+let slice_4 = &arr[..3]; // 获取下标3之前的所有元素
+let slice_5 = &arr[1..=4]; // 获取[1,4]的元素
+// 有关slice的函数
+fn show(arr: &[u8]){
+    for i in arr {
+        print!("{} ",i);
+      }
+}
+// 调用
+show(&arr[..]);
+show(&arr); // 可以
+show(slice_1);
+```
 
 -   元组：具有固定大小的有序列表，每个元素都有自己的类型，通过解构或者索引来获得每个元素的值。
-
-    \#+BEGIN~SRC~ rust
-
-let y = (0, \"1234\"); let x :(i32, &str) = (3, \"123456\") //
-若元组只包含一个元素，需要在元素末尾添加逗号，以区分括号表达式 let z =
-(0,); // 访问 let (w, z) = y; // 下标访问 let f = x.0; let e = x.1;
-
-\#+END~SRC~
+```rust
+let y = (0, "1234");
+let x :(i32, &str) = (3, "123456")
+// 若元组只包含一个元素，需要在元素末尾添加逗号，以区分括号表达式
+let z = (0,);
+// 访问
+let (w, z) = y;
+// 下标访问
+let f = x.0;
+let e = x.1;
+```
 
 -   指针：最底层的是裸指针\*const T和\*mut
     T，但解引用它们是不安全的，必须放到unsafe块里。
 -   函数：具有函数类型的变量实质上是一个函数指针。
 -   元类型：即()，其唯一的值也是(), 也称单元类型。
 -   结构体
-
-    \#+BEGIN~SRC~ rust
-
-// 1. 通常驼峰命名 // 2.
-结构体的中的值默认不可变,且不支持域类型为可变,可通过Cell来模拟 // 3.
-结构体域的结尾是逗号, // 4. 结构体的域默认私有, 可通过pub关键字公开
-struct Point{ x:i32, y:i32, }
-
-// 1. 元组结构体,用()来包裹域,且域无名字 // 2. 通常驼峰命名 // 3.
-元组结构体的构造方法可被当做函数传入 struct Color(u8,u8,u8); // 4.
-若元组结构体只有一个域，则其为newtype struct NewInt(i32); // 5.
-空结构体占用空间为0 struct D;
-
-fn main() { let point = Point{x:1, y:2}; let point2 = Point{..point}; //
-.. 表达式可以表示copy let point3 = Point{x:2,..point}; // ..
-表达式可以表示copy println!(\"{}\",point.y) }
-
-\#+END~SRC~
+    ```rust
+    // 1. 通常驼峰命名
+    // 2. 结构体的中的值默认不可变,且不支持域类型为可变,可通过Cell来模拟
+    // 3. 结构体域的结尾是逗号,
+    // 4. 结构体的域默认私有, 可通过pub关键字公开
+    struct Point{
+        x:i32,
+        y:i32,
+    }
+    
+    // 1. 元组结构体,用()来包裹域,且域无名字
+    // 2. 通常驼峰命名
+    // 3. 元组结构体的构造方法可被当做函数传入
+    struct Color(u8,u8,u8);
+    // 4. 若元组结构体只有一个域，则其为newtype
+    struct NewInt(i32);
+    // 5. 空结构体占用空间为0
+    struct D;
+    
+    fn main() {
+        let point = Point{x:1, y:2};
+        let point2 = Point{..point}; // .. 表达式可以表示copy
+        let point3 = Point{x:2,..point}; // .. 表达式可以表示copy
+        println!("{}",point.y)
+    }
+    ```
 
 类型别名
 --------
 
 -   可以使用type为一个类型起一个别名,且这两个类型一模一样，只不过名字不一样，不要和golang混淆
 -   泛型其实就是使用类型别名的方式实现的。
-
 ``` {.rust}
 type Age = u32;
 ```
@@ -256,11 +273,9 @@ type Age = u32;
 
 -   类型转换的方式是通过as关键字
 -   如果转换是合理的，则编译通过，否则编译不通过
-
 ``` {.rust}
 let var1 : i8 = 41;
 let var2 : i16 = var1 as i16;
-
 let i = "haha";
 let b = i as u32; // 不合理，编译错误
 ```
@@ -648,15 +663,15 @@ struct Foo;
     ```
 
 -   可以通过泛型来实现函数重载功能，但是rust中没有同一个函数不同数量参数的函数重载
--   impl中的泛型,
-    在impl块中出现的泛型参数，需要在impl关键字后边用尖括号声明
-
-    \#+BEGIN~SRC~ rust
-
-impl\<T,U\> Into\<U\> for T where U: From\<T\> { fn into(self) -\> U {
-U::from(self) } }
-
-\#+END~SRC~
+-   impl中的泛型,在impl块中出现的泛型参数，需要在impl关键字后边用尖括号声明
+    ```rust
+    impl<T,U> Into<U> for T
+        where U: From<T>
+    {
+        fn into(self) -> U {
+            U::from(self)
+        }
+    }
 
 -   泛型参数约束有两种方式，1. 在泛型参数声明时使用冒号 2.
     使用where子句,
@@ -671,15 +686,18 @@ U::from(self) } }
     ```
 
 -   关联类型，也是泛型参数如Iterator中有一个关联类型为Item，在使用的时候可以通过名字进行关联
-
-    \#+BEGIN~SRC~ rust
-
-trait Test{ type N; // N即为一个关联类型 fn test(&self) -\> Self::N; }
-
-// 如果要实现的话 impl Test for i32{ type N = i32; fn test(&self) -\>
-i32 {} }
-
-\#+END~SRC~
+    ```rust
+    trait Test{
+        type N; // N即为一个关联类型
+        fn test(&self) -> Self::N;
+    }
+    
+    // 如果要实现的话
+    impl Test for i32{
+        type N = i32;
+        fn test(&self) -> i32 {}
+    }
+    ```
 
 -   一般来说，在尖括号里存在的是输入类型参数，在trait内部存在的关联类型是输出类型参数
 
@@ -706,22 +724,19 @@ i32 {} }
     take(v);
     println!("{}",v); // 报错, v指向的资源所有权已经被重定向给函数take中的变量。可以理解为执行take(v)时候，先进行了资源绑定
     ```
-
-    | Before move:
-    | a \<=\> 内存(地址：A，内容：\"xyz\")
-    | After move:
-    | a
-    | b \<=\> 内存(地址：A，内容：\"xyz\")
+> Before move:<br>
+a \<=\> 内存(地址：A，内容：\"xyz\")<br>
+After move:<br>
+a<br>
+b \<=\> 内存(地址：A，内容：\"xyz\")<br>
 
 6.  rust中规定，一个资源同一时刻只有一个owner.
-7.  若被move的变量实现了Copy，那么move时候会拷贝资源到新的内存取余，并把新的内存区域内容binding给新变量,
-    在rust中,基本数据类型均实现了Copy特性.
-
-    | Before move:
-    | a \<=\> 内存(地址：A，内容：100)
-    | After move:
-    | a \<=\> 内存(地址：A，内容：100)
-    | b \<=\> 内存(地址：B，内容：100)
+7.  若被move的变量实现了Copy，那么move时候会拷贝资源到新的内存取余，并把新的内存区域内容binding给新变量,在rust中,基本数据类型均实现了Copy特性.
+>Before move:<br>
+a \<=\> 内存(地址：A，内容：100)<br>
+After move:<br>
+a \<=\> 内存(地址：A，内容：100)<br>
+b \<=\> 内存(地址：B，内容：100)<br>
 
 8.  基本类型的浅拷贝和深拷贝的作用一样,
     浅拷贝可以理解为仅仅拷贝了内存地址。而String类型若要实现深拷贝，则需要使用Clone特性。
@@ -929,26 +944,29 @@ fn main() {
 -   Vec\<T\>也实现了Deref,目标类型是\[T\]，所以可以通过deref来获取&\[T\]的切片
 -   若s实现了Deref，则 `&*s` 等效与s.deref()
 -   若某个结构存在方法A(),而其deref也存在方法A()，那么要调用deref的方法A()，只能手动调用
-
-    \#+BEGIN~SRC~ rust
-
-//
-以下代码是编译不通过的,原因是&s是String类型，而分支中的\"hehe\"是&\'static
-str类型,此时编译器并没有对s进行自动deref let s = String::from(\"hehe\");
-match &s { \"hehe\" =\> println!(\"{:?}\",\"hehe\"), \_ =\>
-println!(\"{:?}\",\"heihei\"), } //
-此时需要我们自己deref,deref的方式有如下 // 1. s.deref() // 2. &\*s // 3.
-s.as~ref~() // 4. s.borrow() // 5. &s\[..\] //
-所以实现字符串匹配可以这么写 match s.deref(){ \"hehe\" =\>
-println!(\"{:?}\",\"hehe\"), \_ =\> println!(\"{:?}\",\"heihei\"), }
-
-\#+END~SRC~
+    ```rust
+    // 以下代码是编译不通过的,原因是&s是String类型，而分支中的"hehe"是&'static str类型,此时编译器并没有对s进行自动deref
+    let s = String::from("hehe");
+    match &s {
+        "hehe" => println!("{:?}","hehe"),
+        _ => println!("{:?}","heihei"),
+    }
+    // 此时需要我们自己deref,deref的方式有如下
+    // 1. s.deref()
+    // 2. &*s
+    // 3. s.as_ref()
+    // 4. s.borrow()
+    // 5. &s[..]
+    // 所以实现字符串匹配可以这么写
+    match s.deref(){
+        "hehe" => println!("{:?}","hehe"),
+        _ => println!("{:?}","heihei"),
+    }
+    ```
 
 -   解引用强制多态，
-    是说当一个变量传递给一个函数时，若该函数接收的类型不是传入的类型，会强制的通过deref来解引用为需要的类型，如函数fn
-    test( s:&str)
-    需要的是&str类型，但是传入&String也可以，因为&String会被强制解引用为&str类型,
-    也可以传入&Box::new(\"haha\".to~string~())类型
+    是说当一个变量传递给一个函数时，若该函数接收的类型不是传入的类型，会强制的通过deref来解引用为需要的类型，如函数`fn test( s:&str)`需要的是`&str`类型，但是传入`&String`也可以，因为`&String`会被强制解引用为&str类型,
+    也可以传入`&Box::new("haha".to_string())`类型
 
 引用计数
 --------
@@ -987,7 +1005,7 @@ unsafe
 
 -   标准库中有个std::intrinsics模块，该模块的函数是在编译器内部实现，在使用的时候需要使用unsafe来修饰，这些函数不是准备直接提供给用户使用的
     -   transmute函数可以执行强制类型转换，把一个T类型参数转换为U类型返回值,但其内部的二进制值不变,且必须满足两者的size是一样的。其实我们也可以通过as来进行实现，但是不能实现size一样的约束条件
-    -   transmute~copy函数是对引用进行的copy操作~，其参数是引用类型，而transmute参数是T类型,且有move语义,如查看Vec的内存表示
+    -   transmute_copy函数是对引用进行的copy操作，其参数是引用类型，而transmute参数是T类型,且有move语义,如查看Vec的内存表示
 
         ``` {.rust}
         let v = vec![1,2,3];
@@ -1003,49 +1021,41 @@ unsafe
 -   匿名函数，具有捕获外部变量的能力,也被称为lambda表达式
 -   其特点是访问外部变量，而函数不可访问外部变量
 -   匿名函数可以省略类型，编译器会根据上下文环境自动推倒，但是同一个匿名函数不能有两种语义。
-
-    \#+BEGIN~SRC~ rust
-
-let add = \|x:i32, y:i32\|-\>i32 {return x + y}; let add = \|x,y\|x+y;
-
-\#+END~SRC~
+    ```rust
+    let add = |x:i32, y:i32|->i32 {return x + y};
+    let add = |x,y|x+y;
+    ```
 
 -   使用move关键字来修饰闭包，可以将闭包中使用的外部变量自动move，并可以将对应的闭包传递到函数外部,通常用于将变量传递到函数外部
 -   Fn/FnMut/FnOnce, FnOnce对应的self是self,FnMut是&mut self,
     Fn是&self，对于一个闭包，他会尽量impl Fn，依次尝试impl FnMut,
     FnOnce,这些都是编译器自动分析出来的。
 -   举个例子
-
-    \#+BEGIN~SRC~ rust
-
-let v = vec!\[1,3,3\]; let d = \|\|drop(v);//
-其中std::mem::drop(d:T)中参数是T类型，所以v是会被move到闭包中,那么他对应的trait是FnOnce,因为Fn和FnMut都行不通(都需要&self引用，但是闭包中并没有v的引用),所以生成的闭包只能调用一次。
-d(); d(); // 调用失败
-
-// 同理，生成Fn的方式也和闭包使用的外部变量的方式有关，如 let v =
-vec!\[1,3,3\]; let d = \|\| for i in &v{println!(\"{:?}\",i)}; d(); d();
-//
-d闭包使用的外部环境v是引用类型，所以其对应的trait是Fn，对应的self是&self,不存在move语义，所以其可以调用多次
-
-\#+END~SRC~
+    ```rust
+    let v = vec![1,3,3];
+    let d = ||drop(v);// 其中std::mem::drop(d:T)中参数是T类型，所以v是会被move到闭包中,那么他对应的trait是FnOnce,因为Fn和FnMut都行不通(都需要&self引用，但是闭包中并没有v的引用),所以生成的闭包只能调用一次。
+    d();
+    d(); // 调用失败
+    
+    // 同理，生成Fn的方式也和闭包使用的外部变量的方式有关，如
+    let v = vec![1,3,3];
+    let d = || for i in &v{println!("{:?}",i)};
+    d();
+    d(); // d闭包使用的外部环境v是引用类型，所以其对应的trait是Fn，对应的self是&self,不存在move语义，所以其可以调用多次
+    ```
 
 -   每个闭包，编译器都会为其生成一个匿名结构体类型
 -   静态分派/动态分派
-
-    \#+BEGIN~SRC~ rust
-
-// trait可以返回，但是不能直接返回，如有trait Animal,那么函数不能这么写
-fn test()-\>Animal //
-因为编译器不知道Animal占用多少空间,即不知道trait占用多少空间，但是有以下两种写法
-// 1. 静态分派，表示返回的trait具体是哪个，在编译时期就确定了下来，
-其使用泛型及impl trait来完成 fn test(arg:Animal) //
-入参可以直接使用Animal来表示，这种是静态分派· fn test() -\> impl Animal
-// 表示返回的类型实现了Animal的trait // 2.
-动态分派，表示具体调用的trait是在执行阶段才能确认 fn test(arg:Box\<dyn
-Animal\>) // 虽然trait不知道空间，但是Box可以知道,Box中传入一个trait
-object,这种就属于动态分派，在运行期确定调用的哪个函数,dyn是一个关键字，目前未稳定，表示trait中的具体类型是动态的
-
-\#+END~SRC~
+    ```rust
+    // trait可以返回，但是不能直接返回，如有trait Animal,那么函数不能这么写 fn test()->Animal
+    // 因为编译器不知道Animal占用多少空间,即不知道trait占用多少空间，但是有以下两种写法
+    // 1. 静态分派，表示返回的trait具体是哪个，在编译时期就确定了下来， 其使用泛型及impl trait来完成
+    fn test(arg:Animal) // 入参可以直接使用Animal来表示，这种是静态分派·
+    fn test() -> impl Animal // 表示返回的类型实现了Animal的trait
+    // 2. 动态分派，表示具体调用的trait是在执行阶段才能确认
+    fn test(arg:Box<dyn Animal>) // 虽然trait不知道空间，但是Box可以知道,Box中传入一个trait object,这种就属于动态分派，在运行期确定调用的哪个函数,dyn是一个关键字，目前未稳定，表示trait中的具体类型是动态的
+     
+    ```
 
 -   trait object,例如trait Animal ,那么dyn Animal
     就是一个动态大小类型(DST),而&dyn Animal, &mut dyn Animal, Box\<dyn
@@ -1067,18 +1077,20 @@ object,这种就属于动态分派，在运行期确定调用的哪个函数,dyn
 ----
 
 -   async/await, async关键字可以修饰函数闭包和代码块:
-
-    \#+BEGIN~SRC~ rust
-
-async fn f1(arg : u8) -\> u8 {} // 等同于, fn f1(arg : u8) -\> impl
-Future\<Output = u8\> //
-await只能在async中出现，其表示的含义是，若异步的程序没有执行完毕，那么其会进行yield，暂时退出该Future,每当调度器恢复其执行，都会通过poll来查看异步程序运行状态，直到运行完毕,
-async fn fetch(client hyper::Client) -\> io::Result\<String\> { let res
-= await!(client.get(\"<http://www.baidu.com>\"))?; if
-!res.status().is~success~(){ return Err(..); } Ok(\"something\") } //
-可以看到使用async/await写代码逻辑，与非异步的程序的代码逻辑是类似的
-
-\#+END~SRC~
+    ```rust
+    async fn f1(arg : u8) -> u8 {} 
+    // 等同于,
+    fn f1(arg : u8) -> impl Future<Output = u8>
+    // await只能在async中出现，其表示的含义是，若异步的程序没有执行完毕，那么其会进行yield，暂时退出该Future,每当调度器恢复其执行，都会通过poll来查看异步程序运行状态，直到运行完毕,
+    async fn fetch(client hyper::Client) -> io::Result<String> {
+        let res = await!(client.get("http://www.baidu.com"))?;
+        if !res.status().is_success(){
+            return Err(..);
+        }
+        Ok("something")
+    }
+    // 可以看到使用async/await写代码逻辑，与非异步的程序的代码逻辑是类似的 
+    ```
 
 -   Future:基于生成器实现，他内部有一个方法是poll,该poll方法用于查看当前协程的运行状态,
     Future具有能在某个状态中断执行的特性，在某个时刻恢复执行的特性，其都是使用yield来实现的.
@@ -1295,14 +1307,14 @@ demo
 
 代码目录
 
-| .
-| ├── Cargo.lock
-| ├── Cargo.toml
-| ├── minigrep.iml
-| ├── poem.txt
-| ├── src
-| │   ├── lib.rs
-| │   └── main.rs
+> .<br>
+> ├── Cargo.lock<br>
+> ├── Cargo.toml<br>
+> ├── minigrep.iml<br>
+> ├── poem.txt<br>
+> ├── src<br>
+> │   ├── lib.rs<br>
+> │   └── main.rs<br>
 
 lib.rs
 

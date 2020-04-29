@@ -17,6 +17,7 @@
       integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
       crossorigin="anonymous"
     />
+    <link href="../static/css/bootstrap-toc.css" rel="stylesheet" />
     <!--<link
       href="https://cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow-night-eighties.min.css"
       rel="stylesheet"
@@ -70,7 +71,7 @@
           {{article.title}}
         </h1>
         <div id="detail_time">
-          {{article.update_time}}
+          {{article.update_time}} &nbsp; &nbsp;全篇 {{article.word_count}} 字
         </div>
         <span id="edit_detail" :style="{'display':article.display}"
           ><a :href="article.edit_url"><i class="fa fa-paint-brush"></i></a
@@ -84,6 +85,7 @@
       <div id="bottom_">
         <div id="triangle_bottom"></div>
       </div>
+      <nav id="toc"></nav>
     </div>
 
     <!--[if lt IE 7]>
@@ -113,6 +115,8 @@
       integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
       crossorigin="anonymous"
     ></script>
+
+    <script src="../static/js/bootstrap-toc.js"></script>
     <script src="https://cdn.bootcss.com/axios/0.19.2/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <!--<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>-->
@@ -120,9 +124,62 @@
 
     <script>
       $(function () {
+        $("body").click(function (e) {
+          $("#toc").css("display", "none");
+        });
+        $("body").keydown(function (e) {
+          if (e.keyCode == 9) {
+            var toc_display = $("#toc").css("display");
+            if (toc_display == "block") {
+              $("#toc").css("display", "none");
+            } else {
+              $("#toc").css("display", "block");
+            }
+            e.preventDefault();
+          }
+        });
         hljs.initHighlightingOnLoad();
+        var renderer = new marked.Renderer();
+
+        var toc = [];
+
+        renderer.heading = function (text, level, raw) {
+          var anchor =
+            this.options.headerPrefix +
+            raw.toLowerCase().replace(/[^\w\\u4e00-\\u9fa5]]+/g, "-");
+          toc.push({
+            anchor: anchor,
+            level: level,
+            text: text,
+          });
+          return (
+            "<h" +
+            level +
+            ' id="' +
+            anchor +
+            '">' +
+            text +
+            "</h" +
+            level +
+            ">\n"
+          );
+        };
+
+        // 处理toc
+        function handle_toc() {
+          var navSelector = "#toc";
+          var $myNav = $(navSelector);
+          Toc.init({
+            $scope: $("#content"),
+            $nav: $myNav,
+          });
+          $("#content").scrollspy({
+            target: $myNav,
+          });
+        }
+
         marked.setOptions({
-          renderer: new marked.Renderer(),
+          renderer: renderer,
           highlight: function (code) {
             return hljs.highlightAuto(code).value;
           },
@@ -154,6 +211,7 @@
             var id = getUrlParam("id");
             axios.get(baseUrl + "/article/get/" + id).then((response) => {
               this.article = response.data.data;
+              this.article.word_count = this.article.content.length;
               this.article.content = marked(this.article.content);
               this.article.edit_url = "./edit.html?id=" + this.article._id;
               this.article.update_time = format_date(this.article.update_time);
@@ -164,9 +222,11 @@
                 this.article.display = "none";
               }
               $("title").html(this.article.title);
-              loading_finish();
               this.$nextTick(() => {
+                loading_finish();
                 fit_height();
+                fit_code();
+                handle_toc();
               });
             });
           },

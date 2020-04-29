@@ -176,7 +176,7 @@
                 var article = this.articles[key];
                 for (a of article) {
                   a.update_time = format_date(a.update_time);
-                  a.url = "/article/detail.html?id=" + a._id;
+                  a.url = "/article/edit.html?id=" + a._id;
                   a.edit_url = "/article/edit.html?id=" + a._id;
                   if (a.status==1){
                     a.showColor = "#f30067";

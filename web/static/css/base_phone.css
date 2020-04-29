@@ -46,7 +46,6 @@ body {
 }
 
 
-
 #triangle {}
 
 #triangle_bottom {}
@@ -526,31 +525,6 @@ body {
   font-size: 15px;
 }
 
-.article_a:hover {
-  color: #614ad3;
-  font-size: 18px;
-  outline: none;
-  text-decoration: none;
-  position: relative;
-  line-height: 1;
-  display: inline-block;
-  font-weight: bold;
-  animation: font-big 0.1s;
-  -moz-animation: font-biig 0.1s;
-  -webkit-animation: font-big 0.1s;
-  -o-animation: font-big 0.1s;
-}
-
-@keyframes font-big {
-  from {
-    font-size: 15px;
-  }
-
-  to {
-    font-size: 18px;
-  }
-}
-
 .article_all_left {
   float: left;
 }
@@ -765,6 +739,39 @@ body {
   display: block;
   animation: fadeIn 0.5s linear;
   -webkit-animation: fadeIn 0.5s linear;
+}
+
+#tmpedit_save {
+  width: 72px;
+  height: 36px;
+  border: none;
+  cursor: pointer;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  display: block !important;
+  background-color: #343a40;
+  color: white;
+  padding: 7px 0px;
+  text-align: center;
+  transition: color .15s ease-in-out,
+    background-color .15s ease-in-out,
+    border-color .15s ease-in-out,
+    box-shadow .15s ease-in-out;
+  font-family: -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    "Helvetica Neue",
+    Arial,
+    sans-serif,
+    "Apple Color Emoji",
+    "Segoe UI Emoji",
+    "Segoe UI Symbol";
+}
+
+#toc {
+  display: none;
 }
 
 @keyframes loading {

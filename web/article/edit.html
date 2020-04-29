@@ -98,7 +98,11 @@
         </div>
 
         <input hidden id="article_id" :value="article._id" />
-        <div id="mark_left" v-on:keyup="render" v-on:keydown="keydown">
+        <div
+          id="mark_left"
+          v-on:keyup="autoSaveAndRender"
+          v-on:keydown="keydown"
+        >
           <div id="mark_title">
             <input id="mark_input_title" :value="article.title" />
           </div>
@@ -220,9 +224,50 @@
           return null;
         };
 
+        // 当与上次的文字长度超过了10 个字，则进行render和save
+        var wordCount = 0;
+        var intervalCount = 10; // 间隔超过此值，则进行save和render
+        function autoSaveAndRender() {
+          val = $("#mark_edit").val();
+          nowCount = val.length;
+          console.log("last cnt:" + wordCount + ", now cnt:" + nowCount);
+          if (Math.abs(nowCount - wordCount) >= intervalCount) {
+            render();
+            wordCount = nowCount;
+            save();
+          }
+        }
+
         function render() {
           val = $("#mark_edit").val();
           $("#mark_right").html(marked(val));
+        }
+
+        function save() {
+          var title = $("#mark_input_title").val();
+          var content = $("#mark_edit").val();
+          var id = $("#article_id").val();
+          var catagory = $("#catagory").val();
+          console.log(title, id, content);
+
+          axios_i
+            .put(baseUrl + "/admin/article/" + id, {
+              title: title,
+              content: content,
+              catagory: catagory,
+            })
+            .then((response) => {
+              check_login(response.data);
+              if (response.data.code == 0) {
+                alert("保存成功");
+              }
+              return true;
+            })
+            .catch((error) => {
+              alert(error);
+              return false;
+            });
+          return true;
         }
 
         function publish() {
@@ -263,6 +308,7 @@
               .then((response) => {
                 check_login(response.data);
                 this.article = response.data.data;
+                wordCount = this.article.content.length;
                 this.article.md_preview = marked(this.article.content);
                 $("title").html(this.article.title + " - 文章修改");
                 loading_finish();
@@ -306,6 +352,7 @@
               }
             },
             render: render,
+            autoSaveAndRender: autoSaveAndRender,
             upload_click: function (e) {
               $("#upload").click();
             },
@@ -313,7 +360,7 @@
               history.go(-1);
             },
             save_to_home: function (e) {
-              if (this.save()) {
+              if (save()) {
                 window.location.href = pageUrl + "/article/list.html";
               }
             },
@@ -434,7 +481,7 @@
               ) {
                 e.preventDefault();
                 // TODO save article
-                this.save();
+                save();
                 return;
               }
 

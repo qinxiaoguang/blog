@@ -45,7 +45,13 @@ $(function () {
 
 
 
-$(document).scroll(scrollHandler); //事件监听
+$(document).scroll(scrollHandler); //监听屏幕滚动事件，保证header始终在最上方
+
+$(window).resize(function () { //当浏览器大小变化时
+    // 监听屏幕resize事件，手机的resize时，调用fit_code来自适应 code
+    fit_code();
+});
+
 var screen = $(window).width(); // 屏幕宽度
 var header = $('#header');
 var headerHeight = 160;
@@ -238,5 +244,16 @@ function fit_height() {
         $("#bottom_").css("position", "fixed");
         $("#bottom_").css("bottom", "0px");
         $("#main").css("height", screenHeight)
+    }
+}
+
+// 手机code自适应宽度
+function fit_code() {
+    if (is_phone() && location.pathname == "/article/detail.html") {
+        // 先把content pre的宽度设置为0，再查看contentWidth
+        $("#content pre").css("width", "0");
+        contentWidth = $("#content")[0].clientWidth;
+        // 再将content pre设置为该值
+        $("#content pre").css("width", contentWidth);
     }
 }

@@ -226,16 +226,20 @@
 
         // 当与上次的文字长度超过了10 个字，则进行render和save
         var wordCount = 0;
-        var intervalCount = 10; // 间隔超过此值，则进行save和render
+        var intervalCount = 20; // 间隔超过此值，则进行save和render
+        var boundCount = 500; //500字内每输入一个字都重新渲染
         function autoSaveAndRender() {
           val = $("#mark_edit").val();
           nowCount = val.length;
           console.log("last cnt:" + wordCount + ", now cnt:" + nowCount);
-          if (Math.abs(nowCount - wordCount) >= intervalCount) {
+          abs = Math.abs(nowCount - wordCount);
+          if (nowCount <= boundCount) {
             render();
-            wordCount = nowCount;
+          }
+          if (abs >= intervalCount) {
             save();
           }
+          wordCount = nowCount;
         }
 
         function render() {
@@ -246,6 +250,10 @@
         function save() {
           var title = $("#mark_input_title").val();
           var content = $("#mark_edit").val();
+          if (wordCount != content.length) {
+            render();
+            wordCount = content.length;
+          }
           var id = $("#article_id").val();
           var catagory = $("#catagory").val();
           console.log(title, id, content);
@@ -437,6 +445,7 @@
             publish: publish,
             open_upload: function (e) {},
             view: function (e) {
+              render();
               $("#mark_left").css("display", "none");
               $("#mark_right").css("width", "100%");
               $("#mark_right").css("display", "block");
@@ -481,6 +490,7 @@
               ) {
                 e.preventDefault();
                 // TODO save article
+                render();
                 save();
                 return;
               }

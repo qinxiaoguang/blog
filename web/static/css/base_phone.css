@@ -285,11 +285,13 @@ body {
   width: 100%;
   position: relative;
   height: 360px;
-  background: url("../img/work_panel_back.jpg");
+  /*background: url("../img/work_panel_back.jpg");*/
+  background: url("../img/top_panel_back.jpg");
+  /*background-color: #f6f6f6;*/
   background-repeat: no-repeat;
   background-size: cover;
   /*等比例拉伸，不会影响图片效果*/
-  background-attachment: fixed;
+  /*background-attachment: fixed;*/
   z-index: 1;
 }
 

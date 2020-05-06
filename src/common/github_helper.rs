@@ -17,27 +17,36 @@ pub fn get_access_token(code: &str) -> Option<String> {
     ];
     let url = "https://github.com/login/oauth/access_token".to_string();
     let client = reqwest::Client::new();
-    let res = match client
-        .post(&url)
-        .header(header::ACCEPT, "application/json")
-        .form(&params)
-        .send()
-    {
-        Ok(mut res) => {
-            let res = res.text().unwrap(); // res.text()会消耗res,后续再调用将为空
-            info!(
-                "req access_token success, url is: {}, res is:{:?}",
-                url, &res
-            );
-            res
-        }
-        Err(e) => {
-            error!(
-                "req access_token failed, url is :{}, error is :{:?}",
-                url, e
-            );
-            return None;
-        }
+    let mut retry_times = 1;
+    let res = loop {
+        let tmpres = match client
+            .post(&url)
+            .header(header::ACCEPT, "application/json")
+            .form(&params)
+            .send()
+        {
+            Ok(mut res) => {
+                let res = res.text().unwrap(); // res.text()会消耗res,后续再调用将为空
+                info!(
+                    "req access_token success, url is: {}, res is:{:?}",
+                    url, &res
+                );
+                res
+            }
+            Err(e) => {
+                error!(
+                    "req access_token failed, url is :{}, error is :{:?}",
+                    url, e
+                );
+                if retry_times >= 3 {
+                    return None;
+                } else {
+                    retry_times += 1;
+                    continue;
+                }
+            }
+        };
+        break tmpres;
     };
     let value: serde_json::Value = match serde_json::from_str(&res) {
         Ok(v) => v,
@@ -54,20 +63,29 @@ pub fn get_user_name(access_token: &str) -> Option<String> {
     let url = "https://api.github.com/user".to_string();
     //let url = "http://localhost:8888".to_string();
     let client = reqwest::Client::new();
-    let res = match client
-        .get(&url)
-        .header(header::AUTHORIZATION, format!("token {}", access_token))
-        .send()
-    {
-        Ok(mut res) => {
-            let res = res.text().unwrap(); // res.text()会消耗res,后续再调用将为空
-            info!("get user success, url is: {}, res is:{:?}", url, &res);
-            res
-        }
-        Err(e) => {
-            error!("req user failed, url is :{}, error is :{:?}", url, e);
-            return None;
-        }
+    let mut retry_times = 1;
+    let res = loop {
+        let tmpres = match client
+            .get(&url)
+            .header(header::AUTHORIZATION, format!("token {}", access_token))
+            .send()
+        {
+            Ok(mut res) => {
+                let res = res.text().unwrap(); // res.text()会消耗res,后续再调用将为空
+                info!("get user success, url is: {}, res is:{:?}", url, &res);
+                res
+            }
+            Err(e) => {
+                error!("req user failed, url is :{}, error is :{:?}", url, e);
+                if retry_times >= 3 {
+                    return None;
+                } else {
+                    retry_times += 1;
+                    continue;
+                }
+            }
+        };
+        break tmpres;
     };
     let value: serde_json::Value = match serde_json::from_str(&res) {
         Ok(v) => v,

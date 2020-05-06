@@ -36,7 +36,7 @@ pub struct ServerConf {
     pub port: Option<u16>,
     pub page_url: Option<String>,   // 页面的url
     pub server_url: Option<String>, // 服务的url
-    pub git_sync: Option<String>,   // git同步的脚本路径
+    pub web_path: Option<String>,   // 上传图片的位置
 }
 
 impl AppConf {

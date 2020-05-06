@@ -9,6 +9,7 @@ debugfile=$cwd/target/debug/$projname
 releasefile=$cwd/target/release/$projname
 output=$cwd/output
 pidfile=$output/PID
+web_path=$cwd/web
 
 rm -rf $output
 mkdir -p $output/tmpfile # tmpfile用于生成临时文件
@@ -27,6 +28,7 @@ function dev(){
     fi
     cp $debugfile $output
     cp -r $cwd/conf $output/
+    sed -i -e 's#${web_path}#'\"${web_path}\"'#g' $output/conf/app.toml 
 
     # 修改js文件
     cp $jsdir/base_dev.js $jsdir/base.js
@@ -48,6 +50,7 @@ function online(){
 
     cp $releasefile $output
     cp -r $cwd/conf_online $output/conf
+    sed -i -e 's#${web_path}#'\"${web_path}\"'#g' $output/conf/app.toml 
 
     cp $jsdir/base_online.js $jsdir/base.js
     cp $webdir/login_online.html $webdir/login.html
@@ -71,6 +74,7 @@ function ip(){
 
     cp $releasefile $output
     cp -r $cwd/conf_ip $output/conf
+    sed -i -e 's#${web_path}#'\"${web_path}\"'#g' $output/conf/app.toml 
 
     cp $jsdir/base_ip.js $jsdir/base.js
     cp $webdir/login_ip.html $webdir/login.html

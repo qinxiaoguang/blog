@@ -244,6 +244,10 @@ function fit_height() {
         $("#bottom_").css("position", "fixed");
         $("#bottom_").css("bottom", "0px");
         $("#main").css("height", screenHeight)
+    } else {
+        $("#bottom_").css("position", "relative");
+        $("#bottom_").css("bottom", null);
+        $("#main").css("height", null)
     }
 }
 

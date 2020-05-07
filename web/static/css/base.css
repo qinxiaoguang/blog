@@ -776,13 +776,38 @@ body {
   clear: both;
 }
 
+#life_content {}
+
 .life_img {
-  width: 640px;
+  width: 50%;
 }
 
 .life_video {
   width: 640px;
   height: 430px;
+}
+
+.life_item .img_des {
+  width: 100%;
+  height: auto;
+  /*text-align: center;*/
+  padding: 18px;
+  font-size: 24px;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  font-family: var(--font-sans-serif);
+  color: #34495e;
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.6rem;
+  font-weight: 280;
+}
+
+.img_des .img_des_title {
+  font-size: 72px;
+  color: #34495e;
+  font-weight: 400;
 }
 
 .media-body {
@@ -791,8 +816,8 @@ body {
 
 .card {
   border-radius: 0px;
-  margin-top: 4px;
-  margin-bottom: 4px;
+  margin-top: 0px;
+  margin-bottom: 0px;
 }
 
 #tool_panel {

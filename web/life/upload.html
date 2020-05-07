@@ -54,11 +54,11 @@
           <div
             id="button_group"
           >
-            <button class="header_button header_button_active" id="button_blog">
+            <button class="header_button" id="button_blog">
               BLOG
             </button>
             <button
-              class="header_button"
+              class="header_button  header_button_active"
               id="button_life"
             >
               LIFE
@@ -209,12 +209,7 @@
           mounted() {
             loading_finish();
             this.$nextTick(() => {
-                  var screenHeight = document.documentElement.clientHeight;
-                  var bodyHeight = document.body.clientHeight;
-                  if (bodyHeight < screenHeight) {
-                    $("#bottom_").css("position", "fixed");
-                    $("#bottom_").css("bottom", "0px");
-                  }
+                fit_height();
             });
           },
           methods: {
@@ -225,6 +220,7 @@
               $("#upload").click();
             },
             upload_pic: function(file) {
+              loading_show();
               base_upload_pic(
                 axios,
                 file,
@@ -236,8 +232,9 @@
                     $("#uploaded_img").attr("src", pageUrl+path);
                     this.img_show = true;
                   }
+                  loading_finish();
                 },
-                error => alert(error)
+                error => {loading_finish();alert(error);}
               );
             },
             typeChange: function(e){
@@ -278,6 +275,10 @@
                 check_login(response.data);
                 if(response.data.code == 0 ){
                   alert("上传成功");
+                  // 本页刷新
+                  setTimeout(function(){
+                    location.reload();
+                  },1000)
                 }else{
                   alert(response.data);
                 }

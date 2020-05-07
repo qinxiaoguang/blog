@@ -24,7 +24,9 @@ pub fn remove_media(id: &str) -> Result<i64> {
 }
 
 pub fn list_all_media() -> Result<Vec<Media>> {
-    let find_options = FindOptions::builder().build();
+    let find_options = FindOptions::builder()
+        .sort(Some(doc! {"create_time":-1}))
+        .build();
     let filter = Some(doc! {});
     list_medias(filter, find_options)
 }

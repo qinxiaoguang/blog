@@ -129,19 +129,19 @@
 
         <a v-show="upload_btn_show" :href="upload_page" style="color:#ccc;"><i class="fa fa-upload" aria-hidden="true"></i></a>
         <hr>
-        <div>
+        <div id="life_content" >
           <div v-for="val in medias">
             <a class="media_remove_btn" v-show="remove_btn_show" style="color:#ccc;cursor: pointer;" :value="val._id" @click="show_remove_modal"><i class="fa fa-times" :value="val._id" aria-hidden="true"></i></a>
             <div class="life_item card">
-              <div class="media" v-show="val.imgShow">
-                <img class="life_img mr-3" alt="..." :src="val.url" @load="imageLoaded" />
-                 <div class="media-body">
-                  <h5 class="mt-0">{{val.name}}</h5>
+              <div class="media" v-show="val.imgShow" :style="{'flex-direction':val.flexdir}">
+                <img class="life_img" alt="..." :src="val.imgUrl" @load="imageLoaded" />
+                 <div class="media-body img_des" :style="{'text-align':val.textalign}">
+                  <h1 class="img_des_title">{{val.name}}</h1>
                   {{val.des}}
                   </div>
               </div>
               <div class="media" v-show="val.videoShow">
-                <iframe class="life_video mr-3" :src="val.url"  scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>
+                <iframe class="life_video mr-3" :src="val.videoUrl"  scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>
                  <div class="media-body">
                   <h5 class="mt-0">{{val.name}}</h5>
                   {{val.des}}
@@ -208,14 +208,25 @@
           mounted() {
             axios.get(baseUrl + "/media/all").then(response => {
               this.medias = response.data.data;
+              var cnt=0;
               for (m of this.medias){
                 if(m.media_type == 1){
                   // 图片
-                  m.url = get_img_url(m.url);
+                  m.imgUrl = get_img_url(m.url);
+                  m.videoUrl = "";
                   m.imgShow = true;
                   m.videoShow = false;
+                  if (cnt%2 == 0){
+                    m.flexdir = "row-reverse";
+                    m.textalign="right";
+                  } else{
+                    m.flexdir = "row";
+                    m.textalign="left";
+                  }
+                  cnt+=1;
                 } else if (m.media_type == 2){
-                  m.url = get_video_url(m.url);
+                  m.videoUrl = get_video_url(m.url);
+                  m.imgUrl = "";
                   m.imgShow = false;
                   m.videoShow =true;
                 }

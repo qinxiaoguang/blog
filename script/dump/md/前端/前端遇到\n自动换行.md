@@ -1,0 +1,1 @@
+只要在包含该字符的div或其他标签内的css中加入 ` white-space: pre-line;`即可。

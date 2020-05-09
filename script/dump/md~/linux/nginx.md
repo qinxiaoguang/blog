@@ -22,17 +22,17 @@ mac : `brew install nginx`
 nginx配置文件位于 `/usr/local/etc/nginx/nginx.conf` 下。
 详细配置:<http://www.nginx.cn/76.html>
 
-worker~processes~
+worker_processes
 -----------------
 
 指明nginx开启的进程数，一般为CPU核数的1\~2倍，通过\`cat /proc/cpuinfo\|
 grep \"cpu cores\"\| uniq\`查看CPU核数。
 
-worker~cpuaffinity~
+worker_cpuaffinity
 -------------------
 
 这个要结合 `worker_processes`
-来使用，进程开了多少个，worker~cpuaffinity后的参数就有多少个~，比如:
+来使用，进程开了多少个，worker_cpuaffinity后的参数就有多少个，比如:
 
 ``` {.nginx}
 worker_processes     2;
@@ -48,15 +48,15 @@ worker_cpu_affinity 0101 1010;
 
 上述示例表示，第一个进程对应第一和第三个内核，第二个进程对应第二个和第四个内核。
 
-worker~rlimitnofile~
+worker_rlimitnofile
 --------------------
 
-worker~rlimitnofile~
+worker_rlimitnofile
 更改worker进程的最大打开文件数限制。如果没设置的话，这个值为操作系统的限制。设置后你的操作系统和Nginx可以处理比"ulimit
 -a"更多的文件，所以把这个值设高，这样nginx就不会有"too many open
 files"问题了。
 
-error~log~
+error_log
 ----------
 
 nginx的 `error_log` 类型如下（从左到右：debug最详细 crit最少）： \[
@@ -89,11 +89,11 @@ events {
 }
 ```
 
-worker~connections~
-设置可由一个worker进程同时打开的最大连接数。总的最大链接数是进程数量和worker~connections的乘积~。如果设置了上面提到的worker~rlimitnofile~，我们可以将这个值设得很高。但是这个还有其他原因限制，所以不能不切实际的设置很高
+worker_connections
+设置可由一个worker进程同时打开的最大连接数。总的最大链接数是进程数量和worker_connections的乘积。如果设置了上面提到的worker_rlimitnofile，我们可以将这个值设得很高。但是这个还有其他原因限制，所以不能不切实际的设置很高
 
-accept~mutex如果打开了~，连接会以串行方式运行，一个Worker进程被唤醒，其他进程保持休眠，如果没有打开，所有的worker被唤醒，不过只有一个Worker获取链接，其他的Worker重新进入休眠状态，这就是\[惊群问题\]。
-但是如果连接数量少的时候，一般是建议打开accept~mutex的~，但是如果连接数量比较多的时候，是建议关闭的。
+accept_mutex如果打开了，连接会以串行方式运行，一个Worker进程被唤醒，其他进程保持休眠，如果没有打开，所有的worker被唤醒，不过只有一个Worker获取链接，其他的Worker重新进入休眠状态，这就是[惊群问题]。
+但是如果连接数量少的时候，一般是建议打开accept_mutex的，但是如果连接数量比较多的时候，是建议关闭的。
 
 use epoll,其有 `use epoll/poll/select/kqueue` 等，一般使用epoll
 
@@ -107,7 +107,6 @@ Socket之间进行传输数据，如果在关闭状态，磁盘的数据首先�
 参考:<http://www.linuxidc.com/Linux/2014-05/102321.htm>
 
 ``` {.nginx}
-
     # 开启sendfile，从磁盘读取文件后直接发送到网卡缓冲区，减少用户态和内核态的数据拷贝                                               
     sendfile        on;
     # 同时设置了两个值的话，将会在第一个buf发送的时候，强制push数据，而第二个buf时，将会调用tcp_cork来打开nagle算法，也就是后面的都会
@@ -277,4 +276,18 @@ nginx路由转发
 location /test/ {
     proxy_pass http://example.com:protmail/;
 }
+```
+
+# gzip压缩
+网络中有时候会有很大的图片，需要对其进行一定的压缩，使用gzip即可进行压缩，配置如下:
+```nginx
+# 位于http模块下
+gzip on; # 开启gzip压缩
+gzip_min_length 1k; # 文件大小大于1k时压缩
+gzip_buffers 4 16k; # 设置用于处理请求压缩的缓冲区数量和大小
+#gzip_http_version 1.0; # 默认1.1，1.0不压缩，如果有需求，打开此注释
+gzip_comp_level 2; # 压缩等级，数字越大压缩越好，耗时越长
+gzip_types text/plain application/x-javascript text/css application/xml text/javascript application/x-httpd-php image/jpeg image/gif image/png; # 压缩的文件类型
+gzip_vary off; # 
+gzip_disable "MSIE [1-6]\."; # 浏览器禁用
 ```

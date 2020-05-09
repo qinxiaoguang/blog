@@ -227,7 +227,7 @@
         // 当与上次的文字长度超过了10 个字，则进行render和save
         var wordCount = 0;
         var intervalCount = 20; // 间隔超过此值，则进行save和render
-        var boundCount = 500; //500字内每输入一个字都重新渲染
+        var boundCount = 4000; //4000字内每输入一个字都重新渲染
         function autoSaveAndRender() {
           val = $("#mark_edit").val();
           nowCount = val.length;
@@ -238,8 +238,8 @@
           }
           if (abs >= intervalCount) {
             save();
+            wordCount = nowCount;
           }
-          wordCount = nowCount;
         }
 
         function render() {

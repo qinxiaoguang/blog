@@ -4,159 +4,121 @@
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!-->
 <html class="no-js">
-  <!--<![endif]-->
-  <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>上传</title>
-    <meta name="description" content="" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link
-      rel="stylesheet"
-      href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css"
-      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-      crossorigin="anonymous"
-    />
-    <link
-      href="https://cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow-night-eighties.min.css"
-      rel="stylesheet"
-    />
-    <link href="../static/css/marked.css" rel="stylesheet" />
-      <link
-      rel="stylesheet"
-      type="text/css"
-      media="screen and (min-device-width: 720px)"
-      href="../static/css/base.css"
-    />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      media="screen and (max-device-width: 720px)"
-      href="../static/css/base_phone.css"
-    />
-    <link
-      href="https://cdn.bootcss.com/font-awesome/5.12.1/css/all.min.css"
-      rel="stylesheet"
-    />
-  </head>
-  <body>
-    <div id="main">
-      <div id="header_panel">
-        <!--后续进行优化-->
-        <div id="header">
-          <div id="triangle"></div>
-          <button
-            class="header_button"
-            id="button_home"
-          >
-            HOME
+<!--<![endif]-->
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>上传</title>
+  <meta name="description" content="" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
+  <link href="https://cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow-night-eighties.min.css" rel="stylesheet" />
+  <link href="../static/css/marked.css" rel="stylesheet" />
+  <link rel="stylesheet" type="text/css" media="screen and (min-device-width: 720px)" href="../static/css/base.css" />
+  <link rel="stylesheet" type="text/css" media="screen and (max-device-width: 720px)"
+    href="../static/css/base_phone.css" />
+  <link href="https://cdn.bootcss.com/font-awesome/5.12.1/css/all.min.css" rel="stylesheet" />
+</head>
+
+<body>
+  <div id="main">
+    <div id="header_panel">
+      <!--后续进行优化-->
+      <div id="header">
+        <div id="triangle"></div>
+        <button class="header_button" id="button_home">
+          HOME
+        </button>
+        <div id="button_group">
+          <button class="header_button" id="button_blog">
+            BLOG
           </button>
-          <div
-            id="button_group"
-          >
-            <button class="header_button" id="button_blog">
-              BLOG
-            </button>
-            <button
-              class="header_button  header_button_active"
-              id="button_life"
-            >
-              LIFE
-            </button>
-            <button
-              class="header_button"
-              id="button_tool"
-            >
-              TOOL
-            </button>
-            <button
-              class="header_button"
-              id="button_about"
-            >
-              ABOUT
-            </button>
-          </div>
+          <button class="header_button  header_button_active" id="button_life">
+            LIFE
+          </button>
+          <button class="header_button" id="button_tool">
+            TOOL
+          </button>
+          <button class="header_button" id="button_about">
+            ABOUT
+          </button>
         </div>
       </div>
-      <div id="upload_panel">
-        <!-- Modal -->
-        <div
-          class="modal fade"
-          id="modal_alert"
-          tabindex="-1"
-          role="dialog"
-          aria-hidden="true"
-        >
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title">提示</h5>
-                <button
-                  type="button"
-                  class="close"
-                  data-dismiss="modal"
-                  aria-label="Close"
-                >
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                确定要删除?
-              </div>
-              <div class="modal-footer">
-                <button
-                  type="button"
-                  class="btn btn-secondary"
-                  data-dismiss="modal"
-                >
-                  否
-                </button>
-                <button
-                  type="button"
-                  class="btn btn-primary"
-                >
-                  是
-                </button>
-              </div>
+    </div>
+    <div id="upload_panel">
+      <!-- Modal -->
+      <div class="modal fade" id="modal_alert" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">提示</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              确定要删除?
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                否
+              </button>
+              <button type="button" class="btn btn-primary">
+                是
+              </button>
             </div>
           </div>
         </div>
-        <div class="form-group">
+      </div>
+
+      <div class="modal fade" id="img_show_modal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">图片展示</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div id="img_big_show"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
         <label for="name">媒资类型</label>
-        <select id="type"  class="custom-select" @change="typeChange($event)">
-         <option selected value ="1">图片</option>
-         <option value ="2">视频</option>
+        <select id="type" class="custom-select" @change="typeChange($event)">
+          <option selected value="1">图片</option>
+          <option value="2">视频</option>
         </select>
-        </div>
-        <div class="form-group">
-          <label for="name">名称</label>
-          <input type="text" class="form-control" id="name" placeholder="媒资名">
-        </div>
-        <div class="form-group">
-          <label for="des">描述</label>
-          <input type="text" class="form-control" id="des" placeholder="描述">
-        </div>
-        <div class="form-group" v-show="url_show">
-          <label for="des">url</label>
-          <input type="text" class="form-control" id="url" placeholder="url">
-        </div>
-        
-        <input
-          type="file"
-          value=""
-          id="upload"
-          accept="image/*"
-          style="display: none;"
-          @change="click_upload"
-        />
-        <div>
+      </div>
+      <div class="form-group">
+        <label for="name">名称</label>
+        <input type="text" class="form-control" id="name" placeholder="媒资名">
+      </div>
+      <div class="form-group">
+        <label for="des">描述</label>
+        <textarea class="form-control" id="des" placeholder="描述" row="3"></textarea>
+      </div>
+      <div class="form-group" v-show="url_show">
+        <label for="des">url</label>
+        <input type="text" class="form-control" id="url" placeholder="url">
+      </div>
+
+      <input type="file" value="" id="upload" accept="image/*" style="display: none;" @change="click_upload" />
+      <div>
         <div class="upload_button mark_btn" @click="upload_click" v-show="upload_btn_show">
           <i class="fa fa-upload" aria-hidden="true" style="margin:10px;"></i>
         </div>
-          <button id="submit" @click="submit" class="btn btn-primary" style="float:right">上传</button>
-          </div>
+        <button id="submit" @click="submit" class="btn btn-primary" style="float:right">上传</button>
+      </div>
 
-          <img id="uploaded_img" v-show="img_show" />
+      <img id="uploaded_img" v-show="img_show" @click="imgBigShow" />
+    </div>
 
     <div id="bottom_">
       <div id="triangle_bottom"></div>
@@ -173,53 +135,53 @@
     <!--<script src="https://cdn.jsdelivr.net/npm/vue@2.6.0" async defer></script>-->
     <!-- #vue# 为了不繁琐，使用双#号表示注释的结束-->
     <!-- bootrstrap -->
-    <script
-      src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js"
-      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-      crossorigin="anonymous"
-    ></script>
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js"
+      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
+    </script>
 
     <script src="../static/js/base.js"></script>
-    <script
-      src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js"
-      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js"
-      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-      crossorigin="anonymous"
-    ></script>
+    <script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js"
+      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
+    </script>
     <script src="https://cdn.bootcss.com/axios/0.19.2/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
 
     <script>
-      $(function() {
+      $(function () {
         axios.defaults.withCredentials = true;
         var panel_with_back = new Vue({
           el: "#upload_panel",
           data() {
             return {
-              upload_btn_show:true,
-              url_show:false,
-              img_show:false,
+              upload_btn_show: true,
+              url_show: false,
+              img_show: false,
             };
           },
           mounted() {
             loading_finish();
             this.$nextTick(() => {
-                fit_height();
+              fit_height();
             });
           },
           methods: {
-            click_upload: function(e) {
+            imgBigShow: function (e) {
+              source = e.target.attributes["src"].value;
+              $("#img_show_modal").find("#img_big_show").html("<image src='" + source +
+                "' class='carousel-inner img-responsive img-rounded' />");
+              $("#img_show_modal").modal('show');
+            },
+            click_upload: function (e) {
               this.upload_pic(e.target.files[0]);
             },
-            upload_click: function(e) {
+            upload_click: function (e) {
               $("#upload").click();
             },
-            upload_pic: function(file) {
+            upload_pic: function (file) {
               loading_show();
               base_upload_pic(
                 axios,
@@ -227,66 +189,69 @@
                 response => {
                   if (response.data.code == 0) {
                     // 将图片的id显示
-                    var path= "/static/img/upload/" + response.data.data;
+                    var path = "/static/img/upload/" + response.data.data;
                     $("#url").val(path);
-                    $("#uploaded_img").attr("src", pageUrl+path);
+                    $("#uploaded_img").attr("src", pageUrl + path);
                     this.img_show = true;
                   }
                   loading_finish();
                 },
-                error => {loading_finish();alert(error);}
+                error => {
+                  loading_finish();
+                  alert(error);
+                }
               );
             },
-            typeChange: function(e){
+            typeChange: function (e) {
               var type = e.target.value;
-              if (type == 1){
+              if (type == 1) {
                 // 图片 显示upload图标，隐藏url
                 this.upload_btn_show = true;
                 this.url_show = false;
                 this.img_show = true;
-              } else  if (type == 2){
+              } else if (type == 2) {
                 // 视频 隐藏upload图标，显示url
                 this.upload_btn_show = false;
                 this.url_show = true;
                 this.img_show = false;
               }
             },
-            submit:function(){
+            submit: function () {
               var name = $("#name").val();
               var des = $("#des").val();
               var type = $("#type").val();
               var url = $("#url").val();
 
-              if(url == null || url == ""){
-                if(type=="1"){
+              if (url == null || url == "") {
+                if (type == "1") {
                   alert("请上传图片");
-                }else{
+                } else {
                   alert("请输入视频地址");
                 }
                 return;
-              } 
+              }
               // 开始上传
-              upload_media(axios,{
-                "name":name,
-                "des":des,
-                "media_type":parseInt(type),
-                "url":url,
-              },response=>{
+              upload_media(axios, {
+                "name": name,
+                "des": des,
+                "media_type": parseInt(type),
+                "url": url,
+              }, response => {
                 check_login(response.data);
-                if(response.data.code == 0 ){
+                if (response.data.code == 0) {
                   alert("上传成功");
                   // 本页刷新
-                  setTimeout(function(){
+                  setTimeout(function () {
                     location.reload();
-                  },1000)
-                }else{
+                  }, 1000)
+                } else {
                   alert(response.data);
                 }
-              },error=>{
+              }, error => {
                 alert(error);
               })
             },
-            show_remove_modal: function(e) {
+            show_remove_modal: function (e) {
               $("#modal_alert").modal("show");
             }
           }
@@ -294,5 +259,6 @@
       });
     </script>
     <!-- #bootrstrap# -->
-  </body>
+</body>
+
 </html>

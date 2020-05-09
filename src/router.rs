@@ -10,6 +10,7 @@ pub fn route(sc: &mut web::ServiceConfig) {
         .service(article::dump)
         .service(oauth::oauth_callback)
         .service(media::list_all_media)
+        .service(media::list_page_medias)
         .service(media::list_recent_media)
         .service(media::list_recent_img)
         .service(tool::save_content)

@@ -40,10 +40,15 @@ $(function () {
     // 给body添加统一loading组件
     let loading = '<div id="loading"></div>';
     $("body").append(loading);
-
 });
 
-
+/*function imgBigShow(target) {
+    if (target.classList.contains("imgBigShow")) {
+        target.classList.remove("imgBigShow");
+    } else {
+        target.classList.add("imgBigShow");
+    }
+}*/
 
 $(document).scroll(scrollHandler); //监听屏幕滚动事件，保证header始终在最上方
 
@@ -240,14 +245,15 @@ function check_login(data) {
 function fit_height() {
     var screenHeight = document.documentElement.clientHeight;
     var bodyHeight = document.body.clientHeight;
+    console.log(bodyHeight + "," + screenHeight);
     if (bodyHeight < screenHeight) {
         $("#bottom_").css("position", "fixed");
         $("#bottom_").css("bottom", "0px");
-        $("#main").css("height", screenHeight)
+        $("#main").css("height", screenHeight);
     } else {
         $("#bottom_").css("position", "relative");
-        $("#bottom_").css("bottom", null);
-        $("#main").css("height", null)
+        $("#bottom_").css("bottom", '');
+        $("#main").css("height", '');
     }
 }
 

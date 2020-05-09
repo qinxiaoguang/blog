@@ -589,11 +589,11 @@ body {
 }
 
 #media_all {
-  margin: 80px 80px;
+  margin: 32px 16px;
 }
 
 #upload_panel {
-  margin: 80px 80px;
+  margin: 32px 16px;
 }
 
 .upload_button {
@@ -694,8 +694,20 @@ body {
   clear: both;
 }
 
+.img_des_title {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-size: 32px;
+  line-height: 1.0;
+  margin: 0 0;
+}
+
+.img_des {
+  margin-bottom: 16px;
+}
+
 .life_img {
-  width: 640px;
+  width: 100%;
 }
 
 .life_video {
@@ -704,13 +716,14 @@ body {
 }
 
 .media-body {
-  padding: 8px;
+  padding-left: 8px;
+  padding-right: 8px;
+  white-space: pre-line;
 }
 
 .card {
   border-radius: 0px;
-  margin-top: 4px;
-  margin-bottom: 4px;
+  margin-bottom: 16px;
 }
 
 .tool_card {
@@ -737,10 +750,32 @@ body {
   display: block;
 }
 
+#life_loading {
+  position: relative;
+  border-radius: 100%;
+  left: 50%;
+  top: 40%;
+  margin-top: 18px;
+  margin-left: -18px;
+  width: 36px;
+  height: 36px;
+  border: 2px #ffffff solid;
+  border-top-color: #ffd31d;
+  border-bottom-color: #ffd31d;
+  border-left-color: #fff;
+  border-right-color: #fff;
+  animation: loading 1s linear infinite;
+}
+
 .fadeIn {
   display: block;
   animation: fadeIn 0.5s linear;
   -webkit-animation: fadeIn 0.5s linear;
+}
+
+.small_hint {
+  color: #ccc;
+  font-size: 12px;
 }
 
 #tmpedit_save {

@@ -808,10 +808,13 @@ body {
   font-size: 36px;
   color: #34495e;
   font-weight: 320;
+  padding-bottom: 0px;
+  margin-bottom: 0px;
 }
 
 .media-body {
   padding: 8px;
+  white-space: pre-line;
 }
 
 .card {
@@ -837,6 +840,28 @@ body {
   margin: 80px 80px;
 }
 
+#life_loading {
+  position: relative;
+  border-radius: 100%;
+  left: 50%;
+  top: 40%;
+  margin-top: 18px;
+  margin-left: -18px;
+  width: 36px;
+  height: 36px;
+  border: 2px #ffffff solid;
+  border-top-color: #ffd31d;
+  border-bottom-color: #ffd31d;
+  border-left-color: #fff;
+  border-right-color: #fff;
+  animation: loading 1s linear infinite;
+}
+
+#img_show_modal .modal-dialog {
+  min-width: 90%;
+  max-width: 90%;
+}
+
 #loading {
   position: fixed;
   background-color: #f5f7f9;
@@ -859,6 +884,23 @@ body {
   display: block;
   animation: fadeIn 0.5s linear;
   -webkit-animation: fadeIn 0.5s linear;
+}
+
+.fadeLeft {
+  display: block;
+  animation: fadeLeft 0.5s linear;
+  -webkit-animation: fadeLeft 0.5s linear;
+}
+
+.fadeRight {
+  display: block;
+  animation: fadeRight 0.5s linear;
+  -webkit-animation: fadeRight 0.5s linear;
+}
+
+.small_hint {
+  color: #ccc;
+  font-size: 12px;
 }
 
 @keyframes loading {
@@ -893,6 +935,62 @@ body {
   100% {
     opacity: 1;
     /*结尾状态 透明度为1*/
+  }
+}
+
+@keyframes fadeLeft {
+  0% {
+    /*初始状态 透明度为0*/
+    margin-left: 100px;
+    opacity: 0;
+  }
+
+  20% {
+    margin-left: 80px;
+    opacity: .2;
+  }
+
+  50% {
+    margin-left: 50px;
+    opacity: .5;
+  }
+
+  70% {
+    margin-left: 20px;
+    opacity: .7;
+  }
+
+  100% {
+    margin-left: 0px;
+    opacity: 1;
+  }
+}
+
+@keyframes fadeRight {
+  0% {
+    /*初始状态 透明度为0*/
+    margin-left: -100px;
+    opacity: 0;
+  }
+
+  20% {
+    margin-left: -80px;
+    opacity: .2;
+  }
+
+  50% {
+    margin-left: -50px;
+    opacity: .5;
+  }
+
+  70% {
+    margin-left: -20px;
+    opacity: .7;
+  }
+
+  100% {
+    margin-left: 0px;
+    opacity: 1;
   }
 }
 

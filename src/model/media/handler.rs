@@ -14,6 +14,18 @@ pub fn get_media(id: &str) -> Result<Media> {
     super::get(Media::TABLE_NAME, id)
 }
 
+pub fn list_page_medias(page_size: i64, page_num: i64) -> Result<Vec<Media>> {
+    let mut start = (page_num - 1) * page_size;
+    start = if start < 0 { 0 } else { start };
+    let find_options = FindOptions::builder()
+        .sort(Some(doc! {"create_time":-1}))
+        .skip(start)
+        .limit(page_size)
+        .build();
+    let filter = Some(doc! {});
+    list_medias(filter, find_options)
+}
+
 // base 列出指定文章
 pub fn list_medias(filter: Option<Document>, find_options: FindOptions) -> Result<Vec<Media>> {
     super::list(Media::TABLE_NAME, filter, find_options)

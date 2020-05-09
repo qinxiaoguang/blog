@@ -4,161 +4,133 @@
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!-->
 <html class="no-js">
-  <!--<![endif]-->
-  <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>近期生活</title>
-    <meta name="description" content="" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link
-      rel="stylesheet"
-      href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css"
-      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-      crossorigin="anonymous"
-    />
-    <link
-      href="https://cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow-night-eighties.min.css"
-      rel="stylesheet"
-    />
-    <link href="../static/css/marked.css" rel="stylesheet" />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      media="screen and (min-device-width: 720px)"
-      href="../static/css/base.css"
-    />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      media="screen and (max-device-width: 720px)"
-      href="../static/css/base_phone.css"
-    />
-     <link
-      href="https://cdn.bootcss.com/font-awesome/5.12.1/css/all.min.css"
-      rel="stylesheet"
-    />
-  </head>
-  <body>
-    <div id="main">
-      <div id="header_panel">
-        <!--后续进行优化-->
-        <div id="header">
-          <div id="triangle"></div>
-          <button
-            class="header_button"
-            id="button_home">
-            HOME
+<!--<![endif]-->
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>近期生活</title>
+  <meta name="description" content="" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
+  <link href="https://cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow-night-eighties.min.css" rel="stylesheet" />
+  <link href="../static/css/marked.css" rel="stylesheet" />
+  <link rel="stylesheet" type="text/css" media="screen and (min-device-width: 720px)" href="../static/css/base.css" />
+  <link rel="stylesheet" type="text/css" media="screen and (max-device-width: 720px)"
+    href="../static/css/base_phone.css" />
+  <link href="https://cdn.bootcss.com/font-awesome/5.12.1/css/all.min.css" rel="stylesheet" />
+</head>
+
+<body>
+  <div id="main">
+    <div id="header_panel">
+      <!--后续进行优化-->
+      <div id="header">
+        <div id="triangle"></div>
+        <button class="header_button" id="button_home">
+          HOME
+        </button>
+        <div id="button_group">
+          <button class="header_button " id="button_blog">
+            BLOG
           </button>
-          <div
-            id="button_group"
-          >
-            <button class="header_button " id="button_blog">
-              BLOG
-            </button>
-            <button
-              class="header_button header_button_active"
-              id="button_life"
-            >
-              LIFE
-            </button>
-            <button
-              class="header_button"
-              id="button_tool"
-            >
-              TOOL
-            </button>
-            <button
-              class="header_button"
-              id="button_about"
-            >
-              ABOUT
-            </button>
-          </div>
+          <button class="header_button header_button_active" id="button_life">
+            LIFE
+          </button>
+          <button class="header_button" id="button_tool">
+            TOOL
+          </button>
+          <button class="header_button" id="button_about">
+            ABOUT
+          </button>
         </div>
       </div>
+    </div>
 
 
-      <div id="media_all">
+    <div id="media_all">
 
-                <div
-          class="modal fade"
-          id="modal_alert"
-          tabindex="-1"
-          role="dialog"
-          aria-hidden="true"
-        >
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title">提示</h5>
-                <button
-                  type="button"
-                  class="close"
-                  data-dismiss="modal"
-                  aria-label="Close"
-                >
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                确定要删除?
-              </div>
-              <div class="modal-footer">
-                <button
-                  type="button"
-                  class="btn btn-secondary"
-                  data-dismiss="modal"
-                >
-                  否
-                </button>
-                <button
-                  type="button"
-                  class="btn btn-primary"
-                  id="media_remove_confirm_btn"
-                  @click="media_remove"
-                >
-                  是
-                </button>
-              </div>
+      <div class="modal fade" id="modal_alert" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">提示</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              确定要删除?
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                否
+              </button>
+              <button type="button" class="btn btn-primary" id="media_remove_confirm_btn" @click="media_remove">
+                是
+              </button>
             </div>
           </div>
         </div>
+      </div>
 
+      <div class="modal fade" id="img_show_modal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">图片展示</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div id="img_big_show"></div>
+            </div>
+          </div>
+        </div>
+      </div>
 
-
-        <a v-show="upload_btn_show" :href="upload_page" style="color:#ccc;"><i class="fa fa-upload" aria-hidden="true"></i></a>
-        <hr>
-        <div id="life_content" >
-          <div v-for="val in medias">
-            <a class="media_remove_btn" v-show="remove_btn_show" style="color:#ccc;cursor: pointer;" :value="val._id" @click="show_remove_modal"><i class="fa fa-times" :value="val._id" aria-hidden="true"></i></a>
-            <div class="life_item card">
-              <div class="media" v-show="val.imgShow" :style="{'flex-direction':val.flexdir}">
-                <img class="life_img" alt="..." :src="val.imgUrl" @load="imageLoaded" />
-                 <div class="media-body img_des" :style="{'text-align':val.textalign}">
-                  <h1 class="img_des_title">{{val.name}}</h1>
-                  {{val.des}}
-                  </div>
-              </div>
-              <div class="media" v-show="val.videoShow">
-                <iframe class="life_video mr-3" :src="val.videoUrl"  scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>
-                 <div class="media-body">
-                  <h5 class="mt-0">{{val.name}}</h5>
-                  {{val.des}}
-                  </div>
-              </div>
-
+      <a v-show="upload_btn_show" :href="upload_page" style="color:#ccc;"><i class="fa fa-upload"
+          aria-hidden="true"></i></a>
+      <hr>
+      <div id="life_content">
+        <div v-for="val in medias">
+          <a class="media_remove_btn" v-show="remove_btn_show" style="color:#ccc;cursor: pointer;" :value="val._id"
+            @click="show_remove_modal"><i class="fa fa-times" :value="val._id" aria-hidden="true"></i></a>
+          <div class="life_item card fadeLeft">
+            <div class="media" v-show="val.imgShow" :style="{'flex-direction':val.flexdir}">
+              <img class="life_img" alt="..." :src="val.imgUrl" @load="imageLoaded" @click="imgBigShow" />
+              <div class="media-body img_des" :style="{'text-align':val.textalign}">
+                <h1 class="img_des_title">{{val.name}}</h1><span
+                  class="small_hint">{{val.create_time}}</span><br>{{val.des}}
               </div>
             </div>
+            <div class="media" v-show="val.videoShow">
+              <iframe class="life_video mr-3" :src="val.videoUrl" scrolling="no" border="0" frameborder="no"
+                framespacing="0" allowfullscreen="true"> </iframe>
+              <div class="media-body">
+                <h5 class="mt-0">{{val.name}}</h5><span class="small_hint">{{val.create_time}}</span>{{val.des}}
+              </div>
+            </div>
+
+          </div>
+
         </div>
-        <hr />
+
+        <div id="life_loading" :style="{'display':loading}"></div>
+        <div id="life_ending" :style="{'display':ending}">
+          <p style="width:100%;text-align: center;color:#ccc;font-size:12px">已经到底了, 但青春永不灭</p>
+        </div>
       </div>
+      <hr />
+    </div>
 
 
-      <div id="bottom_">
-           <div id="triangle_bottom"></div>
-      </div>
- 
+    <div id="bottom_">
+      <div id="triangle_bottom"></div>
+    </div>
+
 
     <!--[if lt IE 7]>
       <p class="browsehappy">
@@ -171,71 +143,120 @@
     <!--<script src="https://cdn.jsdelivr.net/npm/vue@2.6.0" async defer></script>-->
     <!-- #vue# 为了不繁琐，使用双#号表示注释的结束-->
     <!-- bootrstrap -->
-    <script
-      src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js"
-      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-      crossorigin="anonymous"
-    ></script>
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js"
+      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
+    </script>
 
     <script src="../static/js/base.js"></script>
-    <script
-      src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js"
-      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js"
-      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-      crossorigin="anonymous"
-    ></script>
+    <script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js"
+      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
+    </script>
     <script src="https://cdn.bootcss.com/axios/0.19.2/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
 
     <script>
-      $(function() {
+      $(function () {
         axios.defaults.withCredentials = true;
         var media_all = new Vue({
           el: "#media_all",
           data() {
             return {
-              medias: null,
-              remove_btn_show:false,
-              upload_btn_show:false,
-              upload_page:null,
+              medias: [],
+              remove_btn_show: false,
+              upload_btn_show: false,
+              upload_page: null,
+              page_num: 1,
+              loading: "none",
+              ending: "none",
+              lock: false,
             };
           },
           mounted() {
-            axios.get(baseUrl + "/media/all").then(response => {
-              this.medias = response.data.data;
-              var cnt=0;
-              for (m of this.medias){
-                if(m.media_type == 1){
+            axios.get(baseUrl + "/media/page/1").then(response => {
+              this.render_data(response);
+              // 下滑事件
+              this.scroll();
+            });
+
+          },
+          methods: {
+            scroll: function () {
+              let isLoading = false
+              window.onscroll = () => {
+                // 距离底部50px时加载一次
+                let bottomOfWindow = document.documentElement.offsetHeight - document.documentElement
+                  .scrollTop - window.innerHeight <= 0
+                if (bottomOfWindow && isLoading == false && !this.lock) {
+                  this.lock = true;
+                  isLoading = true;
+                  this.page_num += 1;
+                  this.loading = "block";
+                  axios.get(baseUrl + "/media/page/" + this.page_num).then(response => {
+                    this.render_data(response);
+                    if (response.data.data.length > 0) {
+                      // 下滑事件
+                      isLoading = false;
+                    } else {
+                      // 显示已经到底了
+                      this.ending = "block";
+                    }
+                    this.loading = "none";
+                    this.lock = false;
+                  }).catch(err => {
+                    this.lock = false
+                  });
+                }
+              }
+            },
+            render_data: function (response) {
+              var tmpmedias = response.data.data;
+              for (m of tmpmedias) {
+                this.medias.push(m);
+              }
+              console.log(this.medias);
+              var cnt = 0;
+              for (m of this.medias) {
+                if (m.date_formated == null || m.date_formated == undefined) {
+                  m.date_formated = false;
+                }
+                if (!m.date_formated) {
+                  m.create_time = format_date(m.create_time);
+                  m.date_formated = true;
+                }
+                if (m.media_type == 1) {
                   // 图片
                   m.imgUrl = get_img_url(m.url);
                   m.videoUrl = "";
                   m.imgShow = true;
                   m.videoShow = false;
-                  if (cnt%2 == 0){
-                    m.flexdir = "row-reverse";
-                    m.textalign="right";
-                  } else{
-                    m.flexdir = "row";
-                    m.textalign="left";
+                  if (is_phone()) {
+                    m.flexdir = "column";
+                  } else {
+                    if (cnt % 2 == 0) {
+                      m.flexdir = "row-reverse";
+                      m.textalign = "right";
+                    } else {
+                      m.flexdir = "row";
+                      m.textalign = "left";
+                    }
                   }
-                  cnt+=1;
-                } else if (m.media_type == 2){
+                  cnt += 1;
+                } else if (m.media_type == 2) {
                   m.videoUrl = get_video_url(m.url);
                   m.imgUrl = "";
                   m.imgShow = false;
-                  m.videoShow =true;
+                  m.videoShow = true;
                 }
               }
-              if(is_owner()){
+              if (is_owner()) {
                 this.remove_btn_show = true;
                 this.upload_btn_show = true;
                 this.upload_page = pageUrl + "/life/upload.html";
-              }else{
+              } else {
                 this.remove_btn_show = false;
                 this.upload_btn_show = false;
               }
@@ -243,44 +264,48 @@
               this.$nextTick(() => {
                 fit_height();
               });
-            });
-            
-          },
-          methods:{
-            imageLoaded:function(){
+            },
+            imageLoaded: function () {
               this.$nextTick(() => {
-                  fit_height();
-                });
+                fit_height();
+              });
             },
-            show_remove_modal:function(e){
-                var id = e.target.attributes.value.value;
-                $("#media_remove_confirm_btn").val(id);
-                $("#modal_alert").modal('show');
+            imgBigShow: function (e) {
+              source = e.target.attributes["src"].value;
+              $("#img_show_modal").find("#img_big_show").html("<image src='" + source +
+                "' class='carousel-inner img-responsive img-rounded' />");
+              $("#img_show_modal").modal('show');
             },
-            media_remove:function(e){
-                var id = e.target.attributes.value.value;
-                remove_media(axios,id,response=>{
-                  if (response.data.code == 0){
-                    var sec = 2;
-                    alert("删除成功,2s后将刷新页面");
-                    setInterval(function(){
-                      sec = sec - 1;
-                      var msg = "删除成功,"+sec+"s刷新页面"
-                      alert_refresh(msg);
-                      if (sec == 0 ){
-                        location.reload();
-                      }
-                    },1000);
-                  }
-                  console.log("response:%o",response);
-                },error=>{
-                  alert(error);
-                });
+            show_remove_modal: function (e) {
+              var id = e.target.attributes.value.value;
+              $("#media_remove_confirm_btn").val(id);
+              $("#modal_alert").modal('show');
+            },
+            media_remove: function (e) {
+              var id = e.target.attributes.value.value;
+              remove_media(axios, id, response => {
+                if (response.data.code == 0) {
+                  var sec = 2;
+                  alert("删除成功,2s后将刷新页面");
+                  setInterval(function () {
+                    sec = sec - 1;
+                    var msg = "删除成功," + sec + "s刷新页面"
+                    alert_refresh(msg);
+                    if (sec == 0) {
+                      location.reload();
+                    }
+                  }, 1000);
+                }
+                console.log("response:%o", response);
+              }, error => {
+                alert(error);
+              });
             },
           },
         });
       });
     </script>
     <!-- #bootrstrap# -->
-  </body>
+</body>
+
 </html>

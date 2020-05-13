@@ -76,6 +76,52 @@ println!("{:?}", v2); // v2已经被消费，所以此处编译不通过
 
 类似的消费方法有 `collect` 、 `for_each` 等等
 
+# 常用迭代器方法
+
+## cloned
+将迭代器每个元素的引用clone出对应的非引用值，等价于 `map(|&x| x)`
+## filter
+过滤，需要注意的是闭包中为true是不被过滤，为false的被过滤:
+```rust
+let a = [1, 4, 2, 3];
+a.iter().cloned().filter(|x| x % 2 == 0) // 过滤出偶数
+```
+## map
+将T类型的元素转变为U类型
+如:
+```rust
+let a = [1, 4, 2, 3];
+a.iter().map(|num| num.to_string())
+```
+## cloned
+将迭代器每个元素的引用clone出对应的非引用值，等价于 `map(|&x| x)`
+## filter_map
+filter和map的结合体，传入的函数需要返回`Option<T>`,若返回值是`Some(T)`,则不被过滤，若返回值是`None`则被过滤。
+
+如: 
+```rust
+let mut iter = a.iter().filter_map(|s| s.parse().ok());
+
+assert_eq!(iter.next(), Some(1));
+assert_eq!(iter.next(), Some(3));
+assert_eq!(iter.next(), Some(5));
+assert_eq!(iter.next(), None);
+// 等价于
+let mut iter = a.iter().map(|s| s.parse()).filter(|s| s.is_ok()).map(|s| s.unwrap());
+```
+
+## inspect
+debug使用，用来打印链式操作的中间值。
+如:
+```rust
+let sum = a.iter()
+	.cloned() 
+	.inspect(|x| println!("about to filter: {}", x))
+	.filter(|x| x % 2 == 0)
+	.inspect(|x| println!("made it through filter: {}", x))
+	.fold(0, |sum, i| sum + i);
+```
+
 自定义迭代器
 ============
 

@@ -132,6 +132,17 @@ async_std和tokio基本上一样，用哪个都可以，也可以混用，不过
 
 另外，如果要测试golang和rust的并发性能比较，一定要加上`--release`,曾经的我比较性能，使用debug方式来跑rust代码，性能死活比不了golang,后来加上了`--release` 那性能真是没得说。
   
+如果在`task::spawn()`里嵌套使用`task::spawn`，类比`go func(){go func(){}}`,你可能会有一些困扰，在`task::spawn({})`里运行的代码，如 
+```rust
+    task::spawn(async{
+        println!("hoho");
+        task::spawn(async{println!("heihi");});
+        println!("lala");
+        std::thread::sleep(std::time::Duration::from_secs(1));
+    });
+```
+你会发现无论怎么运行，他都是先运行第一层的代码，之后才会去运行嵌套的`task::spawn(async{println!("heihi");});`代码，也就是说，在`task::spawn`内部，无论你再怎么`task::spawn`，他都不会生成一个新的线程，而是生成了一个任务链，使用当前的线程来运行这个任务链，如果任务链有阻塞，那么就会一直等待。
+
 rayon
 -----
 将iter变为parallel-iter,如 `a.iter()` -> `a.par_iter()`

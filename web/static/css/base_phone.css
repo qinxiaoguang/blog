@@ -22,7 +22,8 @@ body {
   background-color: #f9ed69;
   z-index: 11;
   border-bottom: 1px solid rgba(30, 35, 42, .06);
-  box-shadow: 0 1px 3px 0 rgba(0, 34, 77, .05);
+  /*box-shadow: 0 1px 3px 0 rgba(0, 34, 77, .05);*/
+  box-shadow: 0 0px 10px rgba(0,0,0,0.16);
 }
 
 #main #header #button_group {
@@ -724,7 +725,11 @@ body {
 .card {
   border-radius: 0px;
   margin-bottom: 16px;
+  border: 1px solid rgba(30, 35, 42, .06);
+  box-shadow: 0 1px 3px 0 rgba(0, 34, 77, .05);
 }
+
+
 
 .tool_card {
   width: 100%;

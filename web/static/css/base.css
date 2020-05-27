@@ -821,6 +821,10 @@ body {
   border-radius: 0px;
   margin-top: 0px;
   margin-bottom: 0px;
+  border:none;
+  /*border-left: 1px solid rgba(30, 35, 42, .06);
+  border-top: 1px solid rgba(30, 35, 42, .06);*/
+  box-shadow: 0 1px 3px 0 rgba(0, 34, 77, .05);
 }
 
 #tool_panel {
@@ -889,7 +893,7 @@ body {
 .fadeLeft {
   display: block;
   animation: fadeLeft 0.5s linear;
-  -webkit-animation: fadeLeft 0.5s linear;
+  -webkit-animation: fadeIn 0.5s linear;
 }
 
 .fadeRight {

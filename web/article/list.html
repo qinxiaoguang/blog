@@ -4,67 +4,89 @@
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!-->
 <html class="no-js">
-<!--<![endif]-->
+  <!--<![endif]-->
 
-<head>
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>文章列表</title>
-  <meta name="description" content="" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css"
-    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
-  <link href="https://cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow-night-eighties.min.css" rel="stylesheet" />
-  <link href="../static/css/marked.css" rel="stylesheet" />
-  <link rel="stylesheet" type="text/css" media="screen and (min-device-width: 720px)"  href="../static/css/base.css" />
-  <link rel="stylesheet" type="text/css" media="screen and (max-device-width: 720px)" href="../static/css/base_phone.css" />  
-  <link href="https://cdn.bootcss.com/font-awesome/5.12.1/css/all.min.css" rel="stylesheet" />
-  <link href="../static/css/bootstrap-toc.css" rel="stylesheet" />
-</head>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>文章列表</title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+    <link
+      href="https://cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow-night-eighties.min.css"
+      rel="stylesheet"
+    />
+    <link href="../static/css/marked.css" rel="stylesheet" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      media="screen and (min-device-width: 720px)"
+      href="../static/css/base.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      media="screen and (max-device-width: 720px)"
+      href="../static/css/base_phone.css"
+    />
+    <link
+      href="https://cdn.bootcss.com/font-awesome/5.12.1/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link href="../static/css/bootstrap-toc.css" rel="stylesheet" />
+  </head>
 
-<body>
-  <div id="main">
-    <div id="header_panel">
-      <!--后续进行优化-->
-      <div id="header">
-        <div id="triangle"></div>
-        <button class="header_button" id="button_home">
-          HOME
-        </button>
-        <div id="button_group">
-          <button class="header_button header_button_active" id="button_blog">
-            BLOG
+  <body>
+    <div id="main">
+      <div id="header_panel">
+        <!--后续进行优化-->
+        <div id="header">
+          <div id="triangle"></div>
+          <button class="header_button" id="button_home">
+            HOME
           </button>
-          <button class="header_button" id="button_life" >
-            LIFE
-          </button>
-          <button class="header_button" id="button_tool">
-            TOOL
-          </button>
-          <button class="header_button" id="button_about">
-            ABOUT
-          </button>
+          <div id="button_group">
+            <button class="header_button header_button_active" id="button_blog">
+              BLOG
+            </button>
+            <button class="header_button" id="button_life">
+              LIFE
+            </button>
+            <button class="header_button" id="button_tool">
+              TOOL
+            </button>
+            <button class="header_button" id="button_about">
+              ABOUT
+            </button>
+          </div>
         </div>
       </div>
-    </div>
-    <div id="article_all">
-      <div v-for="item in new_articles">
-        <h3 class="article_list_title">{{item.title}}</h3>
-        <hr>
-        <ul v-for="val in item.articles">
-          <li>
-            [{{val.update_time}}]<a class="article_a" :href="val.url">{{val.title}}</a>
-          </li>
-        </ul>
-        <hr>
+      <div id="article_all">
+        <div v-for="item in new_articles">
+          <h3 class="article_list_title">{{item.title}}</h3>
+          <hr />
+          <ul v-for="val in item.articles">
+            <li>
+              [{{val.update_time}}]<a class="article_a" :href="val.url"
+                >{{val.title}}</a
+              >
+            </li>
+          </ul>
+          <hr />
+        </div>
+      </div>
+
+      <div id="bottom_">
+        <div id="triangle_bottom"></div>
       </div>
     </div>
-
-    <div id="bottom_">
-      <div id="triangle_bottom"></div>
-    </div>
     <nav id="toc"></nav>
-
     <!--[if lt IE 7]>
       <p class="browsehappy">
         You are using an <strong>outdated</strong> browser. Please
@@ -76,17 +98,23 @@
     <!--<script src="https://cdn.jsdelivr.net/npm/vue@2.6.0" async defer></script>-->
     <!-- #vue# 为了不繁琐，使用双#号表示注释的结束-->
     <!-- bootrstrap -->
-    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js"
+    <script
+      src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js"
       integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-      crossorigin="anonymous"></script>
+      crossorigin="anonymous"
+    ></script>
 
     <script src="../static/js/base.js"></script>
-    <script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js"
+    <script
+      src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js"
       integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-      crossorigin="anonymous"></script>
-    <script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js"
       integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-      crossorigin="anonymous"></script>
+      crossorigin="anonymous"
+    ></script>
     <script src="../static/js/bootstrap-toc.js"></script>
     <script src="https://cdn.bootcss.com/axios/0.19.2/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
@@ -94,23 +122,8 @@
 
     <script>
       $(function () {
-
-        $("body").click(function (e) {
-          $("#toc").css("display", "none");
-        });
-        $("body").keydown(function (e) {
-          if (e.keyCode == 9) {
-            var toc_display = $("#toc").css("display");
-            if (toc_display == "block") {
-              $("#toc").css("display", "none");
-            } else {
-              $("#toc").css("display", "block");
-            }
-            e.preventDefault();
-          }
-        });
-
-                // 处理toc
+        toc_init();
+        // 处理toc
         function handle_toc() {
           var navSelector = "#toc";
           var $myNav = $(navSelector);
@@ -135,7 +148,7 @@
           sanitize: false,
           smartLists: true,
           smartypants: false,
-          xhtml: false
+          xhtml: false,
         });
 
         axios.defaults.withCredentials = true;
@@ -150,33 +163,33 @@
           data() {
             return {
               articles: null,
-              new_articles:null
+              new_articles: null,
             };
           },
           mounted() {
-            axios.get(baseUrl + "/article/all").then(response => {
+            axios.get(baseUrl + "/article/all").then((response) => {
               this.articles = response.data.data;
               var new_articles = [];
               var top_tag = ["戒烟实录"];
-              for (idx in top_tag){
+              for (idx in top_tag) {
                 var tag = top_tag[idx];
-                for (key in this.articles){
+                for (key in this.articles) {
                   if (key == tag) {
                     new_articles.push({
-                      "title":tag,
-                      "articles":this.articles[key]
+                      title: tag,
+                      articles: this.articles[key],
                     });
-                    break
+                    break;
                   }
                 }
               }
               for (key in this.articles) {
-                console.log(key)
+                console.log(key);
                 var article = this.articles[key];
-                if (!top_tag.includes(key)){
+                if (!top_tag.includes(key)) {
                   new_articles.push({
-                    "title":key,
-                    "articles":this.articles[key],
+                    title: key,
+                    articles: this.articles[key],
                   });
                 }
                 for (a of article) {
@@ -197,12 +210,10 @@
                 handle_toc();
               });
             });
-
           },
         });
       });
     </script>
     <!-- #bootrstrap# -->
-</body>
-
+  </body>
 </html>

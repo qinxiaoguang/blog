@@ -267,3 +267,26 @@ function fit_code() {
         $("#content pre").css("width", contentWidth);
     }
 }
+
+function toc_init() {
+    $("body").click(function (e) {
+        $("#toc").css("display", "none");
+        $("body").css("width", "");
+        $("body").css("float", "");
+    });
+    $("body").keydown(function (e) {
+        if (e.keyCode == 9) {
+            var toc_display = $("#toc").css("display");
+            if (toc_display == "block") {
+                $("#toc").css("display", "none");
+                $("body").css("width", "");
+                $("body").css("float", "");
+            } else {
+                $("#toc").css("display", "block");
+                $("body").css("width", "85%");
+                $("body").css("float", "right");
+            }
+            e.preventDefault();
+        }
+    });
+}

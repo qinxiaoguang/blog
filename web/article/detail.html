@@ -124,20 +124,8 @@
 
     <script>
       $(function () {
-        $("body").click(function (e) {
-          $("#toc").css("display", "none");
-        });
-        $("body").keydown(function (e) {
-          if (e.keyCode == 9) {
-            var toc_display = $("#toc").css("display");
-            if (toc_display == "block") {
-              $("#toc").css("display", "none");
-            } else {
-              $("#toc").css("display", "block");
-            }
-            e.preventDefault();
-          }
-        });
+        toc_init();
+
         hljs.initHighlightingOnLoad();
         var renderer = new marked.Renderer();
 
@@ -173,8 +161,8 @@
             $scope: $("#content"),
             $nav: $myNav,
           });
-          $("#content").scrollspy({
-            target: $myNav,
+          $("body").scrollspy({
+            target: "#toc",
           });
         }
 

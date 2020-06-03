@@ -1,4 +1,4 @@
-use crate::common::{CommonResp, Resp};
+use crate::common::{music_helper, CommonResp, Resp};
 use crate::model::media::{self, Media};
 use actix_web::{get, web};
 
@@ -42,4 +42,14 @@ pub async fn remove_media(path: web::Path<(String,)>) -> CommonResp {
         return Resp::err_msg("id is empty").to_json();
     }
     Resp::ok(media::remove_media(id)?).to_json()
+}
+
+// 获取易云歌单
+#[get("/music/list/{id}")]
+pub async fn get_music_list(path: web::Path<(String,)>) -> CommonResp {
+    let id = path.0.as_str();
+    if id.is_empty() {
+        return Resp::err_msg("id is empty").to_json();
+    }
+    Resp::ok(music_helper::get_music_list(id)).to_json()
 }

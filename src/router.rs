@@ -13,6 +13,7 @@ pub fn route(sc: &mut web::ServiceConfig) {
         .service(media::list_page_medias)
         .service(media::list_recent_media)
         .service(media::list_recent_img)
+        .service(media::get_music_list)
         .service(tool::save_content)
         .service(tool::get_content)
         .service(ping::ping)

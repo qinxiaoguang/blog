@@ -1,6 +1,7 @@
 pub mod common;
 pub mod constants;
 pub mod github_helper;
+pub mod music_helper;
 pub mod redis_helper;
 pub mod session_helper;
 pub mod tools;

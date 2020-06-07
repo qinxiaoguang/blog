@@ -488,6 +488,10 @@ body {
 }
 
 
+#bottom_ {
+  margin-top:120px;
+}
+
 #bottom {
   height: 300px;
 }
@@ -500,6 +504,7 @@ body {
   height: 360px;
   background: #21333d;
 }
+
 
 #bottom_panel #access_content {
   color: #ddd;
@@ -838,6 +843,7 @@ body {
 
   display: inline-block;
   cursor: pointer;
+  border-radius:16px;
 }
 
 #about_panel {
@@ -1034,4 +1040,19 @@ body {
     width: 93%;
     /*结尾状态 透明度为1*/
   }
+}
+
+/* 音乐插件 */
+.aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
+    width: 33px!important;
+}
+
+
+.aplayer.aplayer-narrow .aplayer-body, .aplayer.aplayer-narrow .aplayer-pic{
+    height: 33px;
+    width: 33px;
+}
+
+.aplayer .aplayer-miniswitcher{
+    /*background:#f9ed69;*/
 }

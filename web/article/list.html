@@ -72,8 +72,7 @@
           <h3 class="article_list_title">{{item.title}}</h3>
           <hr />
           <ul v-for="val in item.articles">
-            <li>
-              [{{val.update_time}}]<a class="article_a" :href="val.url"
+            <li><span>[{{val.update_time}}]</span><a class="article_a" :href="val.url"
                 >{{val.title}}</a
               >
             </li>
@@ -170,7 +169,7 @@
             axios.get(baseUrl + "/article/all").then((response) => {
               this.articles = response.data.data;
               var new_articles = [];
-              var top_tag = ["戒烟实录"];
+              var top_tag = ["置顶"];
               for (idx in top_tag) {
                 var tag = top_tag[idx];
                 for (key in this.articles) {
@@ -184,7 +183,6 @@
                 }
               }
               for (key in this.articles) {
-                console.log(key);
                 var article = this.articles[key];
                 if (!top_tag.includes(key)) {
                   new_articles.push({
@@ -201,8 +199,6 @@
                   }
                 }
               }
-              console.log(this.articles);
-              console.log(new_articles);
               this.new_articles = new_articles;
               loading_finish();
               this.$nextTick(() => {

@@ -17,7 +17,7 @@ body {
 
 #main #header {
   width: 100%;
-  height: 160px;
+  height: 100px;
   position: relative;
   background-color: #f9ed69;
   z-index: 11;
@@ -43,7 +43,7 @@ body {
 #header_panel {
   position: relative;
   z-index: 12;
-  height: 160px;
+  height: 100px;
 }
 
 
@@ -54,7 +54,7 @@ body {
 
 #main #top_panel {
   width: 100%;
-  height: 480px;
+  height: 360px;
   background: url("../img/top_panel_back.jpg");
   /*background-attachment: fixed; 这个可以造成视差滚动的效果*/
   background-repeat: no-repeat;
@@ -180,7 +180,7 @@ body {
 
 
 #album_panel {
-  height: 240px;
+  height: 480px;
   position: relative;
   z-index: 1;
 }
@@ -199,7 +199,7 @@ body {
   /*background: url("../img/middle_triangle.svg") no-repeat;*/
   background-color: #f9ed69;
   width: 100%;
-  height: 36px;
+  height: 0px;
   position: absolute;
   bottom: 0;
   z-index: 1;
@@ -210,7 +210,7 @@ body {
 #album_panel .album {
   float: left;
   height: 240px;
-  width: 50%;
+  width: 100%;
   background: black;
   position: relative;
 }
@@ -277,9 +277,9 @@ body {
 }
 
 #album_panel .album .pic:hover {
-  animation: opacity_half 0.5s;
+  /*animation: opacity_half 0.5s;
   -webkit-animation: opacity_half 0.5s;
-  animation-fill-mode: forwards;
+  animation-fill-mode: forwards;*/
 }
 
 #work_panel {

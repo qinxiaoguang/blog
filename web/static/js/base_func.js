@@ -40,6 +40,16 @@ $(function () {
     // 给body添加统一loading组件
     let loading = '<div id="loading"></div>';
     $("body").append(loading);
+    
+    // 如果不是phone的话，添加音乐播放器
+    // 只在index页面和life/list页面添加
+    if (!is_phone() && (location.pathname == "/index.html" || location.pathname == "/life/list.html" || location.pathname == "/" )) {
+        let music = '<div id="aplayer"></div>';
+        $("body").append(music);
+
+	// 添加完毕后，获取音乐列表
+        getMusicList()
+    }
 });
 
 /*function imgBigShow(target) {
@@ -59,7 +69,7 @@ $(window).resize(function () { //当浏览器大小变化时
 
 var screen = $(window).width(); // 屏幕宽度
 var header = $('#header');
-var headerHeight = 160;
+var headerHeight = 100;
 var headerHeightPx = headerHeight + "px";
 var phoneMenuHeight = 56;
 var phoneMenuHeightPx = phoneMenuHeight + "px";
@@ -289,4 +299,35 @@ function toc_init() {
             e.preventDefault();
         }
     });
+}
+
+function getMusicList(){
+     axios
+        .get(baseUrl + "/music/list/5047601141")
+        .then(response => {
+            var audios = [];
+            for (item of response.data.data){
+		console.log(item)
+		var audio = {
+		    "name":item.name,
+		    "url":item.url,
+		    "cover":item.cover,
+		    "artist":item.artist,
+		}
+		audios.push(audio)
+	    }
+	    console.log(audios)
+            const ap = new APlayer({
+                container: document.getElementById('aplayer'),
+                audio:audios,
+		theme: '#f9ed69',
+		mutex: true,
+		autoplay: true,
+		order: 'random', 
+		fixed:true,
+            });
+            console.log("get_music done");
+        }).catch(err => {
+	    console.log("music load failed, err is:"+err);
+        })
 }

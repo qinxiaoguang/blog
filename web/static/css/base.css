@@ -1155,20 +1155,15 @@ body {
   width: 64px;
   height: 64px;
   border-radius: 32px;
-  background-color: red;
+  background-color: white;
   position: fixed;
   right: 32px;
   bottom: 32px;
+  border:none;
+  display: inline-block;
 }
 
-#add_wish_btn #add_span {
-  display: inline-block;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
 
 #add_wish_btn :hover {
-  background-color: white;
+  background-color: red;
 }

@@ -23,7 +23,7 @@ body {
   z-index: 11;
   border-bottom: 1px solid rgba(30, 35, 42, .06);
   /*box-shadow: 0 1px 3px 0 rgba(0, 34, 77, .05);*/
-  box-shadow: 0 0px 10px rgba(0,0,0,0.16);
+  box-shadow: 0 0px 10px rgba(0, 0, 0, 0.16);
 }
 
 #main #header #button_group {
@@ -875,4 +875,12 @@ body {
     opacity: 1;
     /*结尾状态 透明度为1*/
   }
+}
+
+.random_panel {
+  background-color: white;
+  width: 100%;
+  padding: 8%;
+  height: 100%;
+  box-shadow: 0 1px 3px 0 #f5f7f9;
 }

@@ -1,4 +1,4 @@
-use crate::controller::{article, media, oauth, ping, quote, stat, tool, upload};
+use crate::controller::{article, media, oauth, ping, quote, stat, tool, upload, wish};
 
 use actix_web::web;
 // 配置
@@ -19,6 +19,9 @@ pub fn route(sc: &mut web::ServiceConfig) {
         .service(ping::ping)
         .service(ping::knock)
         .service(quote::random_quote)
+        .service(quote::random_quote)
+        .service(wish::random_wish)
+        .service(wish::all_wish)
         .service(web::scope("/admin/upload").route("/pic", web::post().to(upload::upload_pic)))
         .service(
             web::scope("/admin/article") // 使用scope来将某一类route聚合,说白了就是前缀
@@ -33,5 +36,9 @@ pub fn route(sc: &mut web::ServiceConfig) {
             web::scope("/admin/media") // 使用scope来将某一类route聚合,说白了就是前缀
                 .route("", web::post().to(media::save_media))
                 .route("{id}", web::delete().to(media::remove_media)),
+        )
+        .service(
+            web::scope("/wish") // 使用scope来将某一类route聚合,说白了就是前缀
+                .route("", web::post().to(wish::save_wish)),
         );
 }

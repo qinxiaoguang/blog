@@ -1,6 +1,7 @@
 pub mod article;
 pub mod media;
 pub mod quote;
+pub mod wish;
 use crate::common::IntoDocument;
 use crate::common::*;
 use bson::{doc, oid::ObjectId, Document};

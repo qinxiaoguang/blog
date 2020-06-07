@@ -6,3 +6,4 @@ pub mod quote;
 pub mod stat;
 pub mod tool;
 pub mod upload;
+pub mod wish;

@@ -83,7 +83,7 @@
         <div
           id="tmpEdit"
           class="card mb-3 text-white bg-dark tool_card"
-          @click="jumtTmpEdit"
+          @click="jumpTmpEdit"
         >
           <div class="card-header">临时编辑</div>
           <div class="card-body">
@@ -95,24 +95,24 @@
           </div>
         </div>
 
-        <div class="card mb-3 text-white bg-dark tool_card">
-          <div class="card-header">json格式化</div>
+        <div id="randomGen" class="card mb-3 text-white bg-dark tool_card" @click="jumpRandomPanel">
+          <div class="card-header">随机数生成</div>
           <div class="card-body">
             <p class="card-text">
-              <small class="">json格式化</small><br />
-              <small class="">自用</small><br />
-              <small class="">不需解释</small><br />
+              <small class="">随机数生成</small><br />
+              <small class="">聚餐随机抽人</small><br />
+              <small class="">抽签</small><br />
             </p>
           </div>
         </div>
 
         <div class="card mb-3 text-white bg-dark tool_card">
-          <div class="card-header">unicode编解码</div>
+          <div class="card-header">心愿单</div>
           <div class="card-body">
             <p class="card-text">
-              <small class="">unicode编解码</small><br />
-              <small class="">自用</small><br />
-              <small class="">不需解释</small><br />
+              <small class="">对着夜空许个愿吧</small><br />
+              <small class="">谁不想自己的心愿成真呢</small><br />
+              <small class="">流星随时间随机生成^-^</small><br />
             </p>
           </div>
         </div>
@@ -201,8 +201,11 @@
             });
           },
           methods: {
-            jumtTmpEdit: function () {
+            jumpTmpEdit: function () {
               location.href = pageUrl + "/tool/tmpedit.html";
+            },
+            jumpRandomPanel: function () {
+              location.href = pageUrl + "/tool/random.html";
             },
           },
         });

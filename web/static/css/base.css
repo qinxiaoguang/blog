@@ -821,7 +821,7 @@ body {
   border-radius: 0px;
   margin-top: 0px;
   margin-bottom: 0px;
-  border:none;
+  border: none;
   /*border-left: 1px solid rgba(30, 35, 42, .06);
   border-top: 1px solid rgba(30, 35, 42, .06);*/
   box-shadow: 0 1px 3px 0 rgba(0, 34, 77, .05);
@@ -1034,4 +1034,120 @@ body {
     width: 93%;
     /*结尾状态 透明度为1*/
   }
+}
+
+.random_panel {
+  background-color: white;
+  width: 80%;
+  padding: 8%;
+  height: 100%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 1px 3px 0 #f5f7f9;
+}
+
+#starry_panel {
+  background: url("../img/starry.jpg");
+  background-repeat: no-repeat;
+  background-size: contain;
+  /*background-position: center;*/
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  opacity: 1;
+  left: 0px;
+}
+
+#starry_mask {
+  /*background: radial-gradient(at 55px 55px, #fff 1%, #000 100%);
+  background: -webkit-radial-gradient(50px 50px, #fff 1%, #000 100%);*/
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  opacity: 1;
+  /*background: linear-gradient(to bottom, #00000000 0%, #00000022 50%, #000000ff 100%);
+  background: -webkit-linear-gradient(top, #00000000 0%, #000000ff 80%, #000000ff 100%);*/
+  background: linear-gradient(to right, #00000000 0%, #000000ff 70%, #000000ff 100%);
+  background: -webkit-linear-gradient(left, #00000000 0%, #000000ff 70%, #000000ff 100%);
+}
+
+#starry_panel .star {
+  display: inline-block;
+  width: 2px;
+  height: 2px;
+  border-radius: 50%;
+  background: #fff;
+  top: 100px;
+  left: 400px;
+  position: relative;
+  transform-origin: 100% 0;
+  animation: star-move 2s 1 linear;
+  animation-direction: normal;
+  opacity: 0;
+}
+
+#starry_panel .star:after {
+  content: '';
+  position: absolute;
+  top: 20px;
+  left: 2px;
+  border: 1px solid #f00;
+  border-width: 1px 150px 1px 150px;
+  border-color: transparent transparent transparent #fff;
+  transform: rotate(-45deg) translate3d(1px, -1px, 0);
+  transform-origin: 0% 100%;
+  animation: shooting 2s 1 linear;
+  animation-direction: normal;
+}
+
+
+@-webkit-keyframes shooting {
+  50% {
+    transform: scale(1) rotate(-45deg) translate(0px, 0px);
+  }
+
+  100% {
+    transform: scale(0.5) rotate(-45deg) translate(0px, -1px);
+  }
+}
+
+@-webkit-keyframes star-move {
+  0% {
+    opacity: 0;
+    transform: scale(0) rotate(0) translate3d(0, 0, 0);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1) rotate(0) translate3d(-100px, 100px, 0);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(1) rotate(0) translate3d(-200px, 200px, 0);
+  }
+}
+
+#add_wish_btn {
+  width: 64px;
+  height: 64px;
+  border-radius: 32px;
+  background-color: red;
+  position: fixed;
+  right: 32px;
+  bottom: 32px;
+}
+
+#add_wish_btn #add_span {
+  display: inline-block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+#add_wish_btn :hover {
+  background-color: white;
 }

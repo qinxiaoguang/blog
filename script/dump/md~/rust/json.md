@@ -13,7 +13,7 @@ serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0
 ```
 
-注意不要使用json包，serde_json和serde是配合用的，serde用于序列化。
+注意不要使用json包，serde~json和serde是配合用的~，serde用于序列化。
 
 使用代码:
 

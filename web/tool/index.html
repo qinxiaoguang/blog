@@ -106,7 +106,7 @@
           </div>
         </div>
 
-        <div class="card mb-3 text-white bg-dark tool_card">
+        <div class="card mb-3 text-white bg-dark tool_card" @click="jumpWishPanel">
           <div class="card-header">心愿单</div>
           <div class="card-body">
             <p class="card-text">
@@ -206,6 +206,9 @@
             },
             jumpRandomPanel: function () {
               location.href = pageUrl + "/tool/random.html";
+            },
+            jumpWishPanel: function () {
+              location.href = pageUrl + "/tool/wish.html";
             },
           },
         });

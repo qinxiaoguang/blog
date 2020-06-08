@@ -194,9 +194,12 @@ pub fn dump() {
                 if let Err(_) = std::fs::create_dir_all(dir.clone()) {
                     return;
                 }
-                let file_path = format!("{}/{}.md", dir, article.title.clone().unwrap());
+		// 防止/符号导致创建文件被处理为文件夹
+		let title = article.title.clone().unwrap().replace("/","_");
+                let file_path = format!("{}/{}.md", dir, title);
+		let err_msg = format!("save failed, file_path is:{}",file_path);
                 file::save_to_file(file_path, article.content.clone().unwrap())
-                    .expect("save failed");
+                    .expect(&err_msg);
             }
         });
 }

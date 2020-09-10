@@ -693,7 +693,7 @@ body {
 }
 
 #article_detail #content {
-  margin: 32px 32px;
+  margin: 32px 0px;
   position: relative;
   height: 100%;
 }
@@ -1167,3 +1167,10 @@ body {
 #add_wish_btn :hover {
   background-color: red;
 }
+
+
+.v .veditor{min-height:5rem !important;height:5em !important;resize:none;}
+.v .vrow{padding:0px 0px !important}
+.v .markdown,.v .vpreview-btn,.v .vpower{display:none !important;}
+.v .vcontent p {color:#262626 !important;}
+/*.v .vnick {color:#1abc9c !important;}*/

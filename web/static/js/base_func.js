@@ -278,6 +278,17 @@ function fit_code() {
     }
 }
 
+function comment_init(){
+		new Valine({
+			el: '#vcomments',
+		    appId: 'QjM7sui6XOjkP6Yj3qKt28q5-gzGzoHsz',
+		    appKey: 'EBty3EXEiGYcIfTn8WFCASQT',
+			placeholder:"那就让情绪决定",
+			meta:["nick","mail"],
+			visitor: true // 阅读量统计
+		})
+}
+
 function toc_init() {
     $("body").click(function (e) {
         $("#toc").css("display", "none");

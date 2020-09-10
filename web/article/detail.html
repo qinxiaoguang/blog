@@ -17,29 +17,30 @@
       integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
       crossorigin="anonymous"
     />
-    <link href="../static/css/bootstrap-toc.css" rel="stylesheet" />
+    <link href="/static/css/bootstrap-toc.css" rel="stylesheet" />
     <!--<link
       href="https://cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow-night-eighties.min.css"
       rel="stylesheet"
     />-->
-    <link href="../static/css/marked.css" rel="stylesheet" />
-    <link href="../static/css/monokai.css" rel="stylesheet" />
+    <link href="/static/css/marked.css" rel="stylesheet" />
+    <link href="/static/css/monokai.css" rel="stylesheet" />
     <link
       rel="stylesheet"
       type="text/css"
       media="screen and (min-device-width: 720px)"
-      href="../static/css/base.css"
+      href="/static/css/base.css"
     />
     <link
       rel="stylesheet"
       type="text/css"
       media="screen and (max-device-width: 720px)"
-      href="../static/css/base_phone.css"
+      href="/static/css/base_phone.css"
     />
     <link
       href="https://cdn.bootcss.com/font-awesome/5.12.1/css/all.min.css"
       rel="stylesheet"
     />
+	<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
   </head>
   <body>
     <div id="main">
@@ -81,7 +82,9 @@
           {{article.content}}
         </div>
         <hr />
+	  	<div id="vcomments"></div>
       </div>
+
       <div id="bottom_">
         <div id="triangle_bottom"></div>
       </div>
@@ -104,7 +107,7 @@
       integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
       crossorigin="anonymous"
     ></script>
-    <script src="../static/js/base.js"></script>
+    <script src="/static/js/base.js"></script>
     <script
       src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js"
       integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
@@ -116,15 +119,16 @@
       crossorigin="anonymous"
     ></script>
 
-    <script src="../static/js/bootstrap-toc.js"></script>
+    <script src="/static/js/bootstrap-toc.js"></script>
     <script src="https://cdn.bootcss.com/axios/0.19.2/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <!--<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>-->
-    <script src="../static/js/highlight.pack.js"></script>
+    <script src="/static/js/highlight.pack.js"></script>
 
     <script>
       $(function () {
         toc_init();
+
 
         hljs.initHighlightingOnLoad();
         var renderer = new marked.Renderer();
@@ -153,6 +157,7 @@
           );
         };
 
+
         // 处理toc
         function handle_toc() {
           var navSelector = "#toc";
@@ -174,7 +179,7 @@
           pedantic: false,
           gfm: true,
           tables: true,
-          breaks: false,
+          breaks: true,
           sanitize: false,
           smartLists: true,
           smartypants: false,
@@ -188,6 +193,12 @@
           if (r != null) return unescape(r[2]);
           return null;
         };
+		getId = function(){
+			var urlStr = location.pathname; 
+			var index = urlStr.lastIndexOf('\/');  
+			urlStr = urlStr.substring(index + 1, urlStr.length);
+			return urlStr
+		}
         var panel_with_back = new Vue({
           el: "#article_detail",
           data() {
@@ -196,12 +207,13 @@
             };
           },
           mounted() {
-            var id = getUrlParam("id");
+		  console.log(location.href);
+            var id = getId();
             axios.get(baseUrl + "/article/get/" + id).then((response) => {
               this.article = response.data.data;
               this.article.word_count = this.article.content.length;
               this.article.content = marked(this.article.content);
-              this.article.edit_url = "./edit.html?id=" + this.article._id;
+              this.article.edit_url = "/article/edit.html?id=" + this.article._id;
               this.article.update_time = format_date(this.article.update_time);
               console.log(this.article);
               if (is_owner()) {
@@ -215,6 +227,7 @@
                 fit_height();
                 fit_code();
                 handle_toc();
+				comment_init();
               });
             });
           },

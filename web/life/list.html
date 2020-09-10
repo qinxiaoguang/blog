@@ -21,6 +21,7 @@
   <link rel="stylesheet" type="text/css" media="screen and (max-device-width: 720px)"
     href="../static/css/base_phone.css" />
   <link href="https://cdn.bootcss.com/font-awesome/5.12.1/css/all.min.css" rel="stylesheet" />
+  <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
 </head>
 
 <body>
@@ -123,8 +124,9 @@
         <div id="life_ending" :style="{'display':ending}">
           <p style="width:100%;text-align: center;color:#ccc;font-size:12px">已经到底了, 但青春永不灭</p>
         </div>
-      </div>
+	</div>
       <hr />
+	  <div id="vcomments"></div>
     </div>
 
 
@@ -183,7 +185,7 @@
               // 下滑事件
               this.scroll();
             });
-
+			comment_init();
           },
           methods: {
             scroll: function () {

@@ -11,6 +11,8 @@
     <title>关于我</title>
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+	<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
     <link
       rel="stylesheet"
       href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css"
@@ -121,6 +123,9 @@
           </div>
         </div>
 
+		<hr>
+	  <div id="vcomments"></div>
+
 
       </div>
 
@@ -163,7 +168,8 @@
     <script>
       $(function () {
         loading_finish();
-	fit_height();
+		fit_height();
+		comment_init();
       });
     </script>
     <!-- #bootrstrap# -->

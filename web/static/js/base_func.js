@@ -285,7 +285,9 @@ function comment_init(){
 		    appKey: 'EBty3EXEiGYcIfTn8WFCASQT',
 			placeholder:"那就让情绪决定",
 			meta:["nick","mail"],
-			visitor: true // 阅读量统计
+			visitor: true, // 阅读量统计
+			avatar:'wavatar',
+			enableQQ:true
 		})
 }
 

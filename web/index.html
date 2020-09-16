@@ -277,7 +277,7 @@
         mounted() {
           axios.get(baseUrl + "/article/recent").then((response) => {
             response.data.data.forEach((element) => {
-              element.url = "/article/detail.html?id=" + element._id;
+              element.url = "/article/detail/" + element._id;
             });
             this.articles = response.data.data;
             var len = this.articles.length;
@@ -288,7 +288,7 @@
             for (a of this.articles) {
               console.log(a.update_time);
               a.update_time = format_date(a.update_time);
-              a.url = "/article/detail.html?id=" + a._id;
+              a.url = "/article/detail/" + a._id;
               a.edit_url = "/article/edit.html?id=" + a._id;
               if (a.title == "") {
                 a.title = "#";

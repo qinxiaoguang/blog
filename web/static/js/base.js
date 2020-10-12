@@ -8,6 +8,6 @@ baseUrl = "https://www.qxgzone.com:8080";
 pageUrl = "https://www.qxgzone.com";
 homeUrl = pageUrl + "/index.html";
 owner = "qinxiaoguang";
-bPlayerUrl = "http://player.bilibili.com/player.html?";
+bPlayerUrl = "https://player.bilibili.com/player.html?";
 
 document.write('<script src="/static/js/base_func.js"></script>');

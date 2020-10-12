@@ -108,11 +108,11 @@
                   class="small_hint">{{val.create_time}}</span><br>{{val.des}}
               </div>
             </div>
-            <div class="media" v-show="val.videoShow">
-              <iframe class="life_video mr-3" :src="val.videoUrl" scrolling="no" border="0" frameborder="no"
+			<div class="media" v-show="val.videoShow" :style="{'flex-direction':val.flexdir}">
+              <iframe class="life_video" :src="val.videoUrl" scrolling="no" border="0" frameborder="no"
                 framespacing="0" allowfullscreen="true"> </iframe>
-              <div class="media-body">
-                <h5 class="mt-0">{{val.name}}</h5><span class="small_hint">{{val.create_time}}</span>{{val.des}}
+              <div class="media-body video_des">
+				  <h5 class="mt-0">{{val.name}}</h5><span class="small_hint">{{val.create_time}}</span><br>{{val.des}}
               </div>
             </div>
 

@@ -707,14 +707,14 @@ body {
   margin-bottom: 16px;
 }
 
-.life_img {
+.life_img,.life_video {
   width: 100%;
 }
 
-.life_video {
-  width: 640px;
-  height: 430px;
+.video_des{
+	display:none;
 }
+
 
 .media-body {
   padding-left: 8px;

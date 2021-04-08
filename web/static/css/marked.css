@@ -500,7 +500,10 @@ footer {
 }
 
 img {
-    width: 50%;
+    width: 100%;
     height: 100%;
+	margin:16px;
+	border-radius: 16px;
+	border: 5px solid #f5f7f9;
 	/*padding: 0% 25% 0 25%;*/
 }

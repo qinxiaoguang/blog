@@ -877,8 +877,8 @@ body {
   border: 2px #ffffff solid;
   border-top-color: #ffd31d;
   border-bottom-color: #ffd31d;
-  border-left-color: #fff;
-  border-right-color: #fff;
+  border-left-color: #fff0;
+  border-right-color: #fff0;
   animation: loading 1s linear infinite;
 }
 
@@ -889,7 +889,6 @@ body {
 
 #loading {
   position: fixed;
-  background-color: #f5f7f9;
   border-radius: 100%;
   left: 50%;
   top: 40%;
@@ -899,8 +898,8 @@ body {
   border: 2px #ffffff solid;
   border-top-color: #ffd31d;
   border-bottom-color: #ffd31d;
-  border-left-color: #fff;
-  border-right-color: #fff;
+  border-left-color: #fff0;
+  border-right-color: #fff0;
   animation: loading 1s linear infinite;
   display: block;
 }

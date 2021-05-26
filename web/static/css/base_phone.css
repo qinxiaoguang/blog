@@ -546,7 +546,7 @@ body {
 
 #article_page_all {
   background:#f5f7f9;;
-  padding:24px 5%;
+  padding:12px 0;
 }
 
 #article_page_all .article_item {
@@ -557,7 +557,7 @@ body {
 }
 
 #article_detail,#media_all,#about_panel,#tool_panel {
-  margin: 18px 5%;
+  margin: 12px 0;
   background-color: #ffffff;
   box-shadow: 0 1px 3px 0 rgb(0 34 77 / 5%);
   padding:16px;
@@ -757,7 +757,7 @@ img {
 
 #loading {
   position: fixed;
-  background-color: white;
+  /*background-color: white;*/
   border-radius: 100%;
   left: 50%;
   top: 40%;
@@ -767,8 +767,8 @@ img {
   border: 2px #ffffff solid;
   border-top-color: #ffd31d;
   border-bottom-color: #ffd31d;
-  border-left-color: #f6f6f6;
-  border-right-color: #f6f6f6;
+  border-left-color: #f6f6f600;
+  border-right-color: #f6f6f600;
   animation: loading 1s linear infinite;
   display: block;
 }

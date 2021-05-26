@@ -1,9 +1,6 @@
 body {
   width: 100%;
   min-width: fit-content;
-  background-color: #f5f7f9;
-  margin-left: auto;
-  margin-right:auto;
 }
 
 .main {
@@ -22,7 +19,7 @@ body {
   width: 100%;
   height: 100px;
   position: relative;
-  background-color: #ffff;
+  background-color: #f9ed69;
   z-index: 11;
   border-bottom: 1px solid rgba(30, 35, 42, .06);
   /*box-shadow: 0 1px 3px 0 rgba(0, 34, 77, .05);*/
@@ -131,20 +128,20 @@ body {
   color: #f30067;
   border: none;
   /*border-bottom: 3px solid #f30067;*/
+  border-radius: 0px;
   font-weight: bold;
 }
 
 #main #sentence_panel {
-  background-color: #ffffff5e;
-  position:absolute;
-  top:100px;
-  padding-left: 48px;
-  padding-right: 48px;
+  padding-left: 64px;
+  padding-right: 64px;
   padding-top: 32px;
+  padding-bottom: 56px;
   width: 100%;
-  height:260px;
-  /*background-color: #f9ed69;*/
-  z-index: 11;
+  height: 100%;
+  background-color: #f9ed69;
+  z-index: 1;
+  position: relative;
 }
 
 #sentence_panel #beauty_sentence_panel {
@@ -161,22 +158,25 @@ body {
   margin: 0.8em 0;
   font-family: var(--font-sans-serif);
   -webkit-font-smoothing: antialiased;
-  line-height: 1.6rem;
+  line-height: 2rem;
   letter-spacing: 0;
   margin: 0;
-  font-size: 1rem;
+  font-size: 1.1rem;
   color: #00000099;
-  font-weight: 222;
 }
 
-#main #sentence_panel #pre_quota,#main #sentence_panel #last_quota  {
-  font-size: 28px;
-  margin-right:5px;
+#main #sentence_panel #pre_quota {
+  font-size: 36px;
   font-weight: bold;
   font-family: "SimHei", "Microsoft YaHei", "微软雅黑", "华文细黑",
-  "Hiragino Sans GB" serif;
+    "Hiragino Sans GB"serif;
 }
 
+#main #sentence_panel #last_quota {
+  font-weight: bold;
+  font-family: "SimHei", "Microsoft YaHei", "微软雅黑", "华文细黑",
+    "Hiragino Sans GB"serif;
+}
 
 
 #album_panel {
@@ -282,16 +282,12 @@ body {
   animation-fill-mode: forwards;*/
 }
 
-.badge{
-  font-size:100% !important;
-}
-
 #work_panel {
   width: 100%;
   position: relative;
   height: 360px;
-  background: url("../img/work_panel_back.jpg");
-  /*background: url("../img/top_panel_back.jpg");*/
+  /*background: url("../img/work_panel_back.jpg");*/
+  background: url("../img/top_panel_back.jpg");
   /*background-color: #f6f6f6;*/
   background-repeat: no-repeat;
   background-size: cover;
@@ -352,7 +348,7 @@ body {
 #work_panel .inner_circle_point {
   width: 34px;
   height: 34px;
-  background: #ffffff;
+  background: #f9ed69;
   border-radius: 17px;
   display: block;
   z-index: 3;
@@ -418,14 +414,9 @@ body {
 #recent_article_panel {
   width: 100%;
   height: 100%;
+  background: white;
   position: relative;
   z-index: 1;
-  color:#cccccc;
-  /*background-color: #2d2d2d;*/
-  box-shadow: 0px 0px 2px #272727;
-  background: #536976;  /* fallback for old browsers */
-  background: -webkit-linear-gradient(to left, #292E49, #536976);  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to left, #292E49, #536976); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
 #recent_article_panel #recent_article_title {
@@ -436,6 +427,13 @@ body {
 #recent_article_panel #panel_with_back {
   width: 100%;
   height: 100%;
+  /*background: url("../img/bottom_panel_back.png");
+  opacity: 0.8;*/
+  /*background-attachment: fixed; 这个可以造成视差滚动的效果*/
+  background-color: #f9ed69;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
 }
 
 #recent_triangle {}
@@ -451,9 +449,7 @@ body {
   z-index: 0;
   width: 100%;
   height: 360px;
-  background: #536976;  /* fallback for old browsers */
-  background: -webkit-linear-gradient(to left, #292E49, #536976);  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to left, #292E49, #536976);
+  background: #21333d;
 }
 
 #bottom_panel #access_content {
@@ -519,14 +515,14 @@ body {
 }
 
 .article_a:visited {
-  color: #faf1e6;
+  color: #f30067;
   font-weight: bold;
 }
 
 .article_a {
   margin-left: 12px;
   font-weight: bold;
-  color: #faf1e6;
+  color: #f30067;
   text-decoration: none;
   cursor: pointer;
   font-size: 15px;
@@ -542,25 +538,6 @@ body {
   /*box-shadow: 2px 2px 4px #ffd31d;
   border-right: 1px solid #f9ed69;*/
   display: inline-block;
-}
-
-#article_page_all {
-  background:#f5f7f9;;
-  padding:24px 5%;
-}
-
-#article_page_all .article_item {
-  background-color: #ffffff;
-  box-shadow: 0 1px 3px 0 rgb(0 34 77 / 5%);
-  padding:8px 16px 8px 16px;
-  margin-bottom: 16px;
-}
-
-#article_detail,#media_all,#about_panel,#tool_panel {
-  margin: 18px 5%;
-  background-color: #ffffff;
-  box-shadow: 0 1px 3px 0 rgb(0 34 77 / 5%);
-  padding:16px;
 }
 
 #article_all {
@@ -612,6 +589,10 @@ body {
     "Segoe UI Symbol";
 }
 
+#media_all {
+  margin: 32px 16px;
+}
+
 #upload_panel {
   margin: 32px 16px;
 }
@@ -630,6 +611,14 @@ body {
   bottom: 10px;
 }
 
+#tool_panel,
+#about_panel {
+  margin: 32px 16px;
+}
+
+#article_detail {
+  margin: 64px 16px;
+}
 
 #article_detail #article_title {
   text-align: center;
@@ -734,25 +723,18 @@ body {
 }
 
 .card {
+  border-radius: 0px;
   margin-bottom: 16px;
-  border-radius: 0;
-  margin-top: 0;
-  border: none;
-  border-bottom: 1px solid #e8e8e8;
+  border: 1px solid rgba(30, 35, 42, .06);
+  box-shadow: 0 1px 3px 0 rgba(0, 34, 77, .05);
 }
 
-img {
-  margin: 0;
-}
+
 
 .tool_card {
   width: 100%;
   display: inline-block;
   cursor: pointer;
-  border-radius: 16px;
-  background: #536976;  /* fallback for old browsers */
-  background: -webkit-linear-gradient(to left, #292E49, #536976);  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to left, #292E49, #536976);
 }
 
 #loading {

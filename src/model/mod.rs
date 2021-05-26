@@ -74,6 +74,12 @@ pub fn remove(table_name: &str, id: &str) -> Result<i64> {
         .map(|x| x.deleted_count)?)
 }
 
+pub fn count_by(table_name: &str, filter: Option<Document>, options: CountOptions) -> Result<i64> {
+    table(table_name)
+        .count_documents(filter, Some(options))
+        .map_err(|e| e.into())
+}
+
 // 获取总记录条数
 pub fn count(table_name: &str) -> Result<i64> {
     let filter = doc! {};

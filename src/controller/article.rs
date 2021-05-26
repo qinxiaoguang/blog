@@ -3,6 +3,7 @@ use crate::model::article::{self, Article};
 use actix_web::{get, web, HttpRequest};
 
 const RECNET_ARTICLE_NUM: i64 = 10;
+const ARTICLE_PAGE_SIZE: i64 = 10;
 
 pub async fn save_article(article: web::Json<Article>) -> CommonResp {
     Resp::ok(article::save_article(article.into_inner())?).to_json()
@@ -11,6 +12,12 @@ pub async fn save_article(article: web::Json<Article>) -> CommonResp {
 #[get("/article/all")]
 pub async fn list_all_articles() -> CommonResp {
     Resp::ok(article::list_summary_publish_articles()?).to_json()
+}
+
+#[get("/article/page/{page_num}")]
+pub async fn list_page_articles(path: web::Path<(i64,)>) -> CommonResp {
+    let page_num = path.0;
+    Resp::ok(article::list_page_articles(ARTICLE_PAGE_SIZE,page_num)?).to_json()
 }
 
 #[get("/article/recent")]

@@ -1,10 +1,6 @@
 body {
-  /*background-color: rgb(253 250 248);*/
   background-color: #f5f7f9;
   height: 100%;
-  max-width: 1560px;
-  margin-left: auto;
-  margin-right:auto;
 }
 
 .main {
@@ -13,32 +9,31 @@ body {
 
 #main {
   margin: 0 auto;
-  width: 100%;
+  width: 1280px;
   height: 100%;
   z-index: 10;
   display: none;
-  /*background-color: #ffff;*/
+  background-color: #ffff;
   /*border-left: 1px solid #ccc;*/
   /* border-right: 1px solid red; */
 }
 
-
 #main #header {
-  width: 100%;
+  width: 1280px;
   height: 120px;
-  padding-left:96px;
-  padding-right:96px;
-  background-color: #ffff;
+  position: relative;
 }
 
 #main #header #button_group {
-  margin-top:64px;
-  float:right;
+  position: absolute;
+  right: 16px;
+  bottom: 0px;
+  padding-left: 0px;
   /*border-bottom: 1px solid #000;*/
 }
 
 /* 添加自定义长度的border-bottom*/
-/*#button_home::after,
+#button_home::after,
 #button_group::after {
   content: " ";
   width: 93%;
@@ -49,7 +44,8 @@ body {
   left: 50%;
   transform: translateX(-50%);
   animation: widthBig 0.4s linear;
-}*/
+  /*居中处理*/
+}
 
 #button_life,
 #button_tool,
@@ -60,39 +56,36 @@ body {
 #header_panel {
   position: relative;
   z-index: 5;
-  border-bottom:1px solid #ececec
-/*background-color: rgb(253 250 248);*/
-  /*background-color: rgb(0 0 0 / 29%);*/
 }
 
 #header #button_home {
-  float:left;
-  margin-top:64px;
+  position: absolute;
+  bottom: 0;
+  left: 16px;
   border-bottom: 2px solid black;
 }
 
 #triangle {
-  width: 100%;
-  height:0px;
-  background: transparent;
+  border-top: 120px solid #f9ed69;
+  border-left: 300px solid transparent;
+  border-right: 980px solid transparent;
+  width: 0px;
 }
 
 #triangle_bottom {
-  /*border-bottom: 120px solid #f9ed69;
+  border-bottom: 120px solid #f9ed69;
   border-right: 300px solid transparent;
   border-left: 980px solid transparent;
-  width: 0px;*/
+  width: 0px;
 }
 
 
 #main #top_panel {
   height: 720px;
   background: url("../img/top_panel_back.jpg");
-  /*background: #f5f7f9;*/
   /*background-attachment: fixed; 这个可以造成视差滚动的效果*/
   background-repeat: no-repeat;
   background-size: cover;
-  background-position:center center;
   /*等比例拉伸，不会影响图片效果*/
   position: relative;
   z-index: 10;
@@ -101,7 +94,7 @@ body {
 
 
 #main #top_panel #top_panel_bottom {
-  /*background: url("../img/header_triangle_bottom.svg");*/
+  background: url("../img/header_triangle_bottom.svg");
   background-size: cover;
   /*等比例拉伸，不会影响图片效果*/
   width: 1280px;
@@ -117,8 +110,8 @@ body {
   background-color: transparent;
   border: none;
   /*border-bottom:5px solid black;*/
-  padding-left: 8px;
-  padding-right: 8px;
+  padding-left: 16px;
+  padding-right: 16px;
   padding-bottom: 8px;
   font-size: 18px;
 }
@@ -151,24 +144,26 @@ body {
 
 #main #header .header_button_active {
   background-color: transparent;
-  color: #000000;
+  color: #ffd31d;
   border: none;
-  border-bottom: 3px solid #ffd31d;
-  padding-left: 8px;
-  padding-right: 8px;
+  /*border-bottom: 3px solid #ffd31d;*/
+  border-radius: 0px;
+  padding-left: 16px;
+  padding-right: 16px;
   padding-bottom: 8px;
   font-size: 18px;
   font-weight: bold;
 }
 
 #main #sentence_panel {
-  padding-left: 15%;
-  padding-right:15%;
-  position: absolute;
-  top:120px;
-  padding-top: 58px;
-  height: 600px;
+  padding-left: 72px;
+  padding-right: 72px;
+  padding-top: 72px;
+  width: 1280px;
+  height: 240px;
+  background-color: #f9ed69;
   z-index: 10;
+  position: relative;
 }
 
 #sentence_panel #beauty_sentence_panel {
@@ -186,22 +181,26 @@ body {
   margin: 0.8em 0;
   font-family: var(--font-sans-serif);
   -webkit-font-smoothing: antialiased;
+  line-height: 2rem;
   letter-spacing: 0;
   margin: 0;
-  /*line-height: 3.8rem;*/
   font-size: 1.1rem;
-  /*color: #00000099;*/
-  color: #6d6d6d;
-  font-weight: 380;
+  color: #00000099;
 }
 
-#main #sentence_panel #pre_quota,#main #sentence_panel #last_quota  {
-  font-size: 28px;
-  margin-right:5px;
+#main #sentence_panel #pre_quota {
+  font-size: 36px;
   font-weight: bold;
   font-family: "SimHei", "Microsoft YaHei", "微软雅黑", "华文细黑",
     "Hiragino Sans GB"serif;
 }
+
+#main #sentence_panel #last_quota {
+  font-weight: bold;
+  font-family: "SimHei", "Microsoft YaHei", "微软雅黑", "华文细黑",
+    "Hiragino Sans GB"serif;
+}
+
 
 #album_panel {
   height: 480px;
@@ -210,10 +209,10 @@ body {
 }
 
 #album_panel #top_back {
-  /*background: url("../img/middle_triangle.svg");*/
+  background: url("../img/middle_triangle.svg");
   background-size: cover;
   /*等比例拉伸，不会影响图片效果*/
-  width: 100%;
+  width: 1280px;
   height: 160px;
   position: absolute;
   top: 0;
@@ -221,7 +220,7 @@ body {
 }
 
 #album_panel #bottom_back {
-  /*background: url("../img/middle_triangle.svg");*/
+  background: url("../img/middle_triangle.svg");
   background-size: cover;
   /*等比例拉伸，不会影响图片效果*/
   width: 1280px;
@@ -345,7 +344,10 @@ body {
 
 #work_panel .work_triangle .left_triangle {
   height: 160px;
-  width: 100%;
+  width: 1280px;
+  border-left: 0px solid transparent;
+  border-top: 160px solid #f9ed69;
+  border-right: 1280px solid transparent;
   position: absolute;
   top: 0;
   z-index: 1;
@@ -355,6 +357,12 @@ body {
   position: absolute;
   top: 8px;
   height: 40px;
+  width: 1280px;
+  background: transparent;
+  border-left: 0px solid transparent;
+  border-top: 16px solid transparent;
+  border-right: 156px solid #f9ed69;
+  border-bottom: 30px solid transparent;
   z-index: 0;
 }
 
@@ -384,7 +392,7 @@ body {
 #work_panel .inner_circle_point {
   width: 34px;
   height: 34px;
-  background: #f5f7f9;
+  background: #f9ed69;
   border-radius: 17px;
   display: block;
   z-index: 3;
@@ -450,20 +458,14 @@ body {
 #recent_article_panel {
   width: 100%;
   height: 360px;
+  background: white;
   position: relative;
   z-index: 10;
-  color:#cccccc;
-  /*background-color: #2d2d2d;*/
-  box-shadow: 0px 0px 2px #272727;
-  background: #536976;  /* fallback for old browsers */
-  background: -webkit-linear-gradient(to left, #292E49, #536976);  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to left, #292E49, #536976); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
 #recent_article_panel #recent_article_title {
   padding-left: 80px;
   padding-top: 36px;
-  color:#ffffff;
 }
 
 #recent_article_panel #panel_with_back {
@@ -472,40 +474,37 @@ body {
   /*background: url("../img/bottom_panel_back.png");
   opacity: 0.8;*/
   /*background-attachment: fixed; 这个可以造成视差滚动的效果*/
-  /*background-color: #2d2d2d;*/
-  /*box-shadow: 0px 0px 5px #151516;*/
-  /*border: 1px solid #151516;*/
-  /*background: linear-gradient(to right bottom, #e0e0e0 0%, #5a5a5a 100%);*/
-  /*background-repeat: no-repeat;
+  background-color: #f9ed69;
+  background-repeat: no-repeat;
   background-size: cover;
-  background-attachment: fixed;*/
+  background-attachment: fixed;
 }
 
 #recent_triangle {
+  border-top: 120px solid #f9ed69;
+  border-left: 300px solid transparent;
+  border-right: 980px solid transparent;
+  width: 0px;
 }
 
 
 #bottom_ {
-  /*margin-top:120px;*/
+  margin-top:120px;
 }
 
 #bottom {
-  height: 200px;
+  height: 300px;
 }
 
 #bottom_panel {
   position: fixed;
   bottom: 0;
   z-index: 0;
-  width: 100%;
-  max-width: 1560px;
+  width: 1279px;
   height: 360px;
-  padding-left:32px;
-  padding-right:32px;
-  background: #536976;  /* fallback for old browsers */
-  background: -webkit-linear-gradient(to left, #292E49, #536976);  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to left, #292E49, #536976);
+  background: #21333d;
 }
+
 
 #bottom_panel #access_content {
   color: #ddd;
@@ -513,7 +512,7 @@ body {
   font-family: arial;
   position: absolute;
   bottom: 12px;
-  left: 64px;
+  left: 36px;
 }
 
 #bottom_panel #access_content #access_cnt {
@@ -569,21 +568,21 @@ body {
 }
 
 .article_a:visited {
-  color: #faf1e6;
+  color: #f30067;
   font-weight: bold;
 }
 
 .article_a {
   margin-left: 12px;
   font-weight: bold;
-  color: #faf1e6;
+  color: #f30067;
   text-decoration: none;
   cursor: pointer;
   font-size: 15px;
 }
 
 .article_a:hover {
-  color: #faf1e6;
+  color: #614ad3;
   font-size: 18px;
   outline: none;
   text-decoration: none;
@@ -592,7 +591,7 @@ body {
   display: inline-block;
   font-weight: bold;
   animation: font-big 0.1s;
-  -moz-animation: font-big 0.1s;
+  -moz-animation: font-biig 0.1s;
   -webkit-animation: font-big 0.1s;
   -o-animation: font-big 0.1s;
 }
@@ -622,10 +621,9 @@ body {
 }
 
 #article_all {
-  margin-left: 80px;
-  margin-right: 80px;
-  /*padding-top: 36px;*/
-  /*border-top: 1px solid rgb(78 78 78 / 64%);*/
+  padding-left: 80px;
+  padding-right: 80px;
+  padding-top: 36px;
 }
 
 #article_edit_all .article_title {
@@ -662,25 +660,8 @@ body {
     "Segoe UI Symbol";
 }
 
-
-#article_panel_all {
-  padding:24px 12%;
-}
-
-#article_page_all {
-  background:#f5f7f9;;
-  padding:24px 8%;
-}
-
-#article_page_all .article_item {
-  background-color: #ffffff;
-  box-shadow: 0 1px 3px 0 rgb(0 34 77 / 5%);
-  padding:16px 32px 32px 32px;
-  margin-bottom: 8px;
-}
-
-#article_panel_all .article_a {
-  color:#000;
+#media_all {
+  margin: 80px 80px;
 }
 
 #upload_panel {
@@ -701,12 +682,8 @@ body {
   bottom: 10px;
 }
 
-#article_detail,#media_all,#about_panel,#tool_panel {
-  margin: 24px 8%;
-  background-color: #ffffff;
-  box-shadow: 0 1px 3px 0 rgb(0 34 77 / 5%);
-  padding:16px 32px 32px 32px;
-  margin-bottom: 8px;
+#article_detail {
+  margin: 80px 80px;
 }
 
 #article_detail #article_title {
@@ -848,22 +825,26 @@ body {
   border: none;
   /*border-left: 1px solid rgba(30, 35, 42, .06);
   border-top: 1px solid rgba(30, 35, 42, .06);*/
-  /*box-shadow: 0 1px 3px 0 rgba(0, 34, 77, .05);*/
+  box-shadow: 0 1px 3px 0 rgba(0, 34, 77, .05);
 }
 
+#tool_panel {
+  margin: 80px 64px;
+}
 
 .tool_card {
   width: 31%;
   margin-left: 1%;
   margin-right: 1%;
+
   display: inline-block;
   cursor: pointer;
-  border-radius: 16px;
-  background: #536976;  /* fallback for old browsers */
-  background: -webkit-linear-gradient(to left, #292E49, #536976);  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to left, #292E49, #536976);
+  border-radius:16px;
 }
 
+#about_panel {
+  margin: 80px 80px;
+}
 
 #life_loading {
   position: relative;

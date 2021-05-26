@@ -9,7 +9,7 @@
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>文章列表</title>
+    <title>文章归档</title>
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link
@@ -77,27 +77,18 @@
           </div>
         </div>
       </div>
-      <div id="article_page_all">
-        <div class="article_item" v-for="val in articles">
-          <h1><a class="article_page_a" :href="val.url">{{val.title}}</a></h1>
+      <div id="article_panel_all">
+        <div v-for="item in new_articles">
+          <h3 class="article_list_title">{{item.title}}</h3>
           <hr />
-          <span><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar3" viewBox="0 0 16 16">
-            <path d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857V3.857z"/>
-            <path d="M6.5 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
-          </svg>
-          {{val.update_time}}</span>
-          <div v-html="val.content">{{val.content}}</div>
-              <a :href="val.url">more >></a>
-          <!--<span class="badge bg-warning text-dark" style="float:right;">{{val.catagory}}</span>-->
-          </div>
-          <hr />
-        <nav aria-label="Page navigation example">
-          <ul class="pagination justify-content-center" >
-            <li class="page-item" v-bind:class="{ active: val.active, disabled:val.disable}" v-for="val in pages">
-              <a class="page-link" :href="val.url"> {{val.title}}</a>
+          <ul v-for="val in item.articles">
+            <li><span>[{{val.update_time}}]</span><a class="article_a" :href="val.url"
+                >{{val.title}}</a
+              >
             </li>
           </ul>
-        </nav>
+          <hr />
+        </div>
       </div>
 
       <div id="bottom_">
@@ -141,18 +132,15 @@
     <script>
       $(function () {
         toc_init();
-
-        hljs.initHighlightingOnLoad();
-
         // 处理toc
         function handle_toc() {
           var navSelector = "#toc";
           var $myNav = $(navSelector);
           Toc.init({
-            $scope: $("#article_page_all"),
+            $scope: $("#article_panel_all"),
             $nav: $myNav,
           });
-          $("#article_page_all").scrollspy({
+          $("#article_panel_all").scrollspy({
             target: $myNav,
           });
         }
@@ -180,103 +168,48 @@
           return null;
         };
         var panel_with_back = new Vue({
-          el: "#article_page_all",
+          el: "#article_panel_all",
           data() {
             return {
               articles: null,
               new_articles: null,
-              pages:null,
             };
           },
           mounted() {
-            // TODO 删除
-            loading_finish();
-            let page_num = getQueryString("p")
-            if (page_num == undefined || page_num == "" ) {
-              page_num = 1;
-            }
-            console.log(page_num)
-            axios.get(baseUrl + "/article/page/" + page_num).then((response) => {
-              this.articles = response.data.data.articles;
-              page_num = response.data.data.page_num;
-              page_size = response.data.data.page_size;
-              total = response.data.data.total;
-                for (a of this.articles) {
+            axios.get(baseUrl + "/article/all").then((response) => {
+              this.articles = response.data.data;
+              var new_articles = [];
+              var top_tag = ["置顶"];
+              for (idx in top_tag) {
+                var tag = top_tag[idx];
+                for (key in this.articles) {
+                  if (key == tag) {
+                    new_articles.push({
+                      title: tag,
+                      articles: this.articles[key],
+                    });
+                    break;
+                  }
+                }
+              }
+              for (key in this.articles) {
+                var article = this.articles[key];
+                if (!top_tag.includes(key)) {
+                  new_articles.push({
+                    title: key,
+                    articles: this.articles[key],
+                  });
+                }
+                for (a of article) {
                   a.update_time = format_date(a.update_time);
                   a.url = "/article/detail/" + a._id;
                   a.edit_url = "/article/edit.html?id=" + a._id;
-                  a.content = marked(a.content/*.substring(0,150)*/);
                   if (a.title == "") {
                     a.title = "#";
                   }
-              }
-
-              // 处理分页
-              var pages = [];
-              total_page = parseInt((total -1 )/ page_size) + 1;
-              pre_page = page_num - 1;
-              next_page = page_num + 1;
-              if (page_num != 1)  {
-                pages.push({
-                   title:" ««",
-                   active:false,
-                   disable:false,
-                   url:location.pathname + "?p=1" ,
-                });
-                pages.push({
-                   title:" «",
-                   active:false,
-                   disable:false,
-                   url:location.pathname + "?p=" + pre_page,
-                });
-              }
-
-              if (pre_page > 0) {
-                pages.push({
-                   title:""+pre_page+"",
-                   active:false,
-                   disable:false,
-                   url:location.pathname + "?p=" + pre_page,
-                });
-              }
-              pages.push({
-                title:""+page_num+"",
-                   active:true,
-                   disable:false,
-                url:"",
-              });
-              if (next_page < total_page) {
-                pages.push({
-                   title:""+next_page+"",
-                   active:false,
-                   disable:false,
-                   url:location.pathname + "?p=" + next_page,
-                });
-               }
-              if (next_page + 1 < total_page) {
-                 pages.push({
-                   title:"...",
-                   active:false,
-                   disable:true,
-                   url:"",
-                });
                 }
-                if (next_page <= total_page){
-                pages.push({
-                   title:""+total_page+"",
-                   active:false,
-                   disable:false,
-                   url:location.pathname + "?p=" + total_page,
-                });
-                pages.push({
-                   title:" »",
-                   active:false,
-                   disable:false,
-                   url:location.pathname + "?p=" + next_page,
-                });
-            }
-              this.pages = pages;
-              console.log(this.pages)
+              }
+              this.new_articles = new_articles;
               loading_finish();
               this.$nextTick(() => {
                 fit_height();

@@ -1,8 +1,9 @@
-use super::{Article, DbArticle, Summary};
+use super::{Article, ArticlePage, DbArticle, Summary};
+use crate::model::count_by;
 use crate::{common::*, util::file};
 use bson::{doc, oid::ObjectId, Document};
 use log::info;
-use mongodb::options::FindOptions;
+use mongodb::options::{CountOptions, FindOptions};
 use std::collections::BTreeMap;
 
 // 保存文章，返回文章id
@@ -91,6 +92,11 @@ pub fn list_recent_articles(num: i64) -> Result<Vec<Article>> {
     let mut articles: Vec<Article> = list_articles(filter, find_options).map(|v| {
         v.into_iter()
             .filter_map(|db_article| db_article.into_publish())
+            // 目前不需要返回内容，内容过长，影响速度，如果需要返回内容的简写，后边再考虑
+            .map(|mut a| {
+                a.content = None;
+                a
+            })
             .collect()
     })?;
     articles.sort_by(|a, b| {
@@ -100,6 +106,54 @@ pub fn list_recent_articles(num: i64) -> Result<Vec<Article>> {
             .cmp(&b.update_time.as_ref().unwrap())
     });
     Ok(articles)
+}
+
+// 获取某个状态的文章个数
+pub fn count_published() -> Result<i64> {
+    let options = CountOptions::default();
+    let filter = Some(doc! {"status":DbArticle::PUBLISHED, "last_publish_time": {"$ne":null}});
+    count_by(DbArticle::TABLE_NAME, filter, options)
+}
+
+// 列出已经发布的n篇文章
+pub fn list_page_articles(page_size: i64, page_num: i64) -> Result<(ArticlePage)> {
+    let mut start = (page_num - 1) * page_size;
+    start = if start < 0 { 0 } else { start };
+    let find_options = FindOptions::builder()
+        .sort(Some(doc! {"last_publish_time":-1}))
+        .skip(start)
+        .limit(page_size)
+        .build();
+    let filter = Some(doc! {"status":DbArticle::PUBLISHED, "last_publish_time": {"$ne":null}});
+    let total = count_published()?;
+    let mut articles: Vec<Article> = list_articles(filter, find_options).map(|v| {
+        v.into_iter()
+            .filter_map(|db_article| db_article.into_publish())
+            .map(|mut a| {
+                a.content = a.content.map(|c| {
+                    // 摘要
+                    match c.char_indices().nth(150) {
+                        Some((idx, _)) => String::from(&c[..idx]),
+                        None => c,
+                    }
+                });
+                a
+            })
+            .collect()
+    })?;
+
+    articles.sort_by(|a, b| {
+        b.update_time
+            .as_ref()
+            .unwrap()
+            .cmp(&a.update_time.as_ref().unwrap())
+    });
+    Ok(ArticlePage {
+        articles,
+        page_num,
+        page_size,
+        total,
+    })
 }
 
 pub fn list_summary_edit_articles() -> Result<Summary> {
@@ -129,6 +183,7 @@ pub fn list_summary_edit_articles() -> Result<Summary> {
         .map(summary)
 }
 
+// 列出分类的按时间排序的所有文章
 pub fn list_summary_publish_articles() -> Result<Summary> {
     let find_options = FindOptions::builder()
         .sort(Some(doc! {"last_publish_time":-1}))
@@ -194,12 +249,11 @@ pub fn dump() {
                 if let Err(_) = std::fs::create_dir_all(dir.clone()) {
                     return;
                 }
-		// 防止/符号导致创建文件被处理为文件夹
-		let title = article.title.clone().unwrap().replace("/","_");
+                // 防止/符号导致创建文件被处理为文件夹
+                let title = article.title.clone().unwrap().replace("/", "_");
                 let file_path = format!("{}/{}.md", dir, title);
-		let err_msg = format!("save failed, file_path is:{}",file_path);
-                file::save_to_file(file_path, article.content.clone().unwrap())
-                    .expect(&err_msg);
+                let err_msg = format!("save failed, file_path is:{}", file_path);
+                file::save_to_file(file_path, article.content.clone().unwrap()).expect(&err_msg);
             }
         });
 }

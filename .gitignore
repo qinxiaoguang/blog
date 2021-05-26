@@ -6,3 +6,4 @@
 output
 log
 ./web/login.html
+.idea/*

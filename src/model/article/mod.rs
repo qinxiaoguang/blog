@@ -18,6 +18,15 @@ pub struct Article {
     status: Option<i32>,         // 状态
 }
 
+// 分页相关
+#[derive(Debug, Serialize, Deserialize, Clone)]
+pub struct ArticlePage {
+    articles: Vec<Article>,
+    page_num: i64,
+    page_size: i64,
+    total: i64, // 总数量
+}
+
 impl Article {
     pub fn time_update(&mut self) {
         self.update_time = Some(Local::now().timestamp().to_string())

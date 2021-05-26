@@ -58,7 +58,7 @@ body {
 #main #top_panel {
   width: 100%;
   height: 360px;
-  background: url("../img/top_panel_back.jpg");
+  background: url("../img/top_panel_back.webp");
   /*background-attachment: fixed; 这个可以造成视差滚动的效果*/
   background-repeat: no-repeat;
   background-size: auto 100%;
@@ -290,7 +290,7 @@ body {
   width: 100%;
   position: relative;
   height: 360px;
-  background: url("../img/work_panel_back.jpg");
+  background: url("../img/work_panel_back.webp");
   /*background: url("../img/top_panel_back.jpg");*/
   /*background-color: #f6f6f6;*/
   background-repeat: no-repeat;

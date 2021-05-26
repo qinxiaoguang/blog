@@ -73,12 +73,12 @@
       <div id="top_back"></div>
       <div id="bottom_back"></div>
       <div class="album" id="left_album">
-        <img class="pic left_pic" src="./static/img/left_pic.png" v-show="default_left_pic_show" @click="jumpToLife" />
+        <!--<img class="pic left_pic" src="./static/img/left_pic.png" v-show="default_left_pic_show" @click="jumpToLife" />-->
         <img class="pic left_pic" :src="left_pic_url" v-show="recent_left_pic_show" @click="jumpToLife" />
       </div>
       <div class="album" id="right_album">
-        <img class="pic right_pic" src="./static/img/right_pic.png" v-show="default_right_pic_show"
-          @click="jumpToLife" />
+        <!--<img class="pic right_pic" src="./static/img/right_pic.png" v-show="default_right_pic_show">
+          @click="jumpToLife" />-->
         <img class="pic right_pic" :src="right_pic_url" v-show="recent_right_pic_show" @click="jumpToLife" />
       </div>
     </div>

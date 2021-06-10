@@ -1,6 +1,6 @@
 body {
   width: 100%;
-  min-width: fit-content;
+  /*min-width: fit-content;*/
   background-color: #f5f7f9;
   margin-left: auto;
   margin-right:auto;
@@ -546,7 +546,7 @@ body {
 
 #article_page_all {
   background:#f5f7f9;;
-  padding:12px 0;
+  padding:18px 4%;
 }
 
 #article_page_all .article_item {
@@ -557,10 +557,10 @@ body {
 }
 
 #article_detail,#media_all,#about_panel,#tool_panel {
-  margin: 12px 0;
+  margin: 18px 4%;
   background-color: #ffffff;
   box-shadow: 0 1px 3px 0 rgb(0 34 77 / 5%);
-  padding:16px;
+  padding:8px;
 }
 
 #article_all {
@@ -638,7 +638,8 @@ body {
 }
 
 #article_detail #content {
-  margin: 16px 16px;
+  padding: 8px 8px;
+  width: 100%;
 }
 
 #detail_time {
@@ -901,4 +902,13 @@ img {
   padding: 8%;
   height: 100%;
   box-shadow: 0 1px 3px 0 #f5f7f9;
+}
+
+blockquote {
+  overflow: hidden;
+  width:100%;
+}
+
+#content p {
+  word-break: break-word;
 }

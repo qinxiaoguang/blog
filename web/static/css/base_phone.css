@@ -715,6 +715,15 @@ body {
   margin: 0 0;
 }
 
+.video_des_title{
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-size: 32px;
+  line-height: 1.0;
+  margin: 0 0;
+  border-bottom: none !important;
+}
+
 .img_des {
   margin-bottom: 16px;
 }
@@ -724,7 +733,9 @@ body {
 }
 
 .video_des{
-	display:none;
+  padding-left: 8px;
+  padding-right: 8px;
+  margin-bottom: 16px;
 }
 
 

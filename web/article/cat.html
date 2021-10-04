@@ -78,16 +78,20 @@
         </div>
       </div>
       <div id="article_panel_all">
+      <div id="article_page_all">
         <div v-for="item in new_articles">
+			<div class="article_item">
           <h3 class="article_list_title">{{item.title}}</h3>
           <hr />
           <ul v-for="val in item.articles">
-            <li><span>[{{val.update_time}}]</span><a class="article_a" :href="val.url"
+            <li><span>[{{val.update_time}}]</span><a class="article_b" :href="val.url"
                 >{{val.title}}</a
               >
             </li>
           </ul>
           <hr />
+	  </div>
+	  </div>
         </div>
       </div>
 
@@ -214,6 +218,7 @@
               this.$nextTick(() => {
                 fit_height();
                 handle_toc();
+				location.href=location.href
               });
             });
           },

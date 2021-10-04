@@ -87,8 +87,9 @@
           </svg>
           {{val.update_time}}</span>
           <div v-html="val.content">{{val.content}}</div>
+			  <!--<a :href="val.cat_url">{{val.catagory}}</a>-->
               <a :href="val.url">more >></a>
-          <!--<span class="badge bg-warning text-dark" style="float:right;">{{val.catagory}}</span>-->
+			  <span class="badge bg-warning text-dark" style="float:right"><a :href="val.cat_url" style="color:black">{{val.catagory}}</a></span>
           </div>
           <hr />
         <nav aria-label="Page navigation example">
@@ -201,6 +202,7 @@
               total = response.data.data.total;
                 for (a of this.articles) {
                   a.update_time = format_date(a.update_time);
+				  a.cat_url="https://www.qxgzone.com/article/cat.html#"+a.catagory
                   a.url = "/article/detail/" + a._id;
                   a.edit_url = "/article/edit.html?id=" + a._id;
                   a.content = marked(a.content/*.substring(0,150)*/);

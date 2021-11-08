@@ -212,7 +212,7 @@
             axios.get(baseUrl + "/article/get/" + id).then((response) => {
               this.article = response.data.data;
               this.article.word_count = this.article.content.length;
-              this.article.content = marked(this.article.content);
+              this.article.content = marked.parse(this.article.content);
               this.article.edit_url = "/article/edit.html?id=" + this.article._id;
               this.article.update_time = format_date(this.article.update_time);
               console.log(this.article);

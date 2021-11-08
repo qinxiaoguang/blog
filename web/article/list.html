@@ -205,7 +205,7 @@
 				  a.cat_url="https://www.qxgzone.com/article/cat.html#"+a.catagory
                   a.url = "/article/detail/" + a._id;
                   a.edit_url = "/article/edit.html?id=" + a._id;
-                  a.content = marked(a.content/*.substring(0,150)*/);
+                  a.content = marked.parse(a.content/*.substring(0,150)*/);
                   if (a.title == "") {
                     a.title = "#";
                   }

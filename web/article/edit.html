@@ -244,7 +244,7 @@
 
         function render() {
           val = $("#mark_edit").val();
-          $("#mark_right").html(marked(val));
+          $("#mark_right").html(marked.parse(val));
         }
 
         function save() {
@@ -317,7 +317,7 @@
                 check_login(response.data);
                 this.article = response.data.data;
                 wordCount = this.article.content.length;
-                this.article.md_preview = marked(this.article.content);
+                this.article.md_preview = marked.parse(this.article.content);
                 $("title").html(this.article.title + " - 文章修改");
                 loading_finish();
               })

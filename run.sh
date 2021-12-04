@@ -17,7 +17,7 @@ mkdir -p $output/tmpfile # tmpfile用于生成临时文件
 # 将pid放入临时文件中
 echo $$ > $pidfile
 
-function dev(){
+dev(){
     echo "dev"
     # first cargo build
     cargo build
@@ -39,7 +39,7 @@ function dev(){
     cd $output && ./$projname
 }
 
-function online(){
+online(){
     echo "online"
     # first cargo build
     cargo build --release
@@ -63,7 +63,7 @@ function online(){
 }
 
 
-function ip(){
+ip(){
     echo "ip"
     # first cargo build
     cargo build --release
@@ -86,7 +86,7 @@ function ip(){
     cd $output && ./$projname
 }
 
-function stop(){
+stop(){
     # 下掉crontab
     echo "stop"
     ps aux | grep "crontab.sh" | grep -v grep | awk '{print $2}' | xargs kill -9

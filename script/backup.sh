@@ -19,6 +19,6 @@ mv -b $output/md.tgz ./dump/
 rm -rf ./dump/md.tgz~
 
 # 在执行，一定要配置ssh-gen,否则执行失败
-git pull && git add . && git add $uploadimg  && git commit -m "backup db"  && git push origin master
+git pull && git add ./* && git add $uploadimg  && git commit -m "backup db"  && git push origin master
 
 

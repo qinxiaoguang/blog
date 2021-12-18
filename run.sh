@@ -86,6 +86,37 @@ ip(){
     cd $output && ./$projname
 }
 
+wsl(){
+    echo "wsl"
+    ip=`ifconfig | grep -oP "192.168.\d{1,3}.\d{1,3}" | head -1`
+    # first cargo build
+    cargo build
+    if [ $? -ne 0 ];then
+	echo "build failed"
+	exit 0
+    fi
+
+    cp $debugfile $output
+    cp -r $cwd/conf_wsl $output/conf
+    # 修改js文件
+    cp $jsdir/base_wsl.js $jsdir/base.js
+    # 修改登录文件
+    cp $webdir/login_dev.html $webdir/login.html
+
+    sed -i -e 's#${web_path}#'\"${web_path}\"'#g' $output/conf/app.toml 
+    sed -i -e 's#${ip}#'${ip}'#g' $output/conf/app.toml 
+    sed -i -e 's#${ip}#'${ip}'#g' $webdir/login.html
+    sed -i -e 's#${ip}#'${ip}'#g' $jsdir/base.js
+
+
+    # 执行 备份
+    # cd $cwd/script && nohup sh -x ./crontab.sh $output >> $output/crontab.log &
+
+    # run 
+    cd $output && ./$projname
+}
+
+
 stop(){
     # 下掉crontab
     echo "stop"
@@ -101,6 +132,9 @@ case $1 in
     ;;
     online)
 	online
+	;;
+    wsl)
+	wsl
 	;;
     ip)
     ip

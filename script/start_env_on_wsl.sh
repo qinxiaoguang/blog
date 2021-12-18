@@ -1,3 +1,4 @@
+#!/bin/bash
 # nginx启动
 sudo nginx -c /home/qxg/proj/blog/script/nginx_local.conf
 # mongo启动

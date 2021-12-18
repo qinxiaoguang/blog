@@ -1,8 +1,8 @@
 document.write('<script src="https://cdn.bootcss.com/axios/0.19.2/axios.min.js"></script>');
 
 // 测试环境
-baseUrl = "http://localhost:8080";
-pageUrl = "http://localhost";
+baseUrl = "http://192.168.233.229:8080";
+pageUrl = "http://192.168.233.229";
 // 线上环境
 // baseUrl = "http://qxgzone.com:8080";
 // pageUrl = "http://qxgzone.com";

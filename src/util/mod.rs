@@ -3,3 +3,4 @@ pub mod path;
 pub use path::*;
 
 pub mod file;
+pub mod wasm;

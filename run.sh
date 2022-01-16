@@ -10,6 +10,7 @@ releasefile=$cwd/target/release/$projname
 output=$cwd/output
 pidfile=$output/PID
 web_path=$cwd/web
+script_path=$cwd/script
 
 rm -rf $output
 mkdir -p $output/tmpfile # tmpfile用于生成临时文件
@@ -88,8 +89,12 @@ ip(){
 
 wsl(){
     echo "wsl"
-    ip=`ifconfig | grep -oP "192.168.\d{1,3}.\d{1,3}" | head -1`
+    # start mongo nginx redis
+    cd ${script_path} && sh start_env_on_wsl.sh
+    cd -
+    ip=`ifconfig | grep -oP "\d{1,3}.\d{1,3}.\d{1,3}.\d{1,3}" | head -1`
     # first cargo build
+    cd ${cwd}
     cargo build
     if [ $? -ne 0 ];then
 	echo "build failed"

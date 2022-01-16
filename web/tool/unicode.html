@@ -9,7 +9,7 @@
 <head>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>json校验及格式化 —— 工具</title>
+  <title>unicode在线编解码 —— 工具</title>
   <meta name="description" content="" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
@@ -29,13 +29,16 @@
   style="font-family: -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol'">
   <div id="json_body" style="margin-top:10px;">
     <div id="tmp_file_edit">
-      <textarea style="height: 90vh;width:100%;resize: none;margin-bottom:10px;" class="mark_textarea" id="edit"
+      <textarea style="height: 40vh;width:100%;resize: none;margin-bottom:10px;" class="mark_textarea" id="input_text"
         placeholder="please input your json string"></textarea>
+      <textarea style="height: 40vh;width:100%;resize: none;margin-bottom:10px;" disabled="disabled"
+        class="mark_textarea" id="output_text" placeholder="please input your json string"></textarea>
     </div>
     <div class="alert alert-danger" role="alert" id="warn" style="display: none;">
       A simple danger alert—check it out!
     </div>
-    <button @click="json_format" class="btn btn-primary" style="margin-bottom: 8px;">format</button>
+    <button @click="unicodeto" class="btn btn-primary" style="margin-bottom: 8px;">unicode转字符串</button>
+    <button @click="tounicode" class="btn btn-primary" style="margin-bottom: 8px;">字符串转unicode</button>
   </div>
   <!--[if lt IE 7]>
       <p class="browsehappy">
@@ -66,7 +69,7 @@
   <script>
     $(function () {
       axios.defaults.withCredentials = true;
-      const { json_print } = wasm_bindgen;
+      const { unicode_to, to_unicode } = wasm_bindgen;
       var mark_body = new Vue({
         el: "#json_body",
         data() {
@@ -82,16 +85,15 @@
           run();
         },
         methods: {
-          json_format: function (e) {
-            val = $("#edit").val();
-            res = json_print(val);
-            if (res.startsWith("err")) {
-              $("#warn").css("display", "block");
-              $("#warn").html(res);
-            } else {
-              $("#warn").css("display", "none");
-              $("#edit").val(res);
-            }
+          unicodeto: function (e) {
+            val = $("#input_text").val();
+            res = unicode_to(val);
+            $('#output_text').val(res);
+          },
+          tounicode: function (e) {
+            val = $("#input_text").val();
+            res = to_unicode(val);
+            $('#output_text').val(res);
           },
         },
       });

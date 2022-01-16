@@ -12,15 +12,15 @@
   <title>心愿单 —— 工具</title>
   <meta name="description" content="" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css"
-    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
-  <link rel="stylesheet" href="../static/css/article_alter.css" />
+
+  <link rel="stylesheet" href="/static/css/out/bootstrap.min.css" />
+  <link rel="stylesheet" href="/static/css/article_alter.css" />
   <!-- highlight 的主题-->
-  <link href="https://cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow-night-eighties.min.css" rel="stylesheet" />
-  <link rel="stylesheet" type="text/css" media="screen and (min-device-width: 720px)" href="../static/css/base.css" />
+  <link href="/static/css/out/tomorrow-night-eighties.min.css" rel="stylesheet" />
+  <link rel="stylesheet" type="text/css" media="screen and (min-device-width: 720px)" href="/static/css/base.css" />
   <link rel="stylesheet" type="text/css" media="screen and (max-device-width: 720px)"
-    href="../static/css/base_phone.css" />
-  <link href="https://cdn.bootcss.com/font-awesome/5.12.1/css/all.min.css" rel="stylesheet" />
+    href="/static/css/base_phone.css" />
+  <link href="/static/css/out/all.min.css" rel="stylesheet" />
 </head>
 
 <body style="background-color: #000;">
@@ -42,23 +42,18 @@
       </p>
     <![endif]-->
   <!-- vue -->
-  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.0"></script>
+  <script src="/static/js/out/vue@2.6.0"></script>
   <!--<script src="https://cdn.jsdelivr.net/npm/vue@2.6.0" async defer></script>-->
   <!-- #vue# 为了不繁琐，使用双#号表示注释的结束-->
   <!-- bootrstrap -->
-  <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js"
-    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-    crossorigin="anonymous"></script>
-  <script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js"
-    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-    crossorigin="anonymous"></script>
-  <script src="../static/js/base.js"></script>
-  <script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js"
-    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-    crossorigin="anonymous"></script>
-  <script src="https://cdn.bootcss.com/axios/0.19.2/axios.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  <script src="/static/js/out/jquery.slim.min.js"></script>
+  <script src="/static/js/base.js"></script>
+  <script src="/static/js/out/popper.min.js"></script>
+  <script src="/static/js/out/bootstrap.min.js"></script>
+  <script src="/static/js/out/axios.min.js"></script>
+  <script src="/static/js/out/marked.min.js"></script>
+  <script src="/static/js/out/highlight.min.js"></script>
+
 
   <script>
     $(function () {
@@ -93,7 +88,7 @@
           return true;
         }
 
-		// 流星展现太慢了 先给打开
+        // 流星展现太慢了 先给打开
         return true;
       }
 

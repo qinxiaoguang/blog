@@ -12,28 +12,18 @@
   <title>文章列表</title>
   <meta name="description" content="" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css"
-    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
-  <link href="https://cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow-night-eighties.min.css" rel="stylesheet" />
-  <link
-      rel="stylesheet"
-      type="text/css"
-      media="screen and (min-device-width: 720px)"
-      href="../static/css/base.css"
-    />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      media="screen and (max-device-width: 720px)"
-      href="../static/css/base_phone.css"
-    />
-  <link href="https://cdn.bootcss.com/font-awesome/5.12.1/css/all.min.css" rel="stylesheet" />
-  <link href="../static/css/bootstrap-toc.css" rel="stylesheet" />
+  <link rel="stylesheet" href="/static/css/out/bootstrap.min.css" />
+  <link href="/static/css/out/tomorrow-night-eighties.min.css" rel="stylesheet" />
+  <link rel="stylesheet" type="text/css" media="screen and (min-device-width: 720px)" href="/static/css/base.css" />
+  <link rel="stylesheet" type="text/css" media="screen and (max-device-width: 720px)"
+    href="/static/css/base_phone.css" />
+  <link href="/static/css/out/all.min.css" rel="stylesheet" />
+  <link href="/static/css/bootstrap-toc.css" rel="stylesheet" />
 </head>
 
 <body>
   <div id="main">
-    <div id="header_panel" >
+    <div id="header_panel">
       <!--后续进行优化-->
       <div id="header">
         <div id="triangle"></div>
@@ -47,10 +37,10 @@
           <button class="header_button" id="button_life">
             LIFE
           </button>
-          <button class="header_button" id="button_tool" >
+          <button class="header_button" id="button_tool">
             TOOL
           </button>
-          <button class="header_button" id="button_about" >
+          <button class="header_button" id="button_about">
             ABOUT
           </button>
         </div>
@@ -94,13 +84,14 @@
           <hr>
           <ul v-for="val in value">
             <li>
-              [{{val.update_time}}]<a class="article_a" :href="val.url" :style="{'color':val.showColor}">{{val.title}}</a>
+              [{{val.update_time}}]<a class="article_a" :href="val.url"
+                :style="{'color':val.showColor}">{{val.title}}</a>
               <a class="edit_list_item_btn" :href="val.edit_url"><i class="fa fa-paint-brush"
                   aria-hidden="true"></i></a>
               <a class="edit_list_item_btn" style="color:#d63447;" :value="val._id" @click="show_remove_modal"><i
                   class="fa fa-times" :value="val._id" aria-hidden="true"></i></a>
             </li>
-	   <hr>
+            <hr>
           </ul>
           <hr>
         </div>
@@ -122,25 +113,19 @@
       </p>
     <![endif]-->
     <!-- vue -->
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.0"></script>
+    <script src="/static/js/out/vue@2.6.0"></script>
     <!--<script src="https://cdn.jsdelivr.net/npm/vue@2.6.0" async defer></script>-->
     <!-- #vue# 为了不繁琐，使用双#号表示注释的结束-->
     <!-- bootrstrap -->
-    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js"
-      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-      crossorigin="anonymous"></script>
+    <script src="/static/js/out/jquery.slim.min.js"></script>
+    <script src="/static/js/base.js"></script>
+    <script src="/static/js/out/popper.min.js"></script>
+    <script src="/static/js/out/bootstrap.min.js"></script>
+    <script src="/static/js/bootstrap-toc.js"></script>
+    <script src="/static/js/out/axios.min.js"></script>
+    <script src="/static/js/out/marked.min.js"></script>
 
-    <script src="../static/js/base.js"></script>
-    <script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js"
-      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-      crossorigin="anonymous"></script>
-    <script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js"
-      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-      crossorigin="anonymous"></script>
-    <script src="../static/js/bootstrap-toc.js"></script>
-    <script src="https://cdn.bootcss.com/axios/0.19.2/axios.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+    <script src="/static/js/out/highlight.min.js"></script>
 
     <script>
       $(function () {
@@ -198,9 +183,9 @@
                   a.update_time = format_date(a.update_time);
                   a.url = "/article/edit.html?id=" + a._id;
                   a.edit_url = "/article/edit.html?id=" + a._id;
-                  if (a.status==1){
+                  if (a.status == 1) {
                     a.showColor = "#f30067";
-                  } else{
+                  } else {
                     a.showColor = "#ffd31d";
                   }
                   if (a.title == "") {
@@ -215,17 +200,17 @@
               });
             });
           },
-          methods:{
-            article_remove:function(e){
-                var id = e.target.attributes.value.value;
-                remove_article(axios,id,response=>{
-                  if (response.data.code == 0){
-                    location.reload();
-                  }
-                  console.log("response:%o",response);
-                },error=>{
-                  alert(error);
-                });
+          methods: {
+            article_remove: function (e) {
+              var id = e.target.attributes.value.value;
+              remove_article(axios, id, response => {
+                if (response.data.code == 0) {
+                  location.reload();
+                }
+                console.log("response:%o", response);
+              }, error => {
+                alert(error);
+              });
             },
             show_remove_modal: function (e) {
               var id = e.target.attributes.value.value;

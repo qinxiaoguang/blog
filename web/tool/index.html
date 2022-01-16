@@ -12,14 +12,13 @@
   <title>工具集</title>
   <meta name="description" content="" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css"
-    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
-  <link href="https://cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow-night-eighties.min.css" rel="stylesheet" />
-  <link href="../static/css/marked.css" rel="stylesheet" />
-  <link rel="stylesheet" type="text/css" media="screen and (min-device-width: 720px)" href="../static/css/base.css" />
+  <link rel="stylesheet" href="/static/css/out/bootstrap.min.css" />
+  <link href="/static/css/out/tomorrow-night-eighties.min.css" rel="stylesheet" />
+  <link href="/static/css/marked.css" rel="stylesheet" />
+  <link rel="stylesheet" type="text/css" media="screen and (min-device-width: 720px)" href="/static/css/base.css" />
   <link rel="stylesheet" type="text/css" media="screen and (max-device-width: 720px)"
-    href="../static/css/base_phone.css" />
-  <link href="../static/css/font-awesome.min.css" rel="stylesheet" />
+    href="/static/css/base_phone.css" />
+  <link href="/static/css/font-awesome.min.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -28,12 +27,10 @@
       <!--后续进行优化-->
       <div id="header">
         <div id="triangle"></div>
-        <button class="header_button" id="button_home" "
-          >
-            HOME
-          </button>
-          <div
-            id=" button_group">
+        <button class="header_button" id="button_home">
+          HOME
+        </button>
+        <div id="button_group">
           <button class="header_button" id="button_blog">
             BLOG
           </button>
@@ -46,81 +43,81 @@
           <button class="header_button" id="button_about">
             ABOUT
           </button>
-      </div>
-    </div>
-  </div>
-
-  <div id="tool_panel">
-    <div id="tmpEdit" class="card mb-3 text-white bg-dark tool_card tool_card1" @click="jumpTmpEdit">
-      <div class="card-header">临时编辑</div>
-      <div class="card-body">
-        <p class="card-text">
-          <small class="">用于临时编辑</small><br />
-          <small class="">手机上有个连接想传到电脑上</small><br />
-          <small class="">不用麻烦的登录微信和qq</small><br />
-        </p>
+        </div>
       </div>
     </div>
 
-    <div id="randomGen" class="card mb-3 text-white bg-dark tool_card tool_card2" @click="jumpRandomPanel">
-      <div class="card-header">随机数生成</div>
-      <div class="card-body">
-        <p class="card-text">
-          <small class="">随机数生成</small><br />
-          <small class="">聚餐随机抽人</small><br />
-          <small class="">抽签</small><br />
-        </p>
+    <div id="tool_panel">
+      <div id="tmpEdit" class="card mb-3 text-white bg-dark tool_card tool_card1" @click="jumpTmpEdit">
+        <div class="card-header">临时编辑</div>
+        <div class="card-body">
+          <p class="card-text">
+            <small class="">用于临时编辑</small><br />
+            <small class="">手机上有个连接想传到电脑上</small><br />
+            <small class="">不用麻烦的登录微信和qq</small><br />
+          </p>
+        </div>
+      </div>
+
+      <div id="randomGen" class="card mb-3 text-white bg-dark tool_card tool_card2" @click="jumpRandomPanel">
+        <div class="card-header">随机数生成</div>
+        <div class="card-body">
+          <p class="card-text">
+            <small class="">随机数生成</small><br />
+            <small class="">聚餐随机抽人</small><br />
+            <small class="">抽签</small><br />
+          </p>
+        </div>
+      </div>
+
+      <div class="card mb-3 text-white bg-dark tool_card tool_card3" @click="jumpWishPanel">
+        <div class="card-header">心愿单</div>
+        <div class="card-body">
+          <p class="card-text">
+            <small class="">对着夜空许个愿吧</small><br />
+            <small class="">谁不想自己的心愿成真呢</small><br />
+            <small class="">流星随时间随机生成^-^</small><br />
+          </p>
+        </div>
+      </div>
+
+      <div class="card mb-3 text-white bg-dark tool_card tool_card4" @click="jumpJsonPanel">
+        <div class="card-header">json格式化</div>
+        <div class="card-body">
+          <p class="card-text">
+            <small class="">json格式化输出</small><br />
+            <small class="">wasm编写</small><br />
+            <small class="">本地运行</small><br />
+          </p>
+        </div>
+      </div>
+
+      <div class="card mb-3 text-white bg-dark tool_card tool_card5" @click="jumpUnicodePanel">
+        <div class="card-header">unicode在线编解码</div>
+        <div class="card-body">
+          <p class="card-text">
+            <small class="">unicode在线编解码</small><br />
+            <small class="">wasm编写</small><br />
+            <small class="">本地运行</small><br />
+          </p>
+        </div>
+      </div>
+
+      <div class="card mb-3 text-white bg-dark tool_card tool_card6">
+        <div class="card-header">json格式化</div>
+        <div class="card-body">
+          <p class="card-text">
+            <small class="">json格式化</small><br />
+            <small class="">自用</small><br />
+            <small class="">不需解释</small><br />
+          </p>
+        </div>
       </div>
     </div>
 
-    <div class="card mb-3 text-white bg-dark tool_card tool_card3" @click="jumpWishPanel">
-      <div class="card-header">心愿单</div>
-      <div class="card-body">
-        <p class="card-text">
-          <small class="">对着夜空许个愿吧</small><br />
-          <small class="">谁不想自己的心愿成真呢</small><br />
-          <small class="">流星随时间随机生成^-^</small><br />
-        </p>
-      </div>
+    <div id="bottom_">
+      <div id="triangle_bottom"></div>
     </div>
-
-    <div class="card mb-3 text-white bg-dark tool_card tool_card4" @click="jumpJsonPanel">
-      <div class="card-header">json格式化</div>
-      <div class="card-body">
-        <p class="card-text">
-          <small class="">json格式化输出</small><br />
-          <small class="">wasm编写</small><br />
-          <small class="">本地运行</small><br />
-        </p>
-      </div>
-    </div>
-
-    <div class="card mb-3 text-white bg-dark tool_card tool_card5" @click="jumpUnicodePanel">
-      <div class="card-header">unicode在线编解码</div>
-      <div class="card-body">
-        <p class="card-text">
-          <small class="">unicode在线编解码</small><br />
-          <small class="">wasm编写</small><br />
-          <small class="">本地运行</small><br />
-        </p>
-      </div>
-    </div>
-
-    <div class="card mb-3 text-white bg-dark tool_card tool_card6">
-      <div class="card-header">json格式化</div>
-      <div class="card-body">
-        <p class="card-text">
-          <small class="">json格式化</small><br />
-          <small class="">自用</small><br />
-          <small class="">不需解释</small><br />
-        </p>
-      </div>
-    </div>
-  </div>
-
-  <div id="bottom_">
-    <div id="triangle_bottom"></div>
-  </div>
   </div>
 
   <!--[if lt IE 7]>
@@ -130,23 +127,17 @@
       </p>
     <![endif]-->
   <!-- vue -->
-  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.0"></script>
+  <script src="/static/js/out/vue@2.6.0"></script>
   <!--<script src="https://cdn.jsdelivr.net/npm/vue@2.6.0" async defer></script>-->
   <!-- #vue# 为了不繁琐，使用双#号表示注释的结束-->
   <!-- bootrstrap -->
-  <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js"
-    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-    crossorigin="anonymous"></script>
-  <script src="../static/js/base.js"></script>
-  <script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js"
-    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-    crossorigin="anonymous"></script>
-  <script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js"
-    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-    crossorigin="anonymous"></script>
-  <script src="https://cdn.bootcss.com/axios/0.19.2/axios.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  <script src="/static/js/out/jquery.slim.min.js"></script>
+  <script src="/static/js/base.js"></script>
+  <script src="/static/js/out/popper.min.js"></script>
+  <script src="/static/js/out/bootstrap.min.js"></script>
+  <script src="/static/js/out/axios.min.js"></script>
+  <script src="/static/js/out/marked.min.js"></script>
+  <script src="/static/js/out/highlight.min.js"></script>
 
   <script>
     $(function () {

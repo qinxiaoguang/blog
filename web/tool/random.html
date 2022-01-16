@@ -4,237 +4,181 @@
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!-->
 <html class="no-js">
-  <!--<![endif]-->
+<!--<![endif]-->
 
-  <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>随机数生成器 —— 工具</title>
-    <meta name="description" content="" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link
-      rel="stylesheet"
-      href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css"
-      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-      crossorigin="anonymous"
-    />
-    <link rel="stylesheet" href="../static/css/article_alter.css" />
-    <!-- highlight 的主题-->
-    <link
-      href="https://cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow-night-eighties.min.css"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      media="screen and (min-device-width: 720px)"
-      href="../static/css/base.css"
-    />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      media="screen and (max-device-width: 720px)"
-      href="../static/css/base_phone.css"
-    />
-    <link
-      href="https://cdn.bootcss.com/font-awesome/5.12.1/css/all.min.css"
-      rel="stylesheet"
-    />
-  </head>
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>随机数生成器 —— 工具</title>
+  <meta name="description" content="" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <body style="background-color: #ccc;">
-    <div id="content">
-      <div class="random_panel">
-        <form>
-          <div class="form-row">
-            <div class="form-group col-md-4">
-              <label for="start">范围起始([)</label>
-              <input
-                type="number"
-                placeholder="默认0"
-                class="form-control"
-                id="start"
-              />
-            </div>
-            <div class="form-group col-md-4">
-              <label for="end">范围终点(])</label>
-              <input
-                type="number"
-                placeholder="默认10"
-                class="form-control"
-                id="end"
-              />
-            </div>
-            <div class="form-group col-md-4">
-              <label for="cnt">输出个数</label>
-              <input
-                type="number"
-                placeholder="默认1个"
-                class="form-control"
-                id="cnt"
-              />
+  <link rel="stylesheet" href="/static/css/out/bootstrap.min.css" />
+  <link rel="stylesheet" href="/static/css/article_alter.css" />
+  <!-- highlight 的主题-->
+  <link href="/static/css/out/tomorrow-night-eighties.min.css" rel="stylesheet" />
+  <link rel="stylesheet" type="text/css" media="screen and (min-device-width: 720px)" href="/static/css/base.css" />
+  <link rel="stylesheet" type="text/css" media="screen and (max-device-width: 720px)"
+    href="/static/css/base_phone.css" />
+  <link href="/static/css/out/all.min.css" rel="stylesheet" />
+</head>
+
+<body style="background-color: #ccc;">
+  <div id="content">
+    <div class="random_panel">
+      <form>
+        <div class="form-row">
+          <div class="form-group col-md-4">
+            <label for="start">范围起始([)</label>
+            <input type="number" placeholder="默认0" class="form-control" id="start" />
+          </div>
+          <div class="form-group col-md-4">
+            <label for="end">范围终点(])</label>
+            <input type="number" placeholder="默认10" class="form-control" id="end" />
+          </div>
+          <div class="form-group col-md-4">
+            <label for="cnt">输出个数</label>
+            <input type="number" placeholder="默认1个" class="form-control" id="cnt" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="">随机内容</label>
+          <textarea type="text" class="form-control" id="random_content"
+            placeholder="为空时输出随机数，不为空时，输出随机内容中的随机项，每项以逗号,分隔"></textarea>
+        </div>
+
+        <div class="form-group row">
+          <div class="col-sm-2">可选项</div>
+          <div class="col-sm-10">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="output_float" />
+              <label class="form-check-label" for="gridCheck1">
+                输出小数
+              </label>
             </div>
           </div>
-          <div class="form-group">
-            <label for="">随机内容</label>
-            <textarea
-              type="text"
-              class="form-control"
-              id="random_content"
-              placeholder="为空时输出随机数，不为空时，输出随机内容中的随机项，每项以逗号,分隔"
-            ></textarea>
-          </div>
-
-          <div class="form-group row">
-            <div class="col-sm-2">可选项</div>
-            <div class="col-sm-10">
-              <div class="form-check">
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  id="output_float"
-                />
-                <label class="form-check-label" for="gridCheck1">
-                  输出小数
-                </label>
-              </div>
-            </div>
-          </div>
-        </form>
-        <button id="generate" class="btn btn-primary">生成</button>
-        <hr />
-        <div
-          id="random_show"
-          class="alert alert-primary"
-          style="
+        </div>
+      </form>
+      <button id="generate" class="btn btn-primary">生成</button>
+      <hr />
+      <div id="random_show" class="alert alert-primary" style="
             display: none;
             word-wrap: break-word;
             word-break: break-all;
             overflow: hidden;
-          "
-        ></div>
-      </div>
+          "></div>
     </div>
-    <!--[if lt IE 7]>
+  </div>
+  <!--[if lt IE 7]>
       <p class="browsehappy">
         You are using an <strong>outdated</strong> browser. Please
         <a href="#">upgrade your browser</a> to improve your experience.
       </p>
     <![endif]-->
-    <!-- vue -->
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.0"></script>
-    <!--<script src="https://cdn.jsdelivr.net/npm/vue@2.6.0" async defer></script>-->
-    <!-- #vue# 为了不繁琐，使用双#号表示注释的结束-->
-    <!-- bootrstrap -->
-    <script
-      src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js"
-      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js"
-      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-      crossorigin="anonymous"
-    ></script>
-    <script src="../static/js/base.js"></script>
-    <script
-      src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js"
-      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-      crossorigin="anonymous"
-    ></script>
-    <script src="https://cdn.bootcss.com/axios/0.19.2/axios.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  <!-- vue -->
 
-    <script>
-      $(function () {
-        axios.defaults.withCredentials = true;
-        getUrlParam = function (name) {
-          var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
-          var r = window.location.search.substr(1).match(reg);
-          if (r != null) return unescape(r[2]);
-          return null;
-        };
+  <script src="/static/js/out/vue@2.6.0"></script>
+  <!--<script src="https://cdn.jsdelivr.net/npm/vue@2.6.0" async defer></script>-->
+  <!-- #vue# 为了不繁琐，使用双#号表示注释的结束-->
+  <!-- bootrstrap -->
+  <script src="/static/js/out/jquery.slim.min.js"></script>
+  <script src="/static/js/base.js"></script>
+  <script src="/static/js/out/popper.min.js"></script>
+  <script src="/static/js/out/bootstrap.min.js"></script>
+  <script src="/static/js/out/axios.min.js"></script>
+  <script src="/static/js/out/marked.min.js"></script>
+  <script src="/static/js/out/highlight.min.js"></script>
 
-        loading_finish();
+  <script>
+    $(function () {
+      axios.defaults.withCredentials = true;
+      getUrlParam = function (name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return unescape(r[2]);
+        return null;
+      };
 
-        $("#generate").click(function () {
-          input = handle_input();
-          result = generate(input);
-          render(result);
-        });
+      loading_finish();
 
-        function handle_input() {
-          start = $("#start").val();
-          end = $("#end").val();
-          cnt = $("#cnt").val();
-          content = $("#random_content").val();
-          is_float = $("#output_float").is(":checked");
-          if (start == "") {
-            start = 0;
-          }
-          if (end == "") {
-            end = 10;
-          }
-          if (cnt == "") {
-            cnt = 1;
-          }
-          end = parseInt(end) + 1;
-          var contents = [];
-          if (content != "" && content != undefined && content != null) {
-            content = content.replace("，", ",");
-            contents = content.split(",");
-            start = 0;
-            end = contents.length;
-            is_float = false;
-          }
-          return {
-            start: start,
-            end: end,
-            cnt: cnt,
-            contents: contents,
-            is_float: is_float,
-          };
-        }
-
-        function generate(input) {
-          start = input.start;
-          end = input.end;
-          cnt = input.cnt;
-          contents = input.contents;
-          is_float = input.is_float;
-          randoms = [];
-          for (i = 0; i < cnt; i++) {
-            src_random = Math.random();
-            g_random = src_random * (end - start) + parseInt(start);
-            if (!is_float) {
-              g_random = parseInt(g_random);
-            }
-            randoms.push(g_random);
-          }
-          if (contents.length == 0) {
-            return randoms;
-          }
-          result = [];
-          for (random of randoms) {
-            result.push(contents[random]);
-          }
-          return result;
-        }
-
-        // 将结果展示给用户
-        function render(result) {
-          res = result.join(",");
-          show_str =
-            "生成结果:" +
-            '<span style="color:red;font-size:2em;"> ' +
-            res +
-            " </span>";
-          $("#random_show").html(show_str);
-          $("#random_show").css("display", "block");
-        }
+      $("#generate").click(function () {
+        input = handle_input();
+        result = generate(input);
+        render(result);
       });
-    </script>
-    <!-- #bootrstrap# -->
-  </body>
+
+      function handle_input() {
+        start = $("#start").val();
+        end = $("#end").val();
+        cnt = $("#cnt").val();
+        content = $("#random_content").val();
+        is_float = $("#output_float").is(":checked");
+        if (start == "") {
+          start = 0;
+        }
+        if (end == "") {
+          end = 10;
+        }
+        if (cnt == "") {
+          cnt = 1;
+        }
+        end = parseInt(end) + 1;
+        var contents = [];
+        if (content != "" && content != undefined && content != null) {
+          content = content.replace("，", ",");
+          contents = content.split(",");
+          start = 0;
+          end = contents.length;
+          is_float = false;
+        }
+        return {
+          start: start,
+          end: end,
+          cnt: cnt,
+          contents: contents,
+          is_float: is_float,
+        };
+      }
+
+      function generate(input) {
+        start = input.start;
+        end = input.end;
+        cnt = input.cnt;
+        contents = input.contents;
+        is_float = input.is_float;
+        randoms = [];
+        for (i = 0; i < cnt; i++) {
+          src_random = Math.random();
+          g_random = src_random * (end - start) + parseInt(start);
+          if (!is_float) {
+            g_random = parseInt(g_random);
+          }
+          randoms.push(g_random);
+        }
+        if (contents.length == 0) {
+          return randoms;
+        }
+        result = [];
+        for (random of randoms) {
+          result.push(contents[random]);
+        }
+        return result;
+      }
+
+      // 将结果展示给用户
+      function render(result) {
+        res = result.join(",");
+        show_str =
+          "生成结果:" +
+          '<span style="color:red;font-size:2em;"> ' +
+          res +
+          " </span>";
+        $("#random_show").html(show_str);
+        $("#random_show").css("display", "block");
+      }
+    });
+  </script>
+  <!-- #bootrstrap# -->
+</body>
+
 </html>

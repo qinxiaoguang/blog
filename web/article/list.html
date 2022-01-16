@@ -4,289 +4,254 @@
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!-->
 <html class="no-js">
-  <!--<![endif]-->
+<!--<![endif]-->
 
-  <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>文章列表</title>
-    <meta name="description" content="" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link
-      rel="stylesheet"
-      href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css"
-      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-      crossorigin="anonymous"
-    />
-    <link
-      href="https://cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow-night-eighties.min.css"
-      rel="stylesheet"
-    />
-     <link
-      rel="stylesheet"
-      type="text/css"
-      href="../static/css/marked.css"
-    />
-     <link
-      rel="stylesheet"
-      type="text/css"
-      media="screen and (min-device-width: 720px)"
-      href="../static/css/marked_phone.css"
-    />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      media="screen and (min-device-width: 720px)"
-      href="../static/css/base.css"
-    />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      media="screen and (max-device-width: 720px)"
-      href="../static/css/base_phone.css"
-    />
-    <link
-      href="https://cdn.bootcss.com/font-awesome/5.12.1/css/all.min.css"
-      rel="stylesheet"
-    />
-    <link href="../static/css/bootstrap-toc.css" rel="stylesheet" />
-  </head>
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>文章列表</title>
+  <meta name="description" content="" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="/static/css/out/bootstrap.min.css" />
+  <link href="/static/css/out/tomorrow-night-eighties.min.css" rel="stylesheet" />
+  <link rel="stylesheet" type="text/css" href="/static/css/marked.css" />
+  <link rel="stylesheet" type="text/css" media="screen and (min-device-width: 720px)"
+    href="/static/css/marked_phone.css" />
+  <link rel="stylesheet" type="text/css" media="screen and (min-device-width: 720px)" href="/static/css/base.css" />
+  <link rel="stylesheet" type="text/css" media="screen and (max-device-width: 720px)"
+    href="/static/css/base_phone.css" />
+  <link href="/static/css/out/all.min.css" rel="stylesheet" />
+  <link href="/static/css/bootstrap-toc.css" rel="stylesheet" />
+</head>
 
-  <body>
-    <div id="main">
-      <div id="header_panel">
-        <!--后续进行优化-->
-        <div id="header">
-          <div id="triangle"></div>
-          <button class="header_button" id="button_home">
-            HOME
+<body>
+  <div id="main">
+    <div id="header_panel">
+      <!--后续进行优化-->
+      <div id="header">
+        <div id="triangle"></div>
+        <button class="header_button" id="button_home">
+          HOME
+        </button>
+        <div id="button_group">
+          <button class="header_button header_button_active" id="button_blog">
+            BLOG
           </button>
-          <div id="button_group">
-            <button class="header_button header_button_active" id="button_blog">
-              BLOG
-            </button>
-            <button class="header_button" id="button_life">
-              LIFE
-            </button>
-            <button class="header_button" id="button_tool">
-              TOOL
-            </button>
-            <button class="header_button" id="button_about">
-              ABOUT
-            </button>
-          </div>
+          <button class="header_button" id="button_life">
+            LIFE
+          </button>
+          <button class="header_button" id="button_tool">
+            TOOL
+          </button>
+          <button class="header_button" id="button_about">
+            ABOUT
+          </button>
         </div>
       </div>
-      <div id="article_page_all">
-        <div class="article_item" v-for="val in articles">
-          <h1><a class="article_page_a" :href="val.url">{{val.title}}</a></h1>
-          <hr />
-          <span><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar3" viewBox="0 0 16 16">
-            <path d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857V3.857z"/>
-            <path d="M6.5 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
+    </div>
+    <div id="article_page_all">
+      <div class="article_item" v-for="val in articles">
+        <h1><a class="article_page_a" :href="val.url">{{val.title}}</a></h1>
+        <hr />
+        <span><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar3"
+            viewBox="0 0 16 16">
+            <path
+              d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857V3.857z" />
+            <path
+              d="M6.5 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" />
           </svg>
           {{val.update_time}}</span>
-          <div v-html="val.content">{{val.content}}</div>
-			  <!--<a :href="val.cat_url">{{val.catagory}}</a>-->
-              <a :href="val.url">more >></a>
-			  <span class="badge bg-warning text-dark" style="float:right"><a :href="val.cat_url" style="color:black">{{val.catagory}}</a></span>
-          </div>
-          <hr />
-        <nav aria-label="Page navigation example">
-          <ul class="pagination justify-content-center" >
-            <li class="page-item" v-bind:class="{ active: val.active, disabled:val.disable}" v-for="val in pages">
-              <a class="page-link" :href="val.url"> {{val.title}}</a>
-            </li>
-          </ul>
-        </nav>
+        <div v-html="val.content">{{val.content}}</div>
+        <!--<a :href="val.cat_url">{{val.catagory}}</a>-->
+        <a :href="val.url">more >></a>
+        <span class="badge bg-warning text-dark" style="float:right"><a :href="val.cat_url"
+            style="color:black">{{val.catagory}}</a></span>
       </div>
-
-      <div id="bottom_">
-        <div id="triangle_bottom"></div>
-      </div>
+      <hr />
+      <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+          <li class="page-item" v-bind:class="{ active: val.active, disabled:val.disable}" v-for="val in pages">
+            <a class="page-link" :href="val.url"> {{val.title}}</a>
+          </li>
+        </ul>
+      </nav>
     </div>
-    <nav id="toc"></nav>
-    <!--[if lt IE 7]>
+
+    <div id="bottom_">
+      <div id="triangle_bottom"></div>
+    </div>
+  </div>
+  <nav id="toc"></nav>
+  <!--[if lt IE 7]>
       <p class="browsehappy">
         You are using an <strong>outdated</strong> browser. Please
         <a href="#">upgrade your browser</a> to improve your experience.
       </p>
     <![endif]-->
-    <!-- vue -->
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.0"></script>
-    <!--<script src="https://cdn.jsdelivr.net/npm/vue@2.6.0" async defer></script>-->
-    <!-- #vue# 为了不繁琐，使用双#号表示注释的结束-->
-    <!-- bootrstrap -->
-    <script
-      src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js"
-      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-      crossorigin="anonymous"
-    ></script>
+  <!-- vue -->
+  <script src="/static/js/out/vue@2.6.0"></script>
+  <!--<script src="https://cdn.jsdelivr.net/npm/vue@2.6.0" async defer></script>-->
+  <!-- #vue# 为了不繁琐，使用双#号表示注释的结束-->
+  <!-- bootrstrap -->
+  <script src="/static/js/out/jquery.slim.min.js"></script>
+  <script src="/static/js/base.js"></script>
+  <script src="/static/js/out/popper.min.js"></script>
+  <script src="/static/js/out/bootstrap.min.js"></script>
+  <script src="/static/js/bootstrap-toc.js"></script>
+  <script src="/static/js/out/axios.min.js"></script>
+  <script src="/static/js/out/marked.min.js"></script>
 
-    <script src="../static/js/base.js"></script>
-    <script
-      src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js"
-      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js"
-      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-      crossorigin="anonymous"
-    ></script>
-    <script src="../static/js/bootstrap-toc.js"></script>
-    <script src="https://cdn.bootcss.com/axios/0.19.2/axios.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  <script src="/static/js/out/highlight.min.js"></script>
 
-    <script>
-      $(function () {
-        toc_init();
+  <script>
+    $(function () {
+      toc_init();
 
-        hljs.initHighlightingOnLoad();
+      hljs.initHighlightingOnLoad();
 
-        // 处理toc
-        function handle_toc() {
-          var navSelector = "#toc";
-          var $myNav = $(navSelector);
-          Toc.init({
-            $scope: $("#article_page_all"),
-            $nav: $myNav,
-          });
-          $("#article_page_all").scrollspy({
-            target: $myNav,
-          });
-        }
-
-        marked.setOptions({
-          renderer: new marked.Renderer(),
-          highlight: function (code) {
-            return hljs.highlightAuto(code).value;
-          },
-          pedantic: false,
-          gfm: true,
-          tables: true,
-          breaks: true,
-          sanitize: false,
-          smartLists: true,
-          smartypants: false,
-          xhtml: false,
+      // 处理toc
+      function handle_toc() {
+        var navSelector = "#toc";
+        var $myNav = $(navSelector);
+        Toc.init({
+          $scope: $("#article_page_all"),
+          $nav: $myNav,
         });
-
-        axios.defaults.withCredentials = true;
-        getUrlParam = function (name) {
-          var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
-          var r = window.location.search.substr(1).match(reg);
-          if (r != null) return unescape(r[2]);
-          return null;
-        };
-        var panel_with_back = new Vue({
-          el: "#article_page_all",
-          data() {
-            return {
-              articles: null,
-              new_articles: null,
-              pages:null,
-            };
-          },
-          mounted() {
-            let page_num = getQueryString("p")
-            if (page_num == undefined || page_num == "" ) {
-              page_num = 1;
-            }
-            console.log(page_num)
-            axios.get(baseUrl + "/article/page/" + page_num).then((response) => {
-              this.articles = response.data.data.articles;
-              page_num = response.data.data.page_num;
-              page_size = response.data.data.page_size;
-              total = response.data.data.total;
-                for (a of this.articles) {
-                  a.update_time = format_date(a.update_time);
-				  a.cat_url="https://www.qxgzone.com/article/cat.html#"+a.catagory
-                  a.url = "/article/detail/" + a._id;
-                  a.edit_url = "/article/edit.html?id=" + a._id;
-                  a.content = marked.parse(a.content/*.substring(0,150)*/);
-                  if (a.title == "") {
-                    a.title = "#";
-                  }
-              }
-
-              // 处理分页
-              var pages = [];
-              total_page = parseInt((total -1 )/ page_size) + 1;
-              pre_page = page_num - 1;
-              next_page = page_num + 1;
-              if (page_num != 1)  {
-                pages.push({
-                   title:" ««",
-                   active:false,
-                   disable:false,
-                   url:location.pathname + "?p=1" ,
-                });
-                pages.push({
-                   title:" «",
-                   active:false,
-                   disable:false,
-                   url:location.pathname + "?p=" + pre_page,
-                });
-              }
-
-              if (pre_page > 0) {
-                pages.push({
-                   title:""+pre_page+"",
-                   active:false,
-                   disable:false,
-                   url:location.pathname + "?p=" + pre_page,
-                });
-              }
-              pages.push({
-                title:""+page_num+"",
-                   active:true,
-                   disable:false,
-                url:"",
-              });
-              if (next_page < total_page) {
-                pages.push({
-                   title:""+next_page+"",
-                   active:false,
-                   disable:false,
-                   url:location.pathname + "?p=" + next_page,
-                });
-               }
-              if (next_page + 1 < total_page) {
-                 pages.push({
-                   title:"...",
-                   active:false,
-                   disable:true,
-                   url:"",
-                });
-                }
-                if (next_page <= total_page){
-                pages.push({
-                   title:""+total_page+"",
-                   active:false,
-                   disable:false,
-                   url:location.pathname + "?p=" + total_page,
-                });
-                pages.push({
-                   title:" »",
-                   active:false,
-                   disable:false,
-                   url:location.pathname + "?p=" + next_page,
-                });
-            }
-              this.pages = pages;
-              console.log(this.pages)
-              loading_finish();
-              this.$nextTick(() => {
-                fit_height();
-                handle_toc();
-              });
-            });
-          },
+        $("#article_page_all").scrollspy({
+          target: $myNav,
         });
+      }
+
+      marked.setOptions({
+        renderer: new marked.Renderer(),
+        highlight: function (code) {
+          return hljs.highlightAuto(code).value;
+        },
+        pedantic: false,
+        gfm: true,
+        tables: true,
+        breaks: true,
+        sanitize: false,
+        smartLists: true,
+        smartypants: false,
+        xhtml: false,
       });
-    </script>
-    <!-- #bootrstrap# -->
-  </body>
+
+      axios.defaults.withCredentials = true;
+      getUrlParam = function (name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return unescape(r[2]);
+        return null;
+      };
+      var panel_with_back = new Vue({
+        el: "#article_page_all",
+        data() {
+          return {
+            articles: null,
+            new_articles: null,
+            pages: null,
+          };
+        },
+        mounted() {
+          let page_num = getQueryString("p")
+          if (page_num == undefined || page_num == "") {
+            page_num = 1;
+          }
+          console.log(page_num)
+          axios.get(baseUrl + "/article/page/" + page_num).then((response) => {
+            this.articles = response.data.data.articles;
+            page_num = response.data.data.page_num;
+            page_size = response.data.data.page_size;
+            total = response.data.data.total;
+            for (a of this.articles) {
+              a.update_time = format_date(a.update_time);
+              a.cat_url = "https://www.qxgzone.com/article/cat.html#" + a.catagory
+              a.url = "/article/detail/" + a._id;
+              a.edit_url = "/article/edit.html?id=" + a._id;
+              a.content = marked.parse(a.content/*.substring(0,150)*/);
+              if (a.title == "") {
+                a.title = "#";
+              }
+            }
+
+            // 处理分页
+            var pages = [];
+            total_page = parseInt((total - 1) / page_size) + 1;
+            pre_page = page_num - 1;
+            next_page = page_num + 1;
+            if (page_num != 1) {
+              pages.push({
+                title: " ««",
+                active: false,
+                disable: false,
+                url: location.pathname + "?p=1",
+              });
+              pages.push({
+                title: " «",
+                active: false,
+                disable: false,
+                url: location.pathname + "?p=" + pre_page,
+              });
+            }
+
+            if (pre_page > 0) {
+              pages.push({
+                title: "" + pre_page + "",
+                active: false,
+                disable: false,
+                url: location.pathname + "?p=" + pre_page,
+              });
+            }
+            pages.push({
+              title: "" + page_num + "",
+              active: true,
+              disable: false,
+              url: "",
+            });
+            if (next_page < total_page) {
+              pages.push({
+                title: "" + next_page + "",
+                active: false,
+                disable: false,
+                url: location.pathname + "?p=" + next_page,
+              });
+            }
+            if (next_page + 1 < total_page) {
+              pages.push({
+                title: "...",
+                active: false,
+                disable: true,
+                url: "",
+              });
+            }
+            if (next_page <= total_page) {
+              pages.push({
+                title: "" + total_page + "",
+                active: false,
+                disable: false,
+                url: location.pathname + "?p=" + total_page,
+              });
+              pages.push({
+                title: " »",
+                active: false,
+                disable: false,
+                url: location.pathname + "?p=" + next_page,
+              });
+            }
+            this.pages = pages;
+            console.log(this.pages)
+            loading_finish();
+            this.$nextTick(() => {
+              fit_height();
+              handle_toc();
+            });
+          });
+        },
+      });
+    });
+  </script>
+  <!-- #bootrstrap# -->
+</body>
+
 </html>

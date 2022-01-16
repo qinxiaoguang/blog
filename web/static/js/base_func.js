@@ -40,14 +40,14 @@ $(function () {
     // 给body添加统一loading组件
     let loading = '<div id="loading"></div>';
     $("body").append(loading);
-    
+
     // 如果不是phone的话，添加音乐播放器
     // 只在index页面和life/list页面添加
-    if (!is_phone() && (location.pathname == "/index.html" || location.pathname == "/life/list.html" || location.pathname == "/" )) {
+    if (!is_phone() && (location.pathname == "/index.html" || location.pathname == "/life/list.html" || location.pathname == "/")) {
         let music = '<div id="aplayer"></div>';
         $("body").append(music);
 
-	// 添加完毕后，获取音乐列表
+        // 添加完毕后，获取音乐列表
         getMusicList()
     }
 });
@@ -278,17 +278,17 @@ function fit_code() {
     }
 }
 
-function comment_init(){
-		new Valine({
-			el: '#vcomments',
-		    appId: 'QjM7sui6XOjkP6Yj3qKt28q5-gzGzoHsz',
-		    appKey: 'EBty3EXEiGYcIfTn8WFCASQT',
-			placeholder:"那就让情绪决定",
-			meta:["nick","mail"],
-			visitor: true, // 阅读量统计
-			avatar:'wavatar',
-			enableQQ:true
-		})
+function comment_init() {
+    new Valine({
+        el: '#vcomments',
+        appId: 'QjM7sui6XOjkP6Yj3qKt28q5-gzGzoHsz',
+        appKey: 'EBty3EXEiGYcIfTn8WFCASQT',
+        placeholder: "那就让情绪决定",
+        meta: ["nick", "mail"],
+        visitor: true, // 阅读量统计
+        avatar: 'wavatar',
+        enableQQ: true
+    })
 }
 
 function toc_init() {
@@ -314,39 +314,39 @@ function toc_init() {
     });
 }
 
-function getMusicList(){
-     axios
+function getMusicList() {
+    axios
         .get(baseUrl + "/music/list/5047601141")
         .then(response => {
             var audios = [];
-            for (item of response.data.data){
-		console.log(item)
-		var audio = {
-		    "name":item.name,
-		    "url":item.url,
-		    "cover":item.cover,
-		    "artist":item.artist,
-		}
-		audios.push(audio)
-	    }
-	    console.log(audios)
+            for (item of response.data.data) {
+                console.log(item)
+                var audio = {
+                    "name": item.name,
+                    "url": item.url,
+                    "cover": item.cover,
+                    "artist": item.artist,
+                }
+                audios.push(audio)
+            }
+            console.log(audios)
             const ap = new APlayer({
                 container: document.getElementById('aplayer'),
-                audio:audios,
-		theme: '#f9ed69',
-		mutex: true,
-		autoplay: true,
-		order: 'random', 
-		fixed:true,
+                audio: audios,
+                theme: '#f9ed69',
+                mutex: true,
+                autoplay: true,
+                order: 'random',
+                fixed: true,
             });
             console.log("get_music done");
         }).catch(err => {
-	    console.log("music load failed, err is:"+err);
+            console.log("music load failed, err is:" + err);
         })
 }
 
 function getQueryString(name) {
-  let reg = `(^|&)${name}=([^&]*)(&|$)`
-  let r = window.location.search.substr(1).match(reg);
-  if (r != null) return unescape(r[2]); return null;
+    let reg = `(^|&)${name}=([^&]*)(&|$)`
+    let r = window.location.search.substr(1).match(reg);
+    if (r != null) return unescape(r[2]); return null;
 }

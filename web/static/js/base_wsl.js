@@ -1,4 +1,4 @@
-document.write('<script src="https://cdn.bootcss.com/axios/0.19.2/axios.min.js"></script>');
+document.write('<script src="/static/js/out/axios.min.js"></script>');
 
 // 测试环境
 baseUrl = "http://${ip}:8080";

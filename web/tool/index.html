@@ -103,13 +103,13 @@
         </div>
       </div>
 
-      <div class="card mb-3 text-white bg-dark tool_card tool_card6">
-        <div class="card-header">json格式化</div>
+      <div class="card mb-3 text-white bg-dark tool_card tool_card6" @click="jumpTimestampPanel">
+        <div class="card-header">时间戳转换</div>
         <div class="card-body">
           <p class="card-text">
-            <small class="">json格式化</small><br />
-            <small class="">自用</small><br />
-            <small class="">不需解释</small><br />
+            <small class="">时间戳转换</small><br />
+            <small class="">wasm编写</small><br />
+            <small class="">本地运行</small><br />
           </p>
         </div>
       </div>
@@ -168,6 +168,9 @@
           },
           jumpUnicodePanel: function () {
             location.href = pageUrl + "/tool/unicode.html";
+          },
+          jumpTimestampPanel: function () {
+            location.href = pageUrl + "/tool/timestamp.html";
           },
         },
       });

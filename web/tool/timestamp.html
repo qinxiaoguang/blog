@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+<!--<![endif]-->
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>时间在线转换 —— 工具</title>
+  <meta name="description" content="" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <link rel="stylesheet" href="/static/css/out/bootstrap.min.css" />
+  <link rel="stylesheet" href="/static/css/article_alter.css" />
+  <!-- highlight 的主题-->
+  <link href="/static/css/out/tomorrow-night-eighties.min.css" rel="stylesheet" />
+  <link rel="stylesheet" type="text/css" media="screen and (min-device-width: 720px)" href="/static/css/base.css" />
+  <link rel="stylesheet" type="text/css" media="screen and (max-device-width: 720px)"
+    href="/static/css/base_phone.css" />
+  <link href="/static/css/out/all.min.css" rel="stylesheet" />
+
+</head>
+
+<body
+  style="font-family: -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol'">
+  <div id="json_body" style="margin-top:10px;">
+    <div id="tmp_file_edit">
+      <textarea style="height: 20vh;width:50%;resize: none;margin-bottom:10px;" class="mark_textarea" id="input_text"
+        placeholder="please input your json string"></textarea>
+      <textarea style="height: 20vh;width:50%;resize: none;margin-bottom:10px;" disabled="disabled"
+        class="mark_textarea" id="output_text" placeholder="please input your json string"></textarea>
+    </div>
+    <div class="alert alert-danger" role="alert" id="warn" style="display: none;">
+      A simple danger alert—check it out!
+    </div>
+    <button @click="unixto" class="btn btn-primary" style="margin-bottom: 8px;">时间戳转</button>
+    <button @click="get_unix" class="btn btn-primary" style="margin-bottom: 8px;">获取当前时间戳</button>
+  </div>
+  <!--[if lt IE 7]>
+      <p class="browsehappy">
+        You are using an <strong>outdated</strong> browser. Please
+        <a href="#">upgrade your browser</a> to improve your experience.
+      </p>
+    <![endif]-->
+  <!-- vue -->
+  <script src="/static/js/out/vue@2.6.0"></script>
+  <!--<script src="https://cdn.jsdelivr.net/npm/vue@2.6.0" async defer></script>-->
+  <!-- #vue# 为了不繁琐，使用双#号表示注释的结束-->
+  <!-- bootrstrap -->
+  <script src="/static/js/out/jquery.slim.min.js"></script>
+  <script src="/static/js/out/popper.min.js"></script>
+  <script src="/static/js/base.js"></script>
+  <script src="/static/js/out/axios.min.js"></script>
+  <script src="/static/js/out/bootstrap.min.js"></script>
+  <script src="/static/js/out/axios.min.js"></script>
+  <script src="/static/js/out/marked.min.js"></script>
+  <script src="/static/js/out/highlight.min.js"></script>
+  <script src="/static/wasm/pkg/wasm.js"></script>
+  <script>
+    $(function () {
+      axios.defaults.withCredentials = true;
+      const { get_timestamp, get_time_from_unix } = wasm_bindgen;
+      var mark_body = new Vue({
+        el: "#json_body",
+        data() {
+          return {
+            content: null,
+          };
+        },
+        mounted() {
+          async function run() {
+            await wasm_bindgen('/static/wasm/pkg/wasm_bg.wasm');
+            loading_finish();
+          }
+          run();
+        },
+        methods: {
+          unixto: function (e) {
+            val = $("#input_text").val();
+            res = get_time_from_unix(val);
+            $('#output_text').val(res);
+          },
+          get_unix: function (e) {
+            res = get_timestamp();
+            $('#output_text').val(res);
+          },
+        },
+      });
+    });
+  </script>
+  <!-- #bootrstrap# -->
+</body>
+
+</html>

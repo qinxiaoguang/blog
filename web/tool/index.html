@@ -113,6 +113,17 @@
           </p>
         </div>
       </div>
+
+      <div class="card mb-3 text-white bg-dark tool_card tool_card6" @click="jumpUrldecodePanel">
+        <div class="card-header">urldecode</div>
+        <div class="card-body">
+          <p class="card-text">
+            <small class="">urldecode</small><br />
+            <small class="">wasm编写</small><br />
+            <small class="">本地运行</small><br />
+          </p>
+        </div>
+      </div>
     </div>
 
     <div id="bottom_">
@@ -171,6 +182,9 @@
           },
           jumpTimestampPanel: function () {
             location.href = pageUrl + "/tool/timestamp.html";
+          },
+          jumpUrldecodePanel: function () {
+            location.href = pageUrl + "/tool/urldecode.html";
           },
         },
       });

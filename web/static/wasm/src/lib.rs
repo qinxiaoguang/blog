@@ -1,7 +1,6 @@
-use std::fmt::format;
-
 use chrono::prelude::*;
 use serde_json::Value;
+use urlencoding::{decode, encode};
 use wasm_bindgen::prelude::*;
 
 // Reverse a string coming from JS
@@ -62,6 +61,23 @@ pub fn get_time_from_unix(ts: i64) -> String {
     res.format("%Y-%m-%d %H:%M:%S").to_string()
 }
 
+#[wasm_bindgen]
+pub fn urldecode(input: String) -> String {
+    match decode(&input) {
+        Ok(res) => {
+            format!("{}", res)
+        }
+        Err(e) => {
+            format!("err:{}", e)
+        }
+    }
+}
+
+#[wasm_bindgen]
+pub fn urlencode(input: String) -> String {
+    encode(&input).to_string()
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -80,5 +96,11 @@ mod tests {
     fn timestamp() {
         println!("{}", get_timestamp());
         println!("{}", get_time_from_unix(1642443514))
+    }
+
+    #[test]
+    fn urlencode_test() {
+        println!("{}", urlencode(String::from("http://haha")));
+        println!("{}", urldecode(String::from("http%3A%2F%2Fhahaa")));
     }
 }

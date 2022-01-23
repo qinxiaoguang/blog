@@ -34,6 +34,16 @@ declare namespace wasm_bindgen {
 	* @returns {string}
 	*/
 	export function get_time_from_unix(ts: BigInt): string;
+	/**
+	* @param {string} input
+	* @returns {string}
+	*/
+	export function urldecode(input: string): string;
+	/**
+	* @param {string} input
+	* @returns {string}
+	*/
+	export function urlencode(input: string): string;
 	
 }
 
@@ -48,6 +58,8 @@ declare interface InitOutput {
   readonly to_unicode: (a: number, b: number, c: number) => void;
   readonly get_timestamp: (a: number) => void;
   readonly get_time_from_unix: (a: number, b: number, c: number) => void;
+  readonly urldecode: (a: number, b: number, c: number) => void;
+  readonly urlencode: (a: number, b: number, c: number) => void;
   readonly __wbindgen_add_to_stack_pointer: (a: number) => number;
   readonly __wbindgen_free: (a: number, b: number) => void;
   readonly __wbindgen_malloc: (a: number) => number;

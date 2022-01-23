@@ -53,7 +53,7 @@
         {{article.title}}
       </h1>
       <div id="detail_time">
-        {{article.update_time}} &nbsp; &nbsp;全篇 {{article.word_count}} 字
+        更新于{{article.update_time}} &nbsp; &nbsp; 创建于{{article.create_time}} &nbsp; &nbsp; 全篇 {{article.word_count}} 字
       </div>
       <span id="edit_detail" :style="{'display':article.display}"><a :href="article.edit_url"><i
             class="fa fa-paint-brush"></i></a></span>
@@ -182,6 +182,7 @@
             this.article.content = marked.parse(this.article.content);
             this.article.edit_url = "/article/edit.html?id=" + this.article._id;
             this.article.update_time = format_date(this.article.update_time);
+            this.article.create_time = format_date(this.article.create_time);
             console.log(this.article);
             if (is_owner()) {
               this.article.display = "show";

@@ -44,6 +44,16 @@ declare namespace wasm_bindgen {
 	* @returns {string}
 	*/
 	export function urlencode(input: string): string;
+	/**
+	* @param {number} input
+	* @returns {string}
+	*/
+	export function int_to_ip(input: number): string;
+	/**
+	* @param {string} input
+	* @returns {number}
+	*/
+	export function ip_to_int(input: string): number;
 	
 }
 
@@ -60,6 +70,8 @@ declare interface InitOutput {
   readonly get_time_from_unix: (a: number, b: number, c: number) => void;
   readonly urldecode: (a: number, b: number, c: number) => void;
   readonly urlencode: (a: number, b: number, c: number) => void;
+  readonly int_to_ip: (a: number, b: number) => void;
+  readonly ip_to_int: (a: number, b: number) => number;
   readonly __wbindgen_add_to_stack_pointer: (a: number) => number;
   readonly __wbindgen_free: (a: number, b: number) => void;
   readonly __wbindgen_malloc: (a: number) => number;

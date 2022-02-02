@@ -71,7 +71,7 @@
       </div>
 
       <div class="card mb-3 text-white bg-dark tool_card tool_card3" @click="jumpWishPanel">
-        <div class="card-header">心愿单</div>
+        <div class="card-header">心愿单(未完成)</div>
         <div class="card-body">
           <p class="card-text">
             <small class="">对着夜空许个愿吧</small><br />
@@ -119,6 +119,18 @@
         <div class="card-body">
           <p class="card-text">
             <small class="">urldecode</small><br />
+            <small class="">wasm编写</small><br />
+            <small class="">本地运行</small><br />
+          </p>
+        </div>
+      </div>
+
+
+      <div class="card mb-3 text-white bg-dark tool_card tool_card6" @click="jumpIpi32Panel">
+        <div class="card-header">ip/int互转</div>
+        <div class="card-body">
+          <p class="card-text">
+            <small class="">ip转int,int转ip</small><br />
             <small class="">wasm编写</small><br />
             <small class="">本地运行</small><br />
           </p>
@@ -185,6 +197,9 @@
           },
           jumpUrldecodePanel: function () {
             location.href = pageUrl + "/tool/urldecode.html";
+          },
+          jumpIpi32Panel: function () {
+            location.href = pageUrl + "/tool/ipi32.html";
           },
         },
       });

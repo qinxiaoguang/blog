@@ -78,6 +78,32 @@ pub fn urlencode(input: String) -> String {
     encode(&input).to_string()
 }
 
+#[wasm_bindgen]
+pub fn int_to_ip(input: u32) -> String {
+    let mut res = String::from("");
+    let mask = 255;
+    for i in 0..4 {
+        let tmp = (input >> i * 8) & mask;
+        res = String::from(".") + &tmp.to_string() + &res;
+    }
+    String::from(&res[1..])
+}
+
+#[wasm_bindgen]
+pub fn ip_to_int(input: String) -> u32 {
+    let items: Vec<&str> = input.split(".").collect();
+    if items.len() != 4 {
+        return 0;
+    }
+    let mut res = 0;
+
+    items.iter().rev().enumerate().for_each(|(idx, &item)| {
+        let tmp: u32 = item.parse().unwrap();
+        res += tmp << (8 * idx);
+    });
+    res
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -102,5 +128,16 @@ mod tests {
     fn urlencode_test() {
         println!("{}", urlencode(String::from("http://haha")));
         println!("{}", urldecode(String::from("http%3A%2F%2Fhahaa")));
+    }
+
+    #[test]
+    fn ip_test() {
+        assert_eq!(int_to_ip(123123), String::from("0.1.224.243"));
+        assert_eq!(int_to_ip(1), String::from("0.0.0.1"));
+        assert_eq!(int_to_ip(4294967295), String::from("255.255.255.255"));
+
+        assert_eq!(ip_to_int(String::from("0.1.224.243")), 123123u32);
+        assert_eq!(ip_to_int(String::from("0.0.0.1")), 1);
+        assert_eq!(ip_to_int(String::from("255.255.255.255")), 4294967295);
     }
 }

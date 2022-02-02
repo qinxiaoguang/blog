@@ -271,6 +271,34 @@ __exports.urlencode = function(input) {
     }
 };
 
+/**
+* @param {number} input
+* @returns {string}
+*/
+__exports.int_to_ip = function(input) {
+    try {
+        const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+        wasm.int_to_ip(retptr, input);
+        var r0 = getInt32Memory0()[retptr / 4 + 0];
+        var r1 = getInt32Memory0()[retptr / 4 + 1];
+        return getStringFromWasm0(r0, r1);
+    } finally {
+        wasm.__wbindgen_add_to_stack_pointer(16);
+        wasm.__wbindgen_free(r0, r1);
+    }
+};
+
+/**
+* @param {string} input
+* @returns {number}
+*/
+__exports.ip_to_int = function(input) {
+    var ptr0 = passStringToWasm0(input, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
+    var len0 = WASM_VECTOR_LEN;
+    var ret = wasm.ip_to_int(ptr0, len0);
+    return ret >>> 0;
+};
+
 function addHeapObject(obj) {
     if (heap_next === heap.length) heap.push(heap.length + 1);
     const idx = heap_next;

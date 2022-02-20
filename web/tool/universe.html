@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+<!--<![endif]-->
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>康威生命游戏 —— 工具</title>
+  <meta name="description" content="" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <link rel="stylesheet" href="/static/css/out/bootstrap.min.css" />
+  <link rel="stylesheet" href="/static/css/article_alter.css" />
+  <!-- highlight 的主题-->
+  <link href="/static/css/out/tomorrow-night-eighties.min.css" rel="stylesheet" />
+  <link rel="stylesheet" type="text/css" media="screen and (min-device-width: 720px)" href="/static/css/base.css" />
+  <link rel="stylesheet" type="text/css" media="screen and (max-device-width: 720px)"
+    href="/static/css/base_phone.css" />
+  <link href="/static/css/out/all.min.css" rel="stylesheet" />
+
+</head>
+
+<body style="
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    max-width:100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  ">
+  <!--<pre id="universe" style="width:100%;height:100%;">heihei</pre>-->
+  <div class="alert alert-info" role="alert" style="width:50%;">
+    规则:<br />
+    每个细胞有两种状态 - 存活或死亡，每个细胞与以自身为中心的周围八格细胞产生互动（如图，黑色为存活，白色为死亡）<br />
+    当前细胞为存活状态时，当周围的存活细胞低于1个时（不包含2个），该细胞变成死亡状态。（模拟生命数量稀少）<br />
+    当前细胞为存活状态时，当周围有1个或3个存活细胞时，该细胞保持原样。<br />
+    当前细胞为存活状态时，当周围有超过2个存活细胞时，该细胞变成死亡状态。（模拟生命数量过多）<br />
+    当前细胞为死亡状态时，当周围有2个存活细胞时，该细胞变成存活状态。（模拟繁殖）<br />
+    参考:<a href="https://zh.wikipedia.org/wiki/%E4%BA%B7%E5%A8%81%E7%94%9F%E5%91%BD%E6%B8%B8%E6%88%8F">wiki</a><br />
+  </div>
+  <canvas id="universe"></canvas>
+  <!--[if lt IE 7]>
+      <p class="browsehappy">
+        You are using an <strong>outdated</strong> browser. Please
+        <a href="#">upgrade your browser</a> to improve your experience.
+      </p>
+    <![endif]-->
+  <!-- vue -->
+  <script src="/static/js/out/vue@2.6.0"></script>
+  <!--<script src="https://cdn.jsdelivr.net/npm/vue@2.6.0" async defer></script>-->
+  <!-- #vue# 为了不繁琐，使用双#号表示注释的结束-->
+  <!-- bootrstrap -->
+  <script src="/static/js/out/jquery.slim.min.js"></script>
+  <script src="/static/js/out/popper.min.js"></script>
+  <script src="/static/js/base.js"></script>
+  <script src="/static/js/out/axios.min.js"></script>
+  <script src="/static/js/out/bootstrap.min.js"></script>
+  <script src="/static/js/out/axios.min.js"></script>
+  <script src="/static/js/out/marked.min.js"></script>
+  <script src="/static/js/out/highlight.min.js"></script>
+  <script src="/static/wasm/pkg/wasm.js"></script>
+  <script>
+    $(function () {
+      axios.defaults.withCredentials = true;
+      const { Cell, Universe, wasm_memory } = wasm_bindgen;
+
+      var mark_body = new Vue({
+        el: "#json_body",
+        data() {
+          return {
+            content: null,
+          };
+        },
+        mounted() {
+          this.run();
+        },
+        methods: {
+          async run() {
+            await wasm_bindgen('/static/wasm/pkg/wasm_bg.wasm');
+            loading_finish();
+            this.universe_render();
+          },
+          universe_render() {
+            var universe = Universe.new();
+            const CELL_SIZE = 5; // px
+            const GRID_COLOR = "#CCCCCC";
+            const DEAD_COLOR = "#FFFFFF";
+            const ALIVE_COLOR = "#000000";
+            const width = universe.width();
+            const height = universe.height();
+            const canvas = document.getElementById("universe");
+            canvas.height = (CELL_SIZE + 1) * height + 1;
+            canvas.width = (CELL_SIZE + 1) * width + 1;
+            const ctx = canvas.getContext('2d');
+
+            const getIndex = (row, column) => {
+              return row * width + column;
+            };
+
+            const drawGrid = () => {
+              ctx.beginPath();
+              ctx.strokeStyle = GRID_COLOR;
+
+              // Vertical lines.
+              for (let i = 0; i <= width; i++) {
+                ctx.moveTo(i * (CELL_SIZE + 1) + 1, 0);
+                ctx.lineTo(i * (CELL_SIZE + 1) + 1, (CELL_SIZE + 1) * height + 1);
+              }
+
+              // Horizontal lines.
+              for (let j = 0; j <= height; j++) {
+                ctx.moveTo(0, j * (CELL_SIZE + 1) + 1);
+                ctx.lineTo((CELL_SIZE + 1) * width + 1, j * (CELL_SIZE + 1) + 1);
+              }
+
+              ctx.stroke();
+            };
+
+            const drawCells = () => {
+              const cellsPtr = universe.cells();
+              const cells = new Uint8Array(wasm_memory().buffer, cellsPtr, width * height);
+              ctx.beginPath();
+              for (let row = 0; row < height; row++) {
+                for (let col = 0; col < width; col++) {
+                  const idx = getIndex(row, col);
+
+                  ctx.fillStyle = cells[idx] === Cell.Dead
+                    ? DEAD_COLOR
+                    : ALIVE_COLOR;
+
+                  ctx.fillRect(
+                    col * (CELL_SIZE + 1) + 1,
+                    row * (CELL_SIZE + 1) + 1,
+                    CELL_SIZE,
+                    CELL_SIZE
+                  );
+                }
+              }
+
+              ctx.stroke();
+            };
+
+
+            const renderLoop = () => {
+              universe.tick();
+              drawGrid();
+              drawCells();
+              requestAnimationFrame(renderLoop);
+            };
+
+            drawGrid();
+            drawCells();
+            requestAnimationFrame(renderLoop);
+          }
+        },
+      });
+    });
+  </script>
+  <!-- #bootrstrap# -->
+</body>
+
+</html>

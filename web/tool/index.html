@@ -136,6 +136,26 @@
           </p>
         </div>
       </div>
+      <div class="card mb-3 text-white bg-dark tool_card tool_card6" @click="jumpUniversePanel">
+        <div class="card-header">康威生命游戏</div>
+        <div class="card-body">
+          <p class="card-text">
+            <small class="">参考官方教程编写的demo</small><br />
+            <small class="">wasm编写</small><br />
+            <small class="">本地运行</small><br />
+          </p>
+        </div>
+      </div>
+      <div class="card mb-3 text-white bg-dark tool_card tool_card6" @click="jumpRandGamePanel">
+        <div class="card-header">身上蚂蚁爬</div>
+        <div class="card-body">
+          <p class="card-text">
+            <small class="">蚂蚁可以随机四个方向爬</small><br />
+            <small class="">wasm编写</small><br />
+            <small class="">本地运行</small><br />
+          </p>
+        </div>
+      </div>
     </div>
 
     <div id="bottom_">
@@ -200,6 +220,12 @@
           },
           jumpIpi32Panel: function () {
             location.href = pageUrl + "/tool/ipi32.html";
+          },
+          jumpUniversePanel: function () {
+            location.href = pageUrl + "/tool/universe.html";
+          },
+          jumpRandGamePanel: function () {
+            location.href = pageUrl + "/tool/rand_game.html";
           },
         },
       });

@@ -1,3 +1,5 @@
+pub mod rand_game;
+pub mod universe;
 use chrono::prelude::*;
 use serde_json::Value;
 use urlencoding::{decode, encode};
@@ -102,6 +104,11 @@ pub fn ip_to_int(input: String) -> u32 {
         res += tmp << (8 * idx);
     });
     res
+}
+
+#[wasm_bindgen]
+pub fn wasm_memory() -> JsValue {
+    wasm_bindgen::memory()
 }
 
 #[cfg(test)]

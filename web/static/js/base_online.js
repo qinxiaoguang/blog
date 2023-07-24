@@ -4,7 +4,7 @@ document.write('<script src="/static/js/out/axios.min.js"></script>');
 // baseUrl = "http://localhost:8080";
 // pageUrl = "http://localhost";
 // 线上环境
-baseUrl = "https://www.qxgzone.com:8080";
+baseUrl = "https://www.qxgzone.com/api";
 pageUrl = "https://www.qxgzone.com";
 homeUrl = pageUrl + "/index.html";
 owner = "qinxiaoguang";

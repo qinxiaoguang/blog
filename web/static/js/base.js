@@ -1,13 +1,13 @@
 document.write('<script src="/static/js/out/axios.min.js"></script>');
 
 // 测试环境
-baseUrl = "http://172.27.80.176:8080";
-pageUrl = "http://172.27.80.176";
+// baseUrl = "http://localhost:8080";
+// pageUrl = "http://localhost";
 // 线上环境
-// baseUrl = "http://qxgzone.com:8080";
-// pageUrl = "http://qxgzone.com";
+baseUrl = "https://www.qxgzone.com/api";
+pageUrl = "https://www.qxgzone.com";
 homeUrl = pageUrl + "/index.html";
 owner = "qinxiaoguang";
-bPlayerUrl = "http://player.bilibili.com/player.html?";
+bPlayerUrl = "https://player.bilibili.com/player.html?";
 
 document.write('<script src="/static/js/base_func.js"></script>');

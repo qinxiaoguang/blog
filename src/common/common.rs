@@ -142,9 +142,9 @@ pub trait CursorToVec {
 impl CursorToVec for mongodb::Cursor {
     fn to_vec<'a, T: Deserialize<'a>>(&mut self) -> Vec<T> {
         self.map(|item| {
-            let doc = item.unwrap();
-            let bson = bson::Bson::Document(doc);
-            bson::from_bson(bson).unwrap()
+			let doc = item.unwrap();
+			let bson = bson::Bson::Document(doc);
+			bson::from_bson(bson).unwrap()
         })
         .collect()
     }

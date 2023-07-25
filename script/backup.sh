@@ -2,8 +2,6 @@ output=$1 # 项目执行路径
 cwd=$(cd `dirname $0`;pwd)
 uploadimg=$cwd/../web/static/img/upload
 cd $cwd
-# 第二个参数是mongo的ip,第三个参数是mongo的port
-
 # 首先判断mongo中的数据有没有更新，有的话再进行更新
 updatetime=`mongo --eval 'db.article.find({},{"last_publish_time":1}).sort({"update_time":-1}).limit(1)' blog | grep -oP "(?<=last_publish_time).*" | grep -oP "\d*"`
 lasttime=`cat ./backtime | head -1`
@@ -13,6 +11,7 @@ if [ $updatetime -eq $lasttime ];then
 fi
 
 
+# 第二个参数是mongo的ip,第三个参数是mongo的port
 sh ./mongo_backup.sh 127.0.0.1 27017
 sh ./redis_backup.sh
 

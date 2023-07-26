@@ -289,6 +289,22 @@ function comment_init() {
         avatar: 'wavatar',
         enableQQ: true
     })
+    // 提交评论后，调用
+    $('.vsubmit').click(function(e) {
+        var content = $('#veditor').val()
+        var vnick = $('.vnick.vinput').val()
+        if (vnick == "") {
+            vnick = "游客"
+        }
+        var title = document.title
+        if (content == "") {
+            console.log("content is empyt")
+            return
+        }
+
+        // 发送通知
+        axios.get("https://api.day.app/kmMoZe9gQoxLzmc8wmv9BY/"+title+"/" +vnick + " 说到:" + content).then(response=>{}).catch(err=>console.log("bark error"))
+    })
 }
 
 function toc_init() {

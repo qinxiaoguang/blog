@@ -29,7 +29,7 @@ pub async fn oauth_callback(
             // 登录成功，生成session-id
             let sid = session_helper::generate_session_id(&username).unwrap();
             // 将session-id保存在redis中，setcookie, 并redirect.
-            redis_helper::store_to_redis(&sid, &code, Some(7 * 24 * 60 * 60)).unwrap();
+            redis_helper::store_to_redis(&sid, &code, Some(30 * 24 * 60 * 60)).unwrap();
             HttpResponse::build(StatusCode::FOUND)
                 .header(
                     header::SET_COOKIE,

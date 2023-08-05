@@ -1,5 +1,6 @@
 use serde_json::Value;
 
+#[allow(dead_code)]
 fn json_print(input: String) -> String {
     let v: Value = match serde_json::from_str(&input) {
         Ok(v) => v,

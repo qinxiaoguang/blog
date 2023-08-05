@@ -45,9 +45,8 @@ pub async fn upload_pic(mut payload: Multipart) -> CommonResp {
             f.write_all(&data).await?;
         }
     }
-    // 写完毕后，将对应的图片进行压缩
-    // 压缩后比原图片还大，先不考虑这个
-    // resize_img(&filepath.clone());
+    // 写完毕后，将对应的图片进行压缩,压缩为600大小的
+    resize_img(&filepath.clone());
     Resp::ok(gen_filename).to_json()
 }
 
@@ -66,8 +65,18 @@ fn get_suffix(filename: &str) -> Option<&str> {
 fn resize_img(filepath: &str) {
     let img = image::open(filepath.clone()).unwrap();
     let (width, height) = img.dimensions();
-    if width >= 800 {
-        img.resize(800, 800 * height / width, FilterType::Lanczos3);
-        img.save(filepath).unwrap();
+    let newsize = 600;
+    if width >= newsize || height >= newsize {
+        //let newimg = img.resize(800, 600 * height / width, FilterType::Lanczos3);
+        let newimg = img.resize(newsize, newsize, FilterType::Lanczos3);
+        let _ = newimg.save(filepath);
+        //img.save(filepath).unwrap();
+    }
+}
+
+mod test {
+    #[test]
+    fn test_resize_img() {
+        super::resize_img("output/test.png")
     }
 }

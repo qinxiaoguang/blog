@@ -1,9 +1,7 @@
 // github helper
-use crate::*;
 use log::*;
-use reqwest::header;
 
-use serde::{Deserialize, Serialize, Serializer};
+use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct Music {
@@ -39,7 +37,7 @@ pub struct Music163Artist {
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct Music163Album {
-    pub picUrl: String,
+    pub pic_url: String,
 }
 
 // 通过github回调的code获取access_token
@@ -67,7 +65,7 @@ pub fn get_music_list(id: &str) -> Option<Vec<Music>> {
         };
         break tmpres;
     };
-    let mut music163: Music163 = match serde_json::from_str(&res) {
+    let music163: Music163 = match serde_json::from_str(&res) {
         Ok(v) => v,
         Err(e) => {
             error!("json decode failed :{:?}", e);
@@ -81,7 +79,7 @@ pub fn get_music_list(id: &str) -> Option<Vec<Music>> {
     }
 
     for track in music163.result?.tracks? {
-        let mut artists = track.artists?;
+        let artists = track.artists?;
         let artists = artists
             .iter()
             .map(|item| item.name.to_owned())
@@ -92,7 +90,7 @@ pub fn get_music_list(id: &str) -> Option<Vec<Music>> {
             name: track.name,
             artist: artists,
             url: format!("https://music.163.com/song/media/outer/url?id={}", track.id),
-            cover: track.album?.picUrl,
+            cover: track.album?.pic_url,
         };
         musics.push(music);
     }

@@ -16,6 +16,7 @@ pub struct Quote {
 impl Quote {
     pub const TABLE_NAME: &'static str = "quote";
 
+    #[allow(dead_code)]
     pub fn new() -> Self {
         Quote {
             _id: None,

@@ -116,7 +116,7 @@ pub fn count_published() -> Result<i64> {
 }
 
 // 列出已经发布的n篇文章
-pub fn list_page_articles(page_size: i64, page_num: i64) -> Result<(ArticlePage)> {
+pub fn list_page_articles(page_size: i64, page_num: i64) -> Result<ArticlePage> {
     let mut start = (page_num - 1) * page_size;
     start = if start < 0 { 0 } else { start };
     let find_options = FindOptions::builder()
@@ -269,6 +269,7 @@ mod test {
             catagory: None,
             tag: None,
             update_time: None,
+            create_time: None,
             status: None,
         };
         println!("{:?}", super::save_article(article));
@@ -297,6 +298,7 @@ mod test {
             catagory: None,
             tag: None,
             update_time: None,
+            create_time: None,
             status: None,
         };
         println!("{:?}", super::update_article(id, article));
@@ -312,6 +314,7 @@ mod test {
             catagory: None,
             tag: None,
             update_time: None,
+            create_time: None,
             status: None,
         };
         println!("{:?}", super::publish_article(id, article));
@@ -360,6 +363,7 @@ mod test {
                                     catagory: Some(cat.to_string()),
                                     tag: None,
                                     update_time: None,
+                                    create_time: None,
                                     status: None,
                                 };
                                 println!("{:?}", super::save_article(article));

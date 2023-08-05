@@ -18,6 +18,7 @@ pub struct Wish {
 impl Wish {
     pub const TABLE_NAME: &'static str = "wish";
 
+    #[allow(dead_code)]
     pub fn new() -> Self {
         Wish {
             _id: None,

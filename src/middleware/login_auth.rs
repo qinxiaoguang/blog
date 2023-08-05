@@ -1,14 +1,10 @@
+use crate::common::{user_helper, Resp, NEEDLOGIN_ERROR};
 use crate::util::can_match;
-use crate::{
-    common::{user_helper, Resp, NEEDLOGIN_ERROR},
-    GLOBAL_CONF,
-};
 use actix_http::httpmessage::HttpMessage;
 use actix_service::{Service, Transform};
-use actix_web::{dev::ServiceRequest, dev::ServiceResponse, http::header, Error, HttpResponse};
+use actix_web::{dev::ServiceRequest, dev::ServiceResponse, Error, HttpResponse};
 use futures::future::{ok, Either, Ready};
 use log::info;
-use std::collections::HashMap;
 use std::task::{Context, Poll};
 
 // 验证登录组件

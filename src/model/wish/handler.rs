@@ -9,6 +9,7 @@ pub fn save_wish(wish: Wish) -> Result<String> {
     super::save(Wish::TABLE_NAME, wish)
 }
 
+#[allow(dead_code)]
 pub fn get_wish(id: &str) -> Result<Wish> {
     super::get(Wish::TABLE_NAME, id)
 }
@@ -18,6 +19,7 @@ pub fn list_wishs(filter: Option<Document>, find_options: FindOptions) -> Result
     super::list(Wish::TABLE_NAME, filter, find_options)
 }
 
+#[allow(dead_code)]
 pub fn remove_wish(id: &str) -> Result<i64> {
     super::remove(Wish::TABLE_NAME, id)
 }
@@ -36,7 +38,6 @@ pub fn get_random_wish() -> Result<Wish> {
 }
 
 mod test {
-    use super::*;
     #[test]
     fn test_get_rand() {
         println!("{:?}", get_random_wish());

@@ -8,6 +8,7 @@ pub fn save_quote(quote: Quote) -> Result<String> {
 }
 
 // base 获取某个db_article
+#[allow(dead_code)]
 pub fn get_quote(id: &str) -> Result<Quote> {
     super::get(Quote::TABLE_NAME, id)
 }
@@ -18,10 +19,12 @@ pub fn list_quotes(filter: Option<Document>, find_options: FindOptions) -> Resul
     super::list(Quote::TABLE_NAME, filter, find_options)
 }
 
+#[allow(dead_code)]
 pub fn remove_quote(id: &str) -> Result<i64> {
     super::remove(Quote::TABLE_NAME, id)
 }
 
+#[allow(dead_code)]
 pub fn list_all_quote() -> Result<Vec<Quote>> {
     let find_options = FindOptions::builder().build();
     let filter = Some(doc! {});
@@ -33,7 +36,6 @@ pub fn get_random_quote() -> Result<Quote> {
 }
 
 mod test {
-    use super::*;
     #[test]
     fn test_get_rand() {
         println!("{:?}", get_random_quote());

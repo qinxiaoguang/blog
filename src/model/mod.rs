@@ -109,7 +109,6 @@ where
 }
 
 mod test {
-    use super::*;
     #[test]
     fn test_count() {
         println!("{:?}", count("article"));

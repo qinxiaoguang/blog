@@ -38,14 +38,14 @@ pub fn get_random_quote() -> Result<Quote> {
 mod test {
     #[test]
     fn test_get_rand() {
-        println!("{:?}", get_random_quote());
+        println!("{:?}", super::get_random_quote());
     }
 
     #[test]
     fn test_save_quote() {
-        let mut quote = Quote::new();
+        let mut quote = super::Quote::new();
         quote.des= Some("慢慢发现自己其实是一个冷淡的人，所有情绪藏着掖着，变成了以后殆尽的热情。离开一个地方，就不会想和过去的还有联系，即使是非常喜欢的人，想明白也就放下了。".to_string());
         quote.author = Some("德卡先生".to_string());
-        save_quote(quote).unwrap();
+        super::save_quote(quote).unwrap();
     }
 }

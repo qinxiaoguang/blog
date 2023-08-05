@@ -40,14 +40,14 @@ pub fn get_random_wish() -> Result<Wish> {
 mod test {
     #[test]
     fn test_get_rand() {
-        println!("{:?}", get_random_wish());
+        println!("{:?}", super::get_random_wish());
     }
 
     #[test]
     fn test_save_wish() {
-        let mut wish = Wish::new();
+        let mut wish = super::Wish::new();
         wish.des = Some("希望家人们永远安康".to_string());
         wish.author = Some("秦先生".to_string());
-        save_wish(wish).unwrap();
+        super::save_wish(wish).unwrap();
     }
 }

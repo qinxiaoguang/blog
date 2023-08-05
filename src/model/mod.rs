@@ -111,6 +111,6 @@ where
 mod test {
     #[test]
     fn test_count() {
-        println!("{:?}", count("article"));
+        println!("{:?}", super::count("article"));
     }
 }

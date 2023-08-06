@@ -1,6 +1,9 @@
 use crate::{common::*, GlobalData, GLOBAL_CONF};
-use actix_http::http::{header, StatusCode};
-use actix_web::{get, web, HttpRequest, HttpResponse, Responder};
+use actix_web::{
+    get,
+    http::{header, StatusCode},
+    web, HttpRequest, HttpResponse, Responder,
+};
 use log::*;
 use serde::Deserialize;
 
@@ -31,14 +34,14 @@ pub async fn oauth_callback(
             // 将session-id保存在redis中，setcookie, 并redirect.
             redis_helper::store_to_redis(&sid, &code, Some(30 * 24 * 60 * 60)).unwrap();
             HttpResponse::build(StatusCode::FOUND)
-                .header(
+                .append_header((
                     header::SET_COOKIE,
                     format!("sessionid={};max-age={};path=/;", sid, 60 * 60 * 24 * 7),
-                )
-                .header(
+                ))
+                .append_header((
                     header::LOCATION,
                     format!("{}", GLOBAL_CONF.server.page_url.clone().unwrap()),
-                )
+                ))
                 .finish()
         }
         None => {

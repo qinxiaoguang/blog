@@ -16,9 +16,7 @@ pub async fn upload_pic(mut payload: Multipart) -> CommonResp {
     let mut gen_filename = uuid::Uuid::new_v4().to_simple().to_string();
     let mut filepath = String::from("");
     while let Ok(Some(mut field)) = payload.try_next().await {
-        let content_type = field
-            .content_disposition()
-            .ok_or_else(|| BizError::UploadError)?;
+        let content_type = field.content_disposition();
         let filename = content_type
             .get_filename()
             .ok_or_else(|| BizError::UploadError)?;

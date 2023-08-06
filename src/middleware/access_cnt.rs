@@ -1,10 +1,9 @@
-use actix_service::{Service, Transform};
+use actix_web::dev::{forward_ready, Service, Transform};
 use actix_web::{dev::ServiceRequest, dev::ServiceResponse, Error};
 use futures::future::{ok, Ready};
 use futures::Future;
 use redis::Client;
 use std::pin::Pin;
-use std::task::{Context, Poll};
 
 pub struct AccessCnt {
     redis: Client,
@@ -13,13 +12,12 @@ pub struct AccessCnt {
 // Middleware factory is `Transform` trait from actix-service crate
 // `S` - type of the next service
 // `B` - type of response's body
-impl<S, B> Transform<S> for AccessCnt
+impl<S, B> Transform<S, ServiceRequest> for AccessCnt
 where
-    S: Service<Request = ServiceRequest, Response = ServiceResponse<B>, Error = Error>,
+    S: Service<ServiceRequest, Response = ServiceResponse<B>, Error = Error>,
     S::Future: 'static,
     B: 'static,
 {
-    type Request = ServiceRequest;
     type Response = ServiceResponse<B>;
     type Error = Error;
     type InitError = ();
@@ -44,22 +42,19 @@ pub struct AccessCntMiddleware<S> {
     redis: Client,
 }
 
-impl<S, B> Service for AccessCntMiddleware<S>
+impl<S, B> Service<ServiceRequest> for AccessCntMiddleware<S>
 where
-    S: Service<Request = ServiceRequest, Response = ServiceResponse<B>, Error = Error>,
+    S: Service<ServiceRequest, Response = ServiceResponse<B>, Error = Error>,
     S::Future: 'static,
     B: 'static,
 {
-    type Request = ServiceRequest;
     type Response = ServiceResponse<B>;
     type Error = Error;
     type Future = Pin<Box<dyn Future<Output = Result<Self::Response, Self::Error>>>>;
 
-    fn poll_ready(&mut self, cx: &mut Context<'_>) -> Poll<Result<(), Self::Error>> {
-        self.service.poll_ready(cx)
-    }
+    forward_ready!(service);
 
-    fn call(&mut self, req: ServiceRequest) -> Self::Future {
+    fn call(&self, req: ServiceRequest) -> Self::Future {
         let path = req.path();
         if !req.path().starts_with("/favicon.ico") {
             let mut con = self.redis.get_connection().unwrap();

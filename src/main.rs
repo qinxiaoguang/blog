@@ -53,14 +53,13 @@ async fn greet(req: HttpRequest) -> impl Responder {
     format!("Hello {}", &name)
 }
 
-#[actix_rt::main]
+#[actix_web::main]
 async fn main() -> std::io::Result<()> {
     init_logger();
     info!("hello world");
     let app_conf = AppConf::new("conf/app.toml");
     let port = app_conf.server.port.unwrap_or(80u16);
     let page_url = app_conf.server.page_url.clone().unwrap(); // 需要跨域的url
-    let binding_address = format!("{}:{}", "0.0.0.0", port);
     let server = HttpServer::new(move || {
         let redis_address = format!("redis://{}:{}", app_conf.redis.ip, app_conf.redis.port);
         let redis_client = redis::Client::open(redis_address.as_str()).unwrap();
@@ -68,7 +67,7 @@ async fn main() -> std::io::Result<()> {
             redis_client: redis_client.clone(),
         };
         App::new()
-            .data(global_data)
+            .app_data(global_data)
             .wrap(login_auth::LoginAuthMid::new(
                 vec!["/admin/*".to_string()],
                 vec!["/admin/*".to_string()],
@@ -77,14 +76,13 @@ async fn main() -> std::io::Result<()> {
             // 设置response header ，解决跨域问题
             // 注意这个wrap一定要放在最后边，因为wrap的middleware执行顺序是从下往上的
             .wrap(
-                Cors::new()
+                Cors::default()
                     .allowed_origin(&page_url)
                     .allowed_methods(vec!["GET", "POST", "PUT", "DELETE", "OPTIONS"])
                     .allowed_headers(vec![header::AUTHORIZATION, header::ACCEPT, header::ORIGIN])
                     .allowed_header(header::CONTENT_TYPE)
                     .supports_credentials()
-                    .max_age(86400)
-                    .finish(),
+                    .max_age(86400),
             )
             .wrap(Logger::default())
             // 设置json上限50M
@@ -92,8 +90,8 @@ async fn main() -> std::io::Result<()> {
             .configure(router::route)
             .service(greet)
     })
-    .bind(binding_address)
-    .expect(&format!("can't bind to port:{:?}", port));
+    //.bind(binding_address)
+    .bind(("0.0.0.0", port))?;
 
     server.run().await
 }

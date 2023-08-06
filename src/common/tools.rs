@@ -1,16 +1,17 @@
+use actix_web::http::header;
+use actix_web::http::StatusCode;
 /**
  * file:tools.rs
  * des: some block code blocked in one place.
  * its different from util,it should be used by some global variable.
  */
-use actix_http::http::{self, StatusCode};
-use actix_http::Response;
+//use actix_http::Response;
 use actix_web::HttpResponse;
 
 // 统一redirect
-pub fn redirect(url: &str) -> Response {
+pub fn redirect(url: &str) -> HttpResponse {
     HttpResponse::build(StatusCode::TEMPORARY_REDIRECT)
-        .header(http::header::LOCATION, url)
+        .append_header((header::LOCATION, url))
         .finish()
 }
 

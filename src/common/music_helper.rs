@@ -44,11 +44,11 @@ pub struct Music163Album {
 pub fn get_music_list(id: &str) -> Option<Vec<Music>> {
     let url = format!("http://music.163.com/api/playlist/detail?id={}", id);
     println!("url:{:?}", url);
-    let client = reqwest::Client::new();
+    let client = reqwest::blocking::Client::new();
     let mut retry_times = 1;
     let res = loop {
         let tmpres = match client.get(&url).send() {
-            Ok(mut res) => {
+            Ok(res) => {
                 let res = res.text().unwrap(); // res.text()会消耗res,后续再调用将为空
                 info!("get music list success, url is: {}, res is:{:?}", url, &res);
                 res

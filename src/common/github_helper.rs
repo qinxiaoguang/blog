@@ -16,7 +16,7 @@ pub fn get_access_token(code: &str) -> Option<String> {
         ("code", &code.to_string()),
     ];
     let url = "https://github.com/login/oauth/access_token".to_string();
-    let client = reqwest::Client::new();
+    let client = reqwest::blocking::Client::new();
     let mut retry_times = 1;
     let res = loop {
         let tmpres = match client
@@ -25,7 +25,7 @@ pub fn get_access_token(code: &str) -> Option<String> {
             .form(&params)
             .send()
         {
-            Ok(mut res) => {
+            Ok(res) => {
                 let res = res.text().unwrap(); // res.text()会消耗res,后续再调用将为空
                 info!(
                     "req access_token success, url is: {}, res is:{:?}",
@@ -62,7 +62,7 @@ pub fn get_access_token(code: &str) -> Option<String> {
 pub fn get_user_name(access_token: &str) -> Option<String> {
     let url = "https://api.github.com/user".to_string();
     //let url = "http://localhost:8888".to_string();
-    let client = reqwest::Client::new();
+    let client = reqwest::blocking::Client::new();
     let mut retry_times = 1;
     let res = loop {
         let tmpres = match client
@@ -70,7 +70,7 @@ pub fn get_user_name(access_token: &str) -> Option<String> {
             .header(header::AUTHORIZATION, format!("token {}", access_token))
             .send()
         {
-            Ok(mut res) => {
+            Ok(res) => {
                 let res = res.text().unwrap(); // res.text()会消耗res,后续再调用将为空
                 info!("get user success, url is: {}, res is:{:?}", url, &res);
                 res

@@ -4,8 +4,9 @@
  * time: 2019-11-26
  * author: qxg
  */
-use crate::GlobalData;
+use crate::{common::constants::KNOCK_COUNT, GlobalData};
 use actix_web::{get, web, HttpRequest, HttpResponse, Responder};
+use redis::Commands;
 
 #[allow(dead_code)]
 pub fn test(req: HttpRequest) -> impl Responder {
@@ -17,19 +18,11 @@ pub fn test(req: HttpRequest) -> impl Responder {
 #[get("/stat/cnt")]
 pub async fn get_access_cnt(data: web::Data<GlobalData>, _req: HttpRequest) -> impl Responder {
     let mut con = data.redis_client.get_connection().unwrap();
-    // todo 使用keys效率会比较低，后续可以改为scan
-    let keys: Vec<String> = redis::cmd("keys").arg("/*").query(&mut con).unwrap();
-    if keys.is_empty() {
-        return HttpResponse::Ok()
+    let count: Result<i32, _> = con.get(KNOCK_COUNT);
+    match count {
+        Ok(c) => HttpResponse::Ok().json(c),
+        Err(e) => HttpResponse::Ok()
             .content_type("text/html")
-            .body(String::from("redis connect error"));
+            .body(format!("{:?}", e)),
     }
-    let res: Vec<(String, i32)> = keys
-        .into_iter()
-        .map(|k| {
-            let res: i32 = redis::cmd("get").arg(&k).query(&mut con).unwrap();
-            (k, res)
-        })
-        .collect();
-    HttpResponse::Ok().json(res)
 }

@@ -44,7 +44,7 @@ pub async fn oauth_callback(
                 ))
                 .finish()
         }
-        Err(e) => {
+        Err(_e) => {
             // 未登录，返回失败
             // 重定向404
             error!("login error");

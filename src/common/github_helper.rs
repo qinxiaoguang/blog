@@ -45,16 +45,34 @@ pub async fn get_user_name(access_token: &str) -> Result<String> {
     let client = reqwest::Client::new();
     let value = client
         .get(&url)
-        .header(header::AUTHORIZATION, format!("token {}", access_token))
+        .header(header::AUTHORIZATION, format!("Bearer  {}", access_token))
         .send()
         .await?
         .json::<serde_json::Value>()
         .await?;
-
+    println!("get user is :{:?}", value);
     value["login"]
         .as_str()
         .map(|x| x.to_owned())
         .ok_or(super::BizError::CommonError {
             field: String::from("get login data error"),
         })
+}
+
+mod test {
+    #[test]
+    fn test_value() {
+        let mut m = serde_json::Map::new();
+        m.insert(
+            String::from("access_token"),
+            serde_json::Value::String("haha".to_string()),
+        );
+        let value = serde_json::Value::Object(m);
+        println!("get value is:{:?}", value);
+        let g = value["access_token"]
+            .as_str()
+            .map(|x| x.to_owned())
+            .ok_or(0);
+        println!("get res is:{:?}", g);
+    }
 }

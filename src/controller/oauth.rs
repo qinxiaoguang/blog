@@ -48,6 +48,7 @@ pub async fn oauth_callback(
             // 未登录，返回失败
             // 重定向404
             error!("login error");
+            println!("err is:{:?}", _e);
             redirect(&(GLOBAL_CONF.server.page_url.clone().unwrap() + "/404"))
         }
     }

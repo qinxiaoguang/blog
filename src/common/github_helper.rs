@@ -46,6 +46,7 @@ pub async fn get_user_name(access_token: &str) -> Result<String> {
     let url = "https://api.github.com/user".to_string();
     //let url = "http://localhost:8888".to_string();
     let client = reqwest::Client::new();
+    println!("start to get user");
     let value = client
         .get(&url)
         .header(header::AUTHORIZATION, format!("Bearer  {}", access_token))

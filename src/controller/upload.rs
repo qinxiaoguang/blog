@@ -66,7 +66,7 @@ fn get_suffix(filename: &str) -> Option<&str> {
 fn resize_img(filepath: &str) -> Result<()> {
     let img = image::open(filepath.clone())?;
     let (width, height) = img.dimensions();
-    let newsize = 600;
+    let newsize = 800;
     if width >= newsize || height >= newsize {
         //let newimg = img.resize(800, 600 * height / width, FilterType::Lanczos3);
         let newimg = img.resize(newsize, newsize, FilterType::Lanczos3);

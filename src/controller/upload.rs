@@ -3,10 +3,10 @@ use crate::{
     GLOBAL_CONF,
 };
 use actix_multipart::Multipart;
-use async_std::prelude::*;
 use futures::{StreamExt, TryStreamExt};
 use image::{imageops::FilterType, GenericImageView};
 use log::info;
+use tokio::io::AsyncWriteExt;
 
 const PIC_SAVE_PATH: &str = "/static/img/upload/";
 
@@ -35,7 +35,8 @@ pub async fn upload_pic(mut payload: Multipart) -> CommonResp {
             gen_filename
         );
         info!("upload file path is:{}", filepath);
-        let mut f = async_std::fs::File::create(filepath.clone()).await?;
+        let mut f = tokio::fs::File::create(filepath.clone()).await?;
+        //let mut f = async_std::fs::File::create(filepath.clone()).await?;
 
         // Field in turn is stream of *Bytes* object
         while let Some(chunk) = field.next().await {

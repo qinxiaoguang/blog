@@ -26,8 +26,8 @@ pub async fn oauth_callback(
         //  found type `actix_http::response::Response`
         return redirect(&GLOBAL_CONF.server.page_url.clone().unwrap());
     }
-    match github_helper::get_name_with_code(&code) {
-        Some(username) => {
+    match github_helper::get_name_with_code(&code).await {
+        Ok(username) => {
             info!("user : {} login success", &username);
             // 登录成功，生成session-id
             let sid = session_helper::generate_session_id(&username).unwrap();
@@ -44,7 +44,7 @@ pub async fn oauth_callback(
                 ))
                 .finish()
         }
-        None => {
+        Err(_) => {
             // 未登录，返回失败
             // 重定向404
             redirect(&(GLOBAL_CONF.server.page_url.clone().unwrap() + "/404"))

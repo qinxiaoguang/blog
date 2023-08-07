@@ -51,5 +51,5 @@ pub async fn get_music_list(path: web::Path<(String,)>) -> CommonResp {
     if id.is_empty() {
         return Resp::err_msg("id is empty").to_json();
     }
-    Resp::ok(music_helper::get_music_list(id)).to_json()
+    Resp::ok(music_helper::get_music_list(id).await?).to_json()
 }

@@ -47,14 +47,18 @@ pub async fn get_user_name(access_token: &str) -> Result<String> {
     //let url = "http://localhost:8888".to_string();
     let client = reqwest::Client::new();
     println!("start to get user");
+
     let value = client
         .get(&url)
         .header(header::AUTHORIZATION, format!("Bearer  {}", access_token))
+        .header(
+            header::USER_AGENT,
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/116.0",
+        )
         .send()
         .await?
         .json::<serde_json::Value>()
         .await?;
-    println!("get user is :{:?}", value);
     value["login"]
         .as_str()
         .map(|x| x.to_owned())
@@ -64,8 +68,8 @@ pub async fn get_user_name(access_token: &str) -> Result<String> {
 }
 
 mod test {
-    #[test]
-    fn test_value() {
+    #[tokio::test]
+    async fn test_value() {
         let mut m = serde_json::Map::new();
         m.insert(
             String::from("access_token"),
@@ -78,5 +82,15 @@ mod test {
             .map(|x| x.to_owned())
             .ok_or(0);
         println!("get res is:{:?}", g);
+    }
+
+    #[tokio::test]
+    async fn test_get_user_name() -> std::io::Result<()> {
+        match super::get_user_name("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").await {
+            Ok(d) => println!("{}", d),
+            Err(e) => println!("{:?}", e),
+        }
+
+        Ok(())
     }
 }

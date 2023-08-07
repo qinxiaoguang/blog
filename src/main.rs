@@ -67,8 +67,9 @@ async fn main() -> std::io::Result<()> {
         let global_data = GlobalData {
             redis_client: redis_client.clone(),
         };
+
         App::new()
-            .app_data(global_data)
+            .app_data(web::Data::new(global_data))
             .wrap(login_auth::LoginAuthMid::new(
                 vec!["/admin/*".to_string()],
                 vec!["/admin/*".to_string()],

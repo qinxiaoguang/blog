@@ -30,12 +30,15 @@ pub async fn get_access_token(code: &str) -> Result<String> {
         .json::<serde_json::Value>()
         .await?;
     println!("get res is :{:?}", value);
-    value["access_token"]
-        .as_str()
-        .map(|x| x.to_owned())
-        .ok_or(super::BizError::CommonError {
-            field: String::from("get access_token data error"),
-        })
+    let res =
+        value["access_token"]
+            .as_str()
+            .map(|x| x.to_owned())
+            .ok_or(super::BizError::CommonError {
+                field: String::from("get access_token data error"),
+            });
+    println!("get result is:{:?}", res);
+    return res;
 }
 
 // 通过access_token获取login_name,注意当前只获取login_name,扩展方法后期再考虑

@@ -43,7 +43,7 @@ dev(){
 online(){
     echo "online"
     # first cargo build
-    cargo build --release
+    cargo build --release --jobs 2
     if [ $? -ne 0 ];then
 	echo "build failed"
 	exit 0

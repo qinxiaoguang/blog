@@ -4,9 +4,11 @@ pub mod quote;
 pub mod wish;
 use crate::common::IntoDocument;
 use crate::common::*;
-use bson::{doc, oid::ObjectId, Document};
+use mongodb::bson;
+use mongodb::bson::{doc, oid::ObjectId, Document};
 use mongodb::options::{CountOptions, FindOneOptions, FindOptions};
 use rand::prelude::*;
+use std::str::FromStr;
 
 // 保存文章，返回文章id
 
@@ -34,7 +36,7 @@ pub fn get<'a, T>(table_name: &str, id: &str) -> Result<T>
 where
     T: IntoDocument<'a> + ?Sized,
 {
-    let filter = Some(doc! {"_id" => ObjectId::with_string(id)?});
+    let filter = Some(doc! {"_id" : ObjectId::from_str(id)?});
     let document = table(table_name)
         .find_one(filter, None)
         .expect("cant find this");
@@ -56,8 +58,8 @@ where
 
 // return : 返回更改的个数
 // update比较特殊，可能需要对某些字段做特殊处理，所以使用document的方式
-pub fn update(table_name: &str, id: &str, document: Document) -> Result<i64> {
-    let filter = doc! {"_id" => ObjectId::with_string(id)?};
+pub fn update(table_name: &str, id: &str, document: Document) -> Result<u64> {
+    let filter = doc! {"_id" : ObjectId::from_str(id)?};
     let update = doc! {"$set":document};
     Ok(table(table_name)
         .update_one(filter, update, None)
@@ -67,21 +69,21 @@ pub fn update(table_name: &str, id: &str, document: Document) -> Result<i64> {
 }
 
 // 删除对应的数据
-pub fn remove(table_name: &str, id: &str) -> Result<i64> {
-    let filter = doc! {"_id" => ObjectId::with_string(id)?};
+pub fn remove(table_name: &str, id: &str) -> Result<u64> {
+    let filter = doc! {"_id": ObjectId::from_str(id)?};
     Ok(table(table_name)
         .delete_one(filter, None)
         .map(|x| x.deleted_count)?)
 }
 
-pub fn count_by(table_name: &str, filter: Option<Document>, options: CountOptions) -> Result<i64> {
+pub fn count_by(table_name: &str, filter: Option<Document>, options: CountOptions) -> Result<u64> {
     table(table_name)
         .count_documents(filter, Some(options))
         .map_err(|e| e.into())
 }
 
 // 获取总记录条数
-pub fn count(table_name: &str) -> Result<i64> {
+pub fn count(table_name: &str) -> Result<u64> {
     let filter = doc! {};
     let options = CountOptions::default();
     table(table_name)

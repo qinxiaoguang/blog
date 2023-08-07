@@ -1,10 +1,11 @@
 use super::{Article, ArticlePage, DbArticle, Summary};
 use crate::model::count_by;
 use crate::{common::*, util::file};
-use bson::{doc, oid::ObjectId, Document};
 use log::info;
+use mongodb::bson::{doc, oid::ObjectId, Document};
 use mongodb::options::{CountOptions, FindOptions};
 use std::collections::BTreeMap;
+use std::str::FromStr;
 
 // 保存文章，返回文章id
 // 用户创建文章的时候，先调用这个接口，其中的title和content都先是默认值，然后将页面跳转到alter.html页面
@@ -30,7 +31,7 @@ pub fn list_articles(
 
 // 更新id对应的文章
 // return : 返回更改的个数
-pub fn update_article(id: &str, article: Article) -> Result<i64> {
+pub fn update_article(id: &str, article: Article) -> Result<u64> {
     info!("update article is :{:?}", article);
     let mut article = article;
     article.time_update();
@@ -41,7 +42,7 @@ pub fn update_article(id: &str, article: Article) -> Result<i64> {
 }
 
 // 删除对应的文章
-pub fn remove_article(id: &str) -> Result<i64> {
+pub fn remove_article(id: &str) -> Result<u64> {
     super::remove(DbArticle::TABLE_NAME, id)
 }
 
@@ -109,7 +110,7 @@ pub fn list_recent_articles(num: i64) -> Result<Vec<Article>> {
 }
 
 // 获取某个状态的文章个数
-pub fn count_published() -> Result<i64> {
+pub fn count_published() -> Result<u64> {
     let options = CountOptions::default();
     let filter = Some(doc! {"status":DbArticle::PUBLISHED, "last_publish_time": {"$ne":null}});
     count_by(DbArticle::TABLE_NAME, filter, options)
@@ -121,7 +122,7 @@ pub fn list_page_articles(page_size: i64, page_num: i64) -> Result<ArticlePage> 
     start = if start < 0 { 0 } else { start };
     let find_options = FindOptions::builder()
         .sort(Some(doc! {"last_publish_time":-1}))
-        .skip(start)
+        .skip(start as u64)
         .limit(page_size)
         .build();
     let filter = Some(doc! {"status":DbArticle::PUBLISHED, "last_publish_time": {"$ne":null}});
@@ -221,7 +222,7 @@ fn summary(articles: Vec<Article>) -> Summary {
 }
 
 // 将数据发布
-pub fn publish_article(id: &str, article: Article) -> Result<i64> {
+pub fn publish_article(id: &str, article: Article) -> Result<u64> {
     info!("publish article is :{:?}", article);
     let mut article = article;
     article.time_update();
@@ -231,7 +232,7 @@ pub fn publish_article(id: &str, article: Article) -> Result<i64> {
     db_article.status = Some(DbArticle::PUBLISHED);
     let mut d = db_article.to_document().unwrap();
     d.remove("create_time");
-    let filter = doc! {"_id" => ObjectId::with_string(id)?};
+    let filter = doc! {"_id": ObjectId::from_str(id)?};
     let update = doc! {"$set":d};
     Ok(table(DbArticle::TABLE_NAME)
         .update_one(filter, update, None)

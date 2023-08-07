@@ -1,9 +1,9 @@
 mod handler;
 use super::{get, list, remove, save, update};
 use crate::common::IntoDocument;
-use bson::oid::ObjectId;
 use chrono::prelude::*;
 pub use handler::*; // 把handler的内容才这个地方导出去，外部直接可以通过article::来进行调用
+use mongodb::bson::oid::ObjectId;
 use serde::{Deserialize, Serialize, Serializer};
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
@@ -25,7 +25,7 @@ pub struct ArticlePage {
     articles: Vec<Article>,
     page_num: i64,
     page_size: i64,
-    total: i64, // 总数量
+    total: u64, // 总数量
 }
 
 impl Article {

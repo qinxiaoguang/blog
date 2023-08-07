@@ -15,7 +15,8 @@ use lazy_static::lazy_static;
 use log::info;
 use log4rs;
 use middleware::login_auth;
-use mongodb::{options::ClientOptions, Client as MongoClient};
+use mongodb::options::ClientOptions;
+use mongodb::sync::Client as MongoClient;
 use redis::Client;
 
 lazy_static! {

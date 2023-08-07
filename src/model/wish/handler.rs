@@ -1,6 +1,6 @@
 use super::Wish;
 use crate::common::*;
-use bson::{doc, Document};
+use mongodb::bson::{doc, Document};
 use mongodb::options::FindOptions;
 
 pub fn save_wish(wish: Wish) -> Result<String> {
@@ -20,7 +20,7 @@ pub fn list_wishs(filter: Option<Document>, find_options: FindOptions) -> Result
 }
 
 #[allow(dead_code)]
-pub fn remove_wish(id: &str) -> Result<i64> {
+pub fn remove_wish(id: &str) -> Result<u64> {
     super::remove(Wish::TABLE_NAME, id)
 }
 

@@ -1,6 +1,6 @@
 use super::Media;
 use crate::common::*;
-use bson::{doc, Document};
+use mongodb::bson::{doc, Document};
 use mongodb::options::FindOptions;
 
 pub fn save_media(mut media: Media) -> Result<String> {
@@ -19,7 +19,7 @@ pub fn list_page_medias(page_size: i64, page_num: i64) -> Result<Vec<Media>> {
     start = if start < 0 { 0 } else { start };
     let find_options = FindOptions::builder()
         .sort(Some(doc! {"create_time":-1}))
-        .skip(start)
+        .skip(start as u64)
         .limit(page_size)
         .build();
     let filter = Some(doc! {});
@@ -31,7 +31,7 @@ pub fn list_medias(filter: Option<Document>, find_options: FindOptions) -> Resul
     super::list(Media::TABLE_NAME, filter, find_options)
 }
 
-pub fn remove_media(id: &str) -> Result<i64> {
+pub fn remove_media(id: &str) -> Result<u64> {
     super::remove(Media::TABLE_NAME, id)
 }
 

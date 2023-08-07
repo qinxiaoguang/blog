@@ -1,6 +1,6 @@
 use super::Quote;
 use crate::common::*;
-use bson::{doc, Document};
+use mongodb::bson::{doc, Document};
 use mongodb::options::FindOptions;
 
 pub fn save_quote(quote: Quote) -> Result<String> {
@@ -20,7 +20,7 @@ pub fn list_quotes(filter: Option<Document>, find_options: FindOptions) -> Resul
 }
 
 #[allow(dead_code)]
-pub fn remove_quote(id: &str) -> Result<i64> {
+pub fn remove_quote(id: &str) -> Result<u64> {
     super::remove(Quote::TABLE_NAME, id)
 }
 

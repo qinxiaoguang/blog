@@ -1,10 +1,12 @@
 use crate::*;
 use actix_web::{error, HttpResponse};
-use bson::ordered::OrderedDocument;
 use failure::Fail;
 use iota::iota;
-use mongodb::Collection;
+use mongodb::bson;
+use mongodb::bson::Document;
+use mongodb::sync::Collection;
 use serde::{Deserialize, Serialize};
+use std::iter::Iterator;
 use std::result;
 
 const OK: i32 = 0;
@@ -128,19 +130,19 @@ impl Resp<()> {
 
 // 以下均是对mongo的统一封装
 // mongo 统一处理
-pub fn table(coll_name: &str) -> Collection {
+pub fn table(coll_name: &str) -> Collection<Document> {
     MONGO
         .database(&GLOBAL_CONF.mongo.db_name)
-        .collection(coll_name)
+        .collection::<Document>(coll_name)
 }
 
 // 为Cursor实现 to_vec
 pub trait CursorToVec {
-    fn to_vec<'a, T: Deserialize<'a>>(&mut self) -> Vec<T>;
+    fn to_vec<'a, T: for<'de> Deserialize<'de>>(&mut self) -> Vec<T>;
 }
 
-impl CursorToVec for mongodb::Cursor {
-    fn to_vec<'a, T: Deserialize<'a>>(&mut self) -> Vec<T> {
+impl CursorToVec for mongodb::sync::Cursor<Document> {
+    fn to_vec<'a, T: for<'de> Deserialize<'de>>(&mut self) -> Vec<T> {
         self.map(|item| {
             let doc = item.unwrap();
             let bson = bson::Bson::Document(doc);
@@ -153,10 +155,10 @@ impl CursorToVec for mongodb::Cursor {
 // 将一些struct转换为document
 pub trait IntoDocument<'a>
 where
-    Self: Sized + Serialize + Deserialize<'a>,
+    Self: Sized + Serialize + for<'de> Deserialize<'de>,
 {
-    fn to_document(&self) -> Option<OrderedDocument> {
-        let mid = bson::to_bson(self)
+    fn to_document(&self) -> Option<Document> {
+        let mid = mongodb::bson::to_bson(self)
             .ok()
             .map(|x| x.as_document().unwrap().to_owned());
 

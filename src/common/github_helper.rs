@@ -29,6 +29,7 @@ pub async fn get_access_token(code: &str) -> Result<String> {
         .await?
         .json::<serde_json::Value>()
         .await?;
+    println!("get res is :{:?}", value);
     value["access_token"]
         .as_str()
         .map(|x| x.to_owned())

@@ -1,5 +1,5 @@
 use crate::{
-    common::{BizError, CommonResp, Resp},
+    common::{BizError, CommonResp, Resp, Result},
     GLOBAL_CONF,
 };
 use actix_multipart::Multipart;
@@ -43,9 +43,11 @@ pub async fn upload_pic(mut payload: Multipart) -> CommonResp {
             let data = chunk.unwrap();
             f.write_all(&data).await?;
         }
+        f.flush().await?;
+        drop(f);
     }
     // 写完毕后，将对应的图片进行压缩,压缩为600大小的
-    resize_img(&filepath.clone());
+    resize_img(&filepath.clone())?;
     Resp::ok(gen_filename).to_json()
 }
 
@@ -61,8 +63,8 @@ fn get_suffix(filename: &str) -> Option<&str> {
 }
 
 // 压缩图片
-fn resize_img(filepath: &str) {
-    let img = image::open(filepath.clone()).unwrap();
+fn resize_img(filepath: &str) -> Result<()> {
+    let img = image::open(filepath.clone())?;
     let (width, height) = img.dimensions();
     let newsize = 600;
     if width >= newsize || height >= newsize {
@@ -71,6 +73,7 @@ fn resize_img(filepath: &str) {
         let _ = newimg.save(filepath);
         //img.save(filepath).unwrap();
     }
+    Ok(())
 }
 
 mod test {

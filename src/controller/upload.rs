@@ -1,3 +1,5 @@
+use std::path::Path;
+
 use crate::{
     common::{BizError, CommonResp, Resp, Result},
     GLOBAL_CONF,
@@ -6,7 +8,7 @@ use actix_multipart::Multipart;
 use futures::{StreamExt, TryStreamExt};
 use image::{imageops::FilterType, GenericImageView};
 use log::info;
-use tokio::io::AsyncWriteExt;
+use tokio::{fs, io::AsyncWriteExt};
 
 const PIC_SAVE_PATH: &str = "/static/img/upload/";
 
@@ -47,7 +49,8 @@ pub async fn upload_pic(mut payload: Multipart) -> CommonResp {
         drop(f);
     }
     // 写完毕后，将对应的图片进行压缩,压缩为600大小的
-    resize_img(&filepath.clone())?;
+    tokio::spawn(compress_img(filepath.clone()));
+    //compress_img(&filepath.clone()).await?;
     Resp::ok(gen_filename).to_json()
 }
 
@@ -62,7 +65,7 @@ fn get_suffix(filename: &str) -> Option<&str> {
     return None;
 }
 
-// 压缩图片
+#[allow(dead_code)]
 fn resize_img(filepath: &str) -> Result<()> {
     let img = image::open(filepath.clone())?;
     let (width, height) = img.dimensions();
@@ -76,9 +79,41 @@ fn resize_img(filepath: &str) -> Result<()> {
     Ok(())
 }
 
+// 压缩图片
+async fn compress_img(filepath: String) -> Result<()> {
+    let filepath = &filepath;
+    let ext = Path::new(filepath)
+        .extension()
+        .map(|x| x.to_str().unwrap_or("png"))
+        .unwrap_or("png");
+    let img = image::open(filepath.clone())?;
+    let bak_filepath = &format!("{filepath}.bak.{ext}");
+    //println!("{}", bak_filepath);
+    let before_bytes = tokio::fs::metadata(filepath).await?.len();
+    //println!("before bytes is:{}", before_bytes);
+    let (width, height) = img.dimensions();
+    let newimg = img.resize(width, height, FilterType::Lanczos3);
+    // bak_filepath
+    let _ = tokio::fs::File::create(bak_filepath).await?;
+    let _ = newimg.save(bak_filepath);
+    let after_bytes = tokio::fs::metadata(bak_filepath).await?.len();
+    //println!("bytes is:{}", after_bytes);
+
+    if before_bytes > after_bytes {
+        // 后替换前
+        fs::remove_file(filepath).await?;
+        fs::rename(bak_filepath, filepath).await?;
+    } else {
+        // 删除后者
+        fs::remove_file(bak_filepath).await?;
+    }
+    Ok(())
+}
+
 mod test {
-    #[test]
-    fn test_resize_img() {
-        super::resize_img("output/test.png")
+    #[tokio::test]
+    async fn test_resize_img() -> std::io::Result<()> {
+        super::compress_img("output/test.jpg").await;
+        Ok(())
     }
 }

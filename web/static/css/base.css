@@ -2,7 +2,7 @@ body {
   /*background-color: rgb(253 250 248);*/
   background-color: #f5f7f9;
   height: 100%;
-  max-width: 1560px;
+  /*max-width: 1560px;*/
   margin-left: auto;
   margin-right:auto;
 }
@@ -498,7 +498,7 @@ body {
   bottom: 0;
   z-index: 0;
   width: 100%;
-  max-width: 1560px;
+  /*max-width: 1560px;*/
   height: 360px;
   padding-left:32px;
   padding-right:32px;

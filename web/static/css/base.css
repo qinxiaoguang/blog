@@ -211,10 +211,10 @@ body {
 
 #album_panel #top_back {
   /*background: url("../img/middle_triangle.svg");*/
-  background-size: cover;
+  background: #fff;
   /*等比例拉伸，不会影响图片效果*/
   width: 100%;
-  height: 160px;
+  height: 2px;
   position: absolute;
   top: 0;
   z-index: 1;
@@ -222,10 +222,10 @@ body {
 
 #album_panel #bottom_back {
   /*background: url("../img/middle_triangle.svg");*/
-  background-size: cover;
+  background:#fff;
   /*等比例拉伸，不会影响图片效果*/
-  width: 1280px;
-  height: 160px;
+  width: 100%;
+  height: 2px;
   transform: rotate(180deg);
   -ms-transform: rotate(180deg);
   /* Internet Explorer */
@@ -439,7 +439,7 @@ body {
 }
 
 #work_word #work_name {
-  border-bottom: 1px solid black;
+  /*border-bottom: 1px solid black;*/
   position: absolute;
   top: 60px;
   font-size: 32px;
@@ -449,12 +449,12 @@ body {
 
 #recent_article_panel {
   width: 100%;
-  height: 360px;
+  height: 560px;
   position: relative;
   z-index: 10;
   color:#cccccc;
   /*background-color: #2d2d2d;*/
-  box-shadow: 0px 0px 2px #272727;
+  box-shadow: 0px 5px 8px #272727;
   background: #536976;  /* fallback for old browsers */
   background: -webkit-linear-gradient(to left, #292E49, #536976);  /* Chrome 10-25, Safari 5.1-6 */
   background: linear-gradient(to left, #292E49, #536976); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
@@ -462,13 +462,13 @@ body {
 
 #recent_article_panel #recent_article_title {
   padding-left: 80px;
-  padding-top: 36px;
+  padding-top: 120px;
   color:#ffffff;
 }
 
 #recent_article_panel #panel_with_back {
   width: 100%;
-  height: 380px;
+  height: 560px;
   /*background: url("../img/bottom_panel_back.png");
   opacity: 0.8;*/
   /*background-attachment: fixed; 这个可以造成视差滚动的效果*/
@@ -490,7 +490,7 @@ body {
 }
 
 #bottom {
-  height: 200px;
+  height: 360px;
 }
 
 #bottom_panel {

@@ -814,6 +814,10 @@ body {
   border: 5px solid #f5f7f9;
 }
 
+#img_big_show img{
+	max-width:100%;
+}
+
 
 .life_item .img_des {
   width: 100%;

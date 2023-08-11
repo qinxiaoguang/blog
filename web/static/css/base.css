@@ -808,6 +808,10 @@ body {
 
 .life_img {
   width: 50%;
+  height: 100%;
+  margin: 16px;
+  border-radius: 16px;
+  border: 5px solid #f5f7f9;
 }
 
 

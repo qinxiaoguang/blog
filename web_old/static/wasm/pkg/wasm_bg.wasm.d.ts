@@ -1,0 +1,36 @@
+/* tslint:disable */
+/* eslint-disable */
+export const memory: WebAssembly.Memory;
+export function __wbg_rgcell_free(a: number): void;
+export function rgcell_tick(a: number, b: number, c: number): void;
+export function __wbg_randgame_free(a: number): void;
+export function randgame_width(a: number): number;
+export function randgame_height(a: number): number;
+export function randgame_count(a: number): number;
+export function randgame_tick(a: number): void;
+export function randgame_new(a: number): number;
+export function randgame_render(a: number, b: number): void;
+export function hello_world(a: number): void;
+export function reverse(a: number, b: number, c: number): void;
+export function json_print(a: number, b: number, c: number): void;
+export function unicode_to(a: number, b: number, c: number): void;
+export function to_unicode(a: number, b: number, c: number): void;
+export function get_timestamp(a: number): void;
+export function get_time_from_unix(a: number, b: number, c: number): void;
+export function urldecode(a: number, b: number, c: number): void;
+export function urlencode(a: number, b: number, c: number): void;
+export function int_to_ip(a: number, b: number): void;
+export function ip_to_int(a: number, b: number): number;
+export function wasm_memory(): number;
+export function __wbg_universe_free(a: number): void;
+export function universe_width(a: number): number;
+export function universe_height(a: number): number;
+export function universe_cells(a: number): number;
+export function universe_tick(a: number): void;
+export function universe_new(): number;
+export function universe_render(a: number, b: number): void;
+export function __wbindgen_add_to_stack_pointer(a: number): number;
+export function __wbindgen_free(a: number, b: number): void;
+export function __wbindgen_malloc(a: number): number;
+export function __wbindgen_realloc(a: number, b: number, c: number): number;
+export function __wbindgen_exn_store(a: number): void;

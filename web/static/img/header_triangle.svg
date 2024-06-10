@@ -1,7 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2560 240" width="2560" height="240">
-	<style>
-		tspan { white-space:pre }
-		.shp0 { fill: #f9ed69 } 
-	</style>
-	<path id="形状 1" class="shp0" d="M556,240l2004,-240h-2560" />
-</svg>

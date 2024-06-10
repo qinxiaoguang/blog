@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+<!--<![endif]-->
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>佛系少年</title>
+  <meta name="description" content="" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" type="text/css" href="/static/css/out/bootstrap.min.css" />
+  <!--<link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/aplayer/1.10.1/APlayer.min.css">-->
+  <link rel="stylesheet" type="text/css" media="screen and (min-device-width: 720px)" href="/static/css/base.css" />
+  <link rel="stylesheet" type="text/css" media="screen and (max-device-width: 720px)"
+    href="/static/css/base_phone.css" />
+  <link href="/static/css/out/all.min.css" rel="stylesheet" />
+</head>
+
+<body>
+  <div id="main">
+    <div id="top_panel">
+      <div id="header_panel">
+        <!--后续进行优化-->
+
+        <div id="header" style="background:transparent !important;">
+          <div id="triangle"></div>
+          <button class="header_button header_button_active" id="button_home">
+            HOME
+          </button>
+          <div id="button_group">
+            <button class="header_button" id="button_blog">
+              BLOG
+            </button>
+            <button class="header_button" id="button_life">
+              LIFE
+            </button>
+            <button class="header_button" id="button_tool">
+              TOOL
+            </button>
+            <button class="header_button" id="button_about">
+              ABOUT
+            </button>
+          </div>
+        </div>
+      </div>
+      <div id="top_panel_bottom"></div>
+    </div>
+    <div id="sentence_panel">
+      <div id="beauty_sentence_panel">
+        <p id="sentence">
+          <span id="pre_quota">“</span>{{quote.des}}<span id="last_quota">”</span>
+        </p>
+        <p id="sentence_author">
+          ——— {{quote.author}}
+        </p>
+      </div>
+    </div>
+    <div id="album_panel">
+      <div id="top_back"></div>
+      <div id="bottom_back"></div>
+      <div class="album" id="left_album">
+        <!--<img class="pic left_pic" src="./static/img/left_pic.png" v-show="default_left_pic_show" @click="jumpToLife" />-->
+        <img class="pic left_pic" :src="left_pic_url" v-show="recent_left_pic_show" @click="jumpToLife" />
+      </div>
+      <div class="album" id="right_album">
+        <!--<img class="pic right_pic" src="./static/img/right_pic.png" v-show="default_right_pic_show">
+          @click="jumpToLife" />-->
+        <img class="pic right_pic" :src="right_pic_url" v-show="recent_right_pic_show" @click="jumpToLife" />
+      </div>
+    </div>
+    <div id="work_panel">
+      <div class="work_triangle">
+        <div class="left_triangle"></div>
+        <div class="right_triangle"></div>
+      </div>
+      <div id="work_bottom_triangle">
+        <div class="work_triangle">
+          <div class="left_triangle"></div>
+          <div class="right_triangle"></div>
+        </div>
+      </div>
+
+      <div id="work_content">
+        <p id="work_title">WORK</p>
+        <div id="start_point">
+          <span id="out_start_circle" class="out_circle_point"></span>
+          <span id="inner_start_circle" class="inner_circle_point"></span>
+        </div>
+        <div id="end_point">
+          <span id="out_end_circle" class="out_circle_point"></span>
+          <span id="inner_end_circle" class="inner_circle_point"></span>
+        </div>
+        <div id="work_word">
+          <p id="start_time">2018.7</p>
+          <p id="end_time">至今...</p>
+		  <p id="work_name">百度<br /> 2021.11 <br /> 阿里 <br /> 2023.8 <br/> 字节</p>
+        </div>
+      </div>
+    </div>
+    <div id="recent_article_panel">
+      <div id="panel_with_back">
+        <h3 id="recent_article_title">近期文章</h3>
+        <hr />
+        <div id="article_all">
+          <div class="article_all_left article_little_panel">
+            <ul v-for="val in articles_left">
+              <li>
+                [{{val.update_time}}]<a class="article_a" :href="val.url">{{val.title}}</a>
+              </li>
+            </ul>
+          </div>
+          <div class="article_all_right article_little_panel">
+            <ul v-for="val in articles_right">
+              <li>
+                [{{val.update_time}}]<a class="article_a" :href="val.url">{{val.title}}</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div id="recent_triangle"></div>
+    </div>
+    <div id="bottom">
+      <div id="bottom_panel">
+        <div id="bottom_triangle"></div>
+        <div id="access_content">
+          <a href="https://beian.miit.gov.cn/" style="text-decoration:none;color:white;margin-right:8px"
+            target="_blank">京ICP备20017193号-1</a>
+          本站已被访问<span id="access_cnt">0</span>次<span id="rights">©2020 powered by myself</span>
+        </div>
+        <div id="relate_link_panel">
+          <div class="relate_group">
+            <ul>
+              <li class="relate_li relate_title">联系方式</li>
+              <li class="relate_li"><a class="relate_li_a"" href=" /404">WEIBO</a></li>
+              <li class="relate_li"><a class="relate_li_a"" href=" /404">ZHIHU</a></li>
+              <li class="relate_li"><a class="relate_li_a"" href=" /404">GITHUB</a></li>
+              <li class="relate_li"><a class="relate_li_a"" href=" /404">EMAIL</a></li>
+            </ul>
+          </div>
+          <div class="relate_group">
+            <ul>
+              <li class="relate_li relate_title">相关链接</li>
+              <li class="relate_li"><a class="relate_li_a"" href=" /404">优美句子</a></li>
+              <li class="relate_li"><a class="relate_li_a"" href=" /404">毒毒鸡汤</a></li>
+              <li class="relate_li"><a class="relate_li_a"" href=" /404">彩虹屁屁</a></li>
+              <li class="relate_li"><a class="relate_li_a"" href=" /404">土味情话</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--[if lt IE 7]>
+      <p class="browsehappy">
+        You are using an <strong>outdated</strong> browser. Please
+        <a href="#">upgrade your browser</a> to improve your experience.
+      </p>
+    <![endif]-->
+  <!-- vue -->
+  <script src="/static/js/out/vue@2.6.0"></script>
+  <!--<script src="https://cdn.jsdelivr.net/npm/vue@2.6.0" async defer></script>-->
+  <!-- #vue# 为了不繁琐，使用双#号表示注释的结束-->
+  <!-- bootrstrap -->
+  <script src="/static/js/out/jquery.slim.min.js"></script>
+  <script src="/static/js/base.js"></script>
+
+  <script src="/static/js/out/popper.min.js"></script>
+  <script src="/static/js/out/bootstrap.min.js"></script>
+  <script src="/static/js/out/axios.min.js"></script>
+
+  <script>
+    $(function () {
+      var beauty_sentence_panel = new Vue({
+        el: "#beauty_sentence_panel",
+        data() {
+          return {
+            quote: null,
+          };
+        }, mounted() {
+          axios.get(baseUrl + "/quote/random").then((response) => {
+            var author = this.quote.author;
+            if (author == "" || author == null || author == undefined) {
+              this.quote.author = "佚名";
+            }
+          });
+        },
+      });
+
+      var album_finish = false;
+      var album_panel = new Vue({
+        el: "#album_panel",
+        data() {
+          return {
+            default_left_pic_show: true,
+            default_right_pic_show: true,
+            recent_left_pic_show: false,
+            recent_right_pic_show: false,
+            left_pic_url: null,
+            right_pic_url: null,
+            medias: null,
+          };
+        },
+        mounted() {
+          axios.get(baseUrl + "/media/img/recent").then((response) => {
+            this.medias = response.data.data;
+            var cnt = 0;
+            for (m of this.medias) {
+              if (cnt >= 2) {
+                break;
+              }
+              if (m.media_type == 1) {
+                // 图片
+                m.url = get_img_url(m.url);
+                m.imgShow = true;
+                m.videoShow = false;
+              } else if (m.media_type == 2) {
+                m.url = get_video_url(m.url);
+                m.imgShow = false;
+                m.videoShow = true;
+              }
+              if (cnt == 0) {
+                this.left_pic_url = m.url;
+                this.recent_left_pic_show = m.imgShow;
+                this.default_left_pic_show = false;
+              } else {
+                this.right_pic_url = m.url;
+                this.recent_right_pic_show = m.imgShow;
+                this.default_right_pic_show = false;
+              }
+              cnt += 1;
+            }
+            album_finish = true;
+            if (album_finish && panel_finish) {
+              loading_finish();
+            }
+          });
+
+        },
+        methods: {
+          jumpToLife: function () {
+            location.href = pageUrl + "/life/list.html";
+          },
+        },
+      });
+      var panel_finish = false;
+      var panel_with_back = new Vue({
+        el: "#panel_with_back",
+        data() {
+          return {
+            articles: null,
+            articles_left: null,
+            articles_right: null,
+          };
+        },
+        mounted() {
+          axios.get(baseUrl + "/article/recent").then((response) => {
+            response.data.data.forEach((element) => {
+              element.url = "/article/detail/" + element._id;
+            });
+            this.articles = response.data.data;
+            var len = this.articles.length;
+            var split_len = len / 2;
+            var articles_left = [];
+            var articles_right = [];
+            var cnt = 0;
+            for (a of this.articles) {
+              console.log(a.update_time);
+              a.update_time = format_date(a.update_time);
+              a.url = "/article/detail/" + a._id;
+              a.edit_url = "/article/edit.html?id=" + a._id;
+              if (a.title == "") {
+                a.title = "#";
+              }
+              cnt++;
+              if (cnt <= split_len) {
+                articles_right.push(a);
+              } else {
+                articles_left.push(a);
+              }
+            }
+            this.articles_left = articles_left.reverse();
+            this.articles_right = articles_right.reverse();
+
+            panel_finish = true;
+            if (album_finish && panel_finish) {
+              loading_finish();
+            }
+          });
+
+
+        },
+      });
+
+      getKnockCnt(function (cnt) {
+        console.log(cnt);
+        $("#access_cnt").html(cnt);
+      });
+    });
+  </script>
+  <!-- #bootrstrap# -->
+</body>
+
+</html>

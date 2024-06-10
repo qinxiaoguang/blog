@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+<!--<![endif]-->
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>心愿单 —— 工具</title>
+  <meta name="description" content="" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <link rel="stylesheet" href="/static/css/out/bootstrap.min.css" />
+  <link rel="stylesheet" href="/static/css/article_alter.css" />
+  <!-- highlight 的主题-->
+  <link href="/static/css/out/tomorrow-night-eighties.min.css" rel="stylesheet" />
+  <link rel="stylesheet" type="text/css" media="screen and (min-device-width: 720px)" href="/static/css/base.css" />
+  <link rel="stylesheet" type="text/css" media="screen and (max-device-width: 720px)"
+    href="/static/css/base_phone.css" />
+  <link href="/static/css/out/all.min.css" rel="stylesheet" />
+</head>
+
+<body style="background-color: #000;">
+  <div id="starry_panel">
+    <div id="starry_mask"></div>
+    <span id="star" class=""></span>
+  </div>
+  <div id="wish_panel">
+    <div id="wishes">
+      <div class="wish_item"></div>
+    </div>
+    <button id="add_wish_btn">+</button>
+  </div>
+  <div id="content"></div>
+  <!--[if lt IE 7]>
+      <p class="browsehappy">
+        You are using an <strong>outdated</strong> browser. Please
+        <a href="#">upgrade your browser</a> to improve your experience.
+      </p>
+    <![endif]-->
+  <!-- vue -->
+  <script src="/static/js/out/vue@2.6.0"></script>
+  <!--<script src="https://cdn.jsdelivr.net/npm/vue@2.6.0" async defer></script>-->
+  <!-- #vue# 为了不繁琐，使用双#号表示注释的结束-->
+  <!-- bootrstrap -->
+  <script src="/static/js/out/jquery.slim.min.js"></script>
+  <script src="/static/js/base.js"></script>
+  <script src="/static/js/out/popper.min.js"></script>
+  <script src="/static/js/out/bootstrap.min.js"></script>
+  <script src="/static/js/out/axios.min.js"></script>
+  <script src="/static/js/out/marked.min.js"></script>
+  <script src="/static/js/out/highlight.min.js"></script>
+
+
+  <script>
+    $(function () {
+      loading_finish();
+      axios.defaults.withCredentials = true;
+      getUrlParam = function (name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return unescape(r[2]);
+        return null;
+      };
+
+      // 根据时间来展示流行是否显示
+      function random_show_star() {
+        // 每x5分2x秒的时候，显示一个流星
+        // 即 520
+        setInterval(function () {
+          if (can_show_star()) {
+            $("#star").toggleClass("star");
+            setTimeout(function () {
+              $("#star").toggleClass("star");
+            }, 2000);
+          }
+        }, 10000);
+      }
+
+      function can_show_star() {
+        var date = new Date();
+        var m = date.getMinutes(); //获取当前分钟数(0-59)
+        var s = date.getSeconds();
+        if (m % 10 == 5 && s / 10 == 2) {
+          return true;
+        }
+
+        // 流星展现太慢了 先给打开
+        return true;
+      }
+
+      random_show_star();
+
+      var mark_body = new Vue({
+        el: "#mark_body",
+        data() {
+          return {
+            content: null,
+          };
+        },
+        mounted() {
+          var id = getUrlParam("id");
+          if (id == null || id == "" || id == undefined) {
+            // 提示输入id
+            $("#modal_alert").modal({ backdrop: "static", keyboard: false });
+            $("#modal_alert").modal("show");
+            return;
+          }
+          axios
+            .get(baseUrl + "/tool/tmpedit/" + id)
+            .then((response) => {
+              if (response.data.code == 0) {
+                this.content = response.data.data;
+              } else {
+                alert(response.data.msg);
+              }
+              loading_finish();
+            })
+            .catch((error) => {
+              alert(error);
+              loading_finish();
+            });
+        },
+        methods: {
+          jump_to_file: function () {
+            var id = $("#id").val();
+            if (id == null || id == "" || id == undefined) {
+              alert("请输入文件名");
+            } else {
+              location.href = pageUrl + "/tool/tmpedit.html?id=" + id;
+            }
+          },
+          save: function () {
+            var id = getUrlParam("id");
+            var content = $("#edit").val();
+            axios
+              .post(baseUrl + "/tool/tmpedit", {
+                id: id,
+                content: content,
+              })
+              .then((response) => {
+                if (response.data.code == 0) {
+                  alert("保存成功");
+                }
+                return true;
+              })
+              .catch((error) => {
+                alert(error);
+                return false;
+              });
+          },
+          keydown: function (e) {
+            if (
+              e.keyCode == 83 &&
+              (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)
+            ) {
+              e.preventDefault();
+              // TODO save article
+              this.save();
+              return;
+            }
+
+            if (e.keyCode == 9) {
+              // get caret position/selection
+              // 原来的this 需要使用e.target来获取
+              var mthis = e.target;
+              var start = mthis.selectionStart;
+              var end = mthis.selectionEnd;
+              var $this = $(mthis);
+              var value = $this.val();
+              // set textarea value to: text before caret + tab + text after caret
+              $this.val(
+                value.substring(0, start) + "\t" + value.substring(end)
+              );
+              // put caret at right position again (add one for the tab)
+              mthis.selectionStart = mthis.selectionEnd = start + 1;
+              // prevent the focus lose
+              e.preventDefault();
+            }
+          },
+        },
+      });
+    });
+  </script>
+  <!-- #bootrstrap# -->
+</body>
+
+</html>

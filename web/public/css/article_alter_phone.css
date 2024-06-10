@@ -1,0 +1,205 @@
+#mark_body {
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+    position: absolute;
+    overflow: hidden;
+}
+
+#mark_body #view {
+    display: block;
+}
+
+#mark_body #close_view {
+    display: none;
+}
+
+#mark_left {
+    width: 100%;
+    height: 100%;
+    display: inline-block;
+    background-color: #fff;
+    float: left;
+    border-right: 1px solid #cccccc;
+}
+
+#mark_right {
+    padding: 40px 40px 80px;
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    background-color: #fcfaf2;
+    overflow: auto;
+    display: none;
+}
+
+
+.mark_textarea {
+    width: 100%;
+    height: 88%;
+    -webkit-box-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 0%;
+    padding: 40px 40px 80px;
+    margin-bottom: 0;
+    resize: none;
+    color: #333;
+    /*background-color: transparent;*/
+    /*background-color: #13e8e9;*/
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 30px;
+    border: none;
+    outline: none;
+    -webkit-appearance: none;
+    overflow: auto;
+}
+
+#mark_title {
+    border: none;
+    background-color: #737373;
+    width: 100%;
+    height: 64px;
+    resize: none;
+    outline: none;
+    margin: 0;
+}
+
+#mark_menu {
+    background-color: #d9d9d9;
+    width: 100%;
+    height: 40px;
+    resize: none;
+    outline: none;
+}
+
+#mark_input_title {
+    border: none;
+    width: 100%;
+    height: 100%;
+    /*background-color: rgba(0, 0, 0, 0.36);*/
+    outline: none;
+    padding-left: 40px;
+    padding-right: 40px;
+    font-size: 28px;
+    font-style: bold;
+}
+
+#catalog_body {
+    position: absolute;
+    z-index: 100;
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+}
+
+#mark_body #close_view {
+
+    width: 40px;
+    height: 40px;
+    background-color: #ccc;
+    text-align: center;
+    padding: 2px;
+    cursor: pointer;
+    display: inline-block;
+
+    position: fixed;
+    display: none;
+    top: 0px;
+    left: 0px;
+}
+
+#mark_body #view,
+#publish {
+    margin-left: 1px;
+    width: 72px;
+    height: 100%;
+    border: none;
+    cursor: pointer;
+    float: right;
+    background-color: #343a40;
+    color: white;
+    padding: 7px 0px;
+    text-align: center;
+    transition: color .15s ease-in-out,
+        background-color .15s ease-in-out,
+        border-color .15s ease-in-out,
+        box-shadow .15s ease-in-out;
+    font-family: -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        "Helvetica Neue",
+        Arial,
+        sans-serif,
+        "Apple Color Emoji",
+        "Segoe UI Emoji",
+        "Segoe UI Symbol";
+}
+
+#catagory {
+    border: none;
+    float: right;
+    color: #333;
+    display: inline-block;
+
+    width: 64px;
+    height: 100%;
+    background-color: #ccc;
+    text-align: center;
+    padding: 2px;
+    cursor: pointer;
+}
+
+#publish:hover {
+    color: #f30067;
+}
+
+#catagory:focus,
+#catagory:active:focus,
+#catagory.active:focus,
+#catagory.focus,
+#catagory:active.focus,
+#catagory.active.focus,
+#publish:focus,
+#publish:active:focus,
+#publish.active:focus,
+#publish.focus,
+#publish:active.focus,
+#publish.active.focus {
+    outline: none;
+    border-color: transparent;
+    box-shadow: none;
+}
+
+.mark_btn {
+    width: 40px;
+    height: 100%;
+    background-color: #ccc;
+    text-align: center;
+    padding: 2px;
+    cursor: pointer;
+    float: left;
+    display: inline-block;
+}
+
+.mark_btn:hover {
+    width: 40px;
+    height: 100%;
+    background-color: #888;
+    text-align: center;
+    padding: 2px;
+}
+
+input[type="file"i] {
+    -webkit-appearance: initial;
+    cursor: default;
+    align-items: baseline;
+    text-align: center !important;
+    padding: initial;
+    border: initial;
+    color: red;
+}
